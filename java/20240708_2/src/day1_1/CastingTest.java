@@ -19,7 +19,13 @@ public class CastingTest {
 		// 00000000000000000000000010000000
 		b = (byte)i; // 1000000 // -128
 		System.out.println(b);
+		i = 129;
+		// 00000000000000000000000010000001
+		b = (byte)i;// 10000001 : -127 
+		System.out.println(b);
+		// 11111111 : -1
 		
+		System.out.println();
 		
 	}
 
