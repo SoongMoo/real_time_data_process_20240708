@@ -1,1 +1,4 @@
-rthsrh
+*.java
+JVM = > *.class
+Test.java ===> Test.class
+java Test
