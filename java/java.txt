@@ -1,0 +1,5 @@
+Test.java
+javac Test.java
+Test.java ===> Test.class
+JVM = > Test.class
+java Test
