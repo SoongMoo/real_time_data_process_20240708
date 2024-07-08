@@ -24,9 +24,6 @@ public class CastingTest {
 		b = (byte)i;// 10000001 : -127 
 		System.out.println(b);
 		// 11111111 : -1
-		
-		System.out.println();
-		
 	}
 
 }
