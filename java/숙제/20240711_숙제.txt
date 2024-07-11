@@ -31,3 +31,19 @@ int [][] array = new int[8][9];// 2 부터 구구단을 저장할 2차원 배열
 첫번째 행은 5단에서 1 ~ 3까지의 곱을 저장
 두번재 행은 6단에서 1 ~ 6까지의 곱을 저장
 세번째 행은 7단에서 1 ~ 9까지의 곱을 저장
+
+9. 주어진 배열에서 최대값을 구하시오.
+int max = 0;
+int [] array = {1,5,3,8,2};
+
+System.out.println("max : " + max);
+
+
+10. 주어진 배열에 있는 요소들의 합과 평균을 구하시오.
+int [][] array = {{95,86},{83,92,96},{78,83,93,87,88}}
+int sum = 0;
+double avg = 0.0;
+
+System.out.println("sum : " + sum);
+System.out.println("avg : " + avg);
+
