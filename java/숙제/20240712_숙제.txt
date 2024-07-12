@@ -210,7 +210,7 @@ double height[] = new double[4];
 수를 입력받고 while 문과 Scanner의 nextLine() 메소드를 이용해서 최고 점수 및 평균 점수를
 출력하는 코드를 작성해보세요.
 boolean run = true;
-int studentNum = 0;
+int studentNum = 0;   // 배열크기
 int[] scores = null;
 Scanner scanner = new Scanner(System.in);
 while(run) {
