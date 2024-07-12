@@ -99,7 +99,7 @@ int i = sc.nextInt();
 String city;
 switch(city){
 코드작성
-default : System.out.println("프로그램 종료")			
+default : System.out.println("프로그램 종료");			
 }
 
  
