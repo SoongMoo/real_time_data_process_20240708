@@ -207,7 +207,7 @@ double height[] = new double[4];
 
 
 25. 학생들의 점수를 분석하는 프로그램을 만들려고 합니다. 키보드로부터 학생 수와 각 학생들의 점
-수를 입력받고 while 문과 Scanner의 nextLine() 메소드를 이용해서 최고 점수 및 평균 점수를
+수를 입력받고 while 문과 Scanner의 nextInt() 메소드를 이용해서 최고 점수 및 평균 점수를
 출력하는 코드를 작성해보세요.
 boolean run = true;
 int studentNum = 0;   // 배열크기
