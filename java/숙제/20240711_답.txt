@@ -1,0 +1,95 @@
+		// 1. 0, 0.0,  false, null, blank('',"")
+		// 2.  1차원배열 선언
+		int i [] = {1,2,3};
+		int i1[] = new int[]{1,2,3,4};
+		int i2[] = new int[3]; i2[0] = 1; i2[1]=2; i2[2]=3;
+		int i3[];
+		i3 = new int[]{1,2,3,4};
+		i3 = new int[3];
+		//3. 
+		int [] dan8 = new int[9];
+		for(int idx = 0; idx < dan8.length; idx++) {
+			dan8[idx] = 8 * (idx+1);
+		}
+		for(int val : dan8) {
+			System.out.print(val + "\t");
+		}
+		System.out.println();
+		// 4. 
+		System.out.println(dan8[4] + dan8[8]);
+		//5. 
+		char [] alphabets = new char[52];
+		char ch ='A';
+		for(int idx = 0; idx < alphabets.length ; idx++) {
+			if(idx < 26) alphabets[idx] = ch++;
+			if(idx == 26) ch ='z';
+			if(idx >= 26) alphabets[idx] = ch--;
+		}
+		for(char val : alphabets) {
+			System.out.print(val);
+		}
+		System.out.println();
+		//6.
+		int [][] array = new int[8][9];
+		for(int dan = 2; dan <= 9; dan++) {
+			for(int gop = 1; gop<=9; gop++) {
+				array[dan-2][gop-1] = dan * gop;
+			}
+		}
+		System.out.println();
+		// 7. 
+		int d = 2;
+		for(int [] row : array) {
+			System.out.print(d++ + "단 : [");
+			for(int val : row) {
+				System.out.print(val + ",");
+			}
+			System.out.println("]");
+		}
+		d = 2;
+		for(int [] row : array) {
+			System.out.print(d++ + "단 : ");
+			System.out.println(Arrays.toString(row));
+		}
+		//8.  가변 2차원 배열을 이용해서
+		int array2 [][] = new int[3][];
+		array2[0] = new int[3]; // 5
+		array2[1] = new int[6]; // 6
+		array2[2] = new int[9]; // 7
+		for(int rowIdx = 0; rowIdx < array2.length; rowIdx++) {
+			for(int colIdx = 0 ; colIdx < array2[rowIdx].length; colIdx++) {
+				array2[rowIdx][colIdx] =  (rowIdx+5) * (colIdx+1);
+			}
+		}
+		for(int [] dan1:  array2) {
+			System.out.println(Arrays.toString(dan1));
+		}
+		//9. 
+		int a = 10;
+		int b = 20;
+		int temp = b;  // 20 : 임시저장
+		b = a;
+		a = temp;
+		
+		int max = 0;
+		int [] array3 = {1,5,3,8,2};
+		max = array3[0];
+		for(int idx = 0; idx < array3.length ; idx++ ) {
+			if(array3[idx] > max) max = array3[idx];
+		}
+		System.out.println("max : " + max);
+		
+		//10.
+		int [][] array4 = {{95,86},{83,92,96},{78,83,93,87,88}};
+		int sum = 0;
+		double avg = 0.0;
+		int count = 0;
+		for(int rowIdx = 0; rowIdx < array4.length; rowIdx++) {
+			for(int colIdx = 0; colIdx <array4[rowIdx].length ; colIdx++ ) {
+				sum += array4[rowIdx][colIdx];
+				count++;
+			}
+		}
+		avg = (double)sum / count;
+		System.out.println("sum : " + sum);
+		System.out.println("avg : " + avg);
