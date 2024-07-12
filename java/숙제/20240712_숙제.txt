@@ -117,7 +117,7 @@ default : System.out.println("프로그램 종료");
 ****
 *****
 
-18. while 문과 Scanner.nextLine() 메소드를 이용해서 다음 실행 결과와 같이 키보드로부터
+18. while 문과 Scanner.nextInt() 메소드를 이용해서 다음 실행 결과와 같이 키보드로부터
 입력된 데이터로 예금, 출금, 조회, 종료 기능을 제공하는 코드를 작성해보세요.
 예금이면 balance에 입력한 값이 더하고 출금이면  balance의 값을 입력한 만큼 빼야한다. 잔고는  balance에 있는 값을 출력하면 된다.
 boolean run = true;
