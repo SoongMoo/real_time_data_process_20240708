@@ -12,9 +12,35 @@ public class Ex13_Account {
 		this.balance = balance;
 	}
 	public void print() {
-		System.out.println(accountNo);
-		System.out.println(owner);
-		System.out.println(balance);
+		System.out.print(accountNo + "\t");
+		System.out.print(owner + "\t");
+		System.out.print(balance + "\t");
+		
 	}
+	public static int getIdx() {
+		return idx;
+	}
+	public int getAccountNo() {
+		return accountNo;
+	}
+	public String getOwner() {
+		return owner;
+	}
+	public int getBalance() {
+		return balance;
+	}
+	public static void setIdx(int idx) {
+		Ex13_Account.idx = idx;
+	}
+	public void setAccountNo(int accountNo) {
+		this.accountNo = accountNo;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
+	
 	
 }
