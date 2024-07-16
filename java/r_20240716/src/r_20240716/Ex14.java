@@ -58,9 +58,6 @@ public class Ex14 {
 		 		System.out.println("-------");
 		 		System.out.println("출금");
 		 		System.out.println("-------");
-		 		System.out.println("-------");
-		 		System.out.println("입금");
-		 		System.out.println("-------");
 		 		System.out.print("계좌 번호 : ");
 		 		accNo = scanner.nextInt();
 		 		System.out.print("출금액 : ");
