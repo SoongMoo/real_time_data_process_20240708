@@ -38,6 +38,7 @@ public class Ex14 {
 					if(obj == null) break;
 					obj.print();
 				}	
+		 		System.out.println();
 		 		break;
 		 	case 3: 
 		 		System.out.println("-------");
