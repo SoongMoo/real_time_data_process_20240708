@@ -1,0 +1,23 @@
+1. 5명의 고객을 저장해야 한다. 고객정보는 회원번호:memberNum, 회원이름: memberName, 회원주소:memberAddr, 회원연락처:memberPhone, 회원생년월일:memberBirth , 회원성별:memberGender이다,
+   객체를 생성한 후 5명의 회원 정보를 입의로 입력하시오.
+
+2. 5개의 상품 정보를 입력해야 한다. 상품정보는 상품번호:goodsNum, 상품명:goodsName, 상품가격:goodsPrice, 상품상세정보: goodsContent이다.
+  객체를 생성한 후 5개의 상품정보를 입의로 입력하시오.
+
+3. 투표를 진행하기 위해 후보자들의 정보를 입력하여야한다. 후보자 정보는 후보자번호:candidateNum, 후보자 이름:candidateName,  투표수: vote
+   후보자3명과 투표수를 임의로 입력하세요.
+
+// setter/getter , 생성자
+// 객체생성시 생성자를 이용하고 생성한 후 setter를 이용해서 멤버값을 변경하고 getter를 이용해서 맴버값을 출력
+4. 결제정보를 저장하고 싶다. 결제정보는 승인번호:purchaseNum, 카드번호:cardnum, 결제금액:totalPrice
+                                    결제일 : appldate , 결제시간:appltime
+
+5. 리뷰정보를 저장하고 싶다. 리뷰정보는 리뷰번호:reviewNum, 별점:score, 리뷰등록:reviewDate
+                                     리뷰내용:reviewContent
+
+6. 상담정보를 저장싶다. 상담정보는 상담 번호:inquireNum, 상담종류 : inquireKind,
+                                 상담 제목:inquireSubject, 상담내용:inquireContent
+                                  상담일 : inquireDate , 답변:inquireAnswer
+                                  답변일:inquireAnswerDate
+7. 상품입고 : 입고번호:ipgoNum, 상품번호:goodsNum, 입고수량:ipgoQty, 입고일:ipgoDate
+             상품제조일:madeDate, 입고금액:ipgoPrice, 상품금액:goodsPrice
