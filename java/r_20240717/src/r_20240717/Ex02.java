@@ -3,12 +3,13 @@ package r_20240717;
 import java.util.Scanner;
 
 public class Ex02 {
-	public static void main() {
+	public static void main(String [] args) {
 		int idx = 0;
 		Scanner scanner = new Scanner(System.in);
 		boolean run = true;
 		System.out.print("고객수를 지정해주세요 : ");
 		Account account [] = new Account[scanner.nextInt()]; //[객체][객체][null][null]
+		scanner.nextLine();
 		while(run) {
 			System.out.println("-----------------------------------------------");
 		 	System.out.println("1.계좌생성 | 2.계좌목록 | 3.입금 | 4.출금 | 5.종료");
@@ -39,8 +40,37 @@ public class Ex02 {
 		 			System.out.print(acc.getBalance() + "\n");
 		 		}
 		 		break;
-		 	case 3: break;
-		 	case 4: break;
+		 	case 3: 
+		 		System.out.println("-------");
+		 		System.out.println("입금");
+		 		System.out.println("-------");
+		 		System.out.print("계좌번호 : ");
+		 		accNo = Integer.parseInt(scanner.nextLine());
+		 		for(Account acc : account) {
+		 			if(acc == null ) break;
+		 			if(acc.getAccountNo() == accNo) {
+		 				System.out.print("입금액 : ");
+		 				int money = Integer.parseInt(scanner.nextLine());
+		 				acc.deposit(money);
+		 			}
+		 		}
+		 		break;
+		 	case 4: 
+		 		System.out.println("-------");
+		 		System.out.println("출금");
+		 		System.out.println("-------");
+		 		System.out.print("계좌번호 : ");
+		 		accNo = Integer.parseInt(scanner.nextLine());
+		 		for(Account acc : account) {
+		 			if(acc == null ) break;
+		 			if(acc.getAccountNo() == accNo) {
+		 				System.out.print("출금액 : ");
+		 				int money = Integer.parseInt(scanner.nextLine());
+		 				//acc.withdraw(money);
+		 				acc.setBalance(acc.getBalance() - money);
+		 			}
+		 		}
+		 		break;
 		 	case 5: run = false; System.out.println("프로그램 종료");
 		 	}
 		}

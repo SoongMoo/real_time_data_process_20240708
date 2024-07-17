@@ -1,9 +1,15 @@
 package r_20240717;
 
 public class Account {
+	static int idx; //클래스변수 , 정적변수
+	final double PI = 3.141592;
 	int accountNo;
 	String owner;
 	int balance;
+	static {
+		idx = 0;
+	}
+	public Account() {}
 	public Account(int accountNo, String owner,int balance) {
 		this.accountNo = accountNo;
 		this.owner = owner;
@@ -26,5 +32,11 @@ public class Account {
 	}
 	public int getBalance() {
 		return balance;
+	}
+	public void deposit(int money) {
+		balance += money;
+	}
+	public void withdraw(int money) {
+		balance -= money;
 	}
 }
