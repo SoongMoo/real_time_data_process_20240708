@@ -130,6 +130,7 @@ public class LoopEx2 {
 		 * 연산자 : +
 		 * 10 + 20 = 30
 		 */
+		/*
 		while(true) {
 			System.out.print("정수1 : ");
 			int num1 = sc.nextInt();
@@ -138,23 +139,40 @@ public class LoopEx2 {
 			System.out.print("연산자(+, -, *, /)");
 			String op = sc.nextLine();
 			switch(op) {
-				case "+" : System.out.println(num1 + "+"+  num2 + "=" + (num1 + num2));
-						   break;
-				case "-" : System.out.println(num1 + "-"+  num2 + "=" + (num1 - num2));
-				   break;
-				case "*" : System.out.println(num1 + "*"+  num2 + "=" + (num1 * num2));
-				   break;
-				case "/" : 
+			case "+" : System.out.println(num1 + "+"+  num2 + "=" + (num1 + num2));
+					break;
+			case "-" : System.out.println(num1 + "-"+  num2 + "=" + (num1 - num2));
+				   	break;
+			case "*" : System.out.println(num1 + "*"+  num2 + "=" + (num1 * num2));
+				   	break;
+			case "/" : 
 					if(num2 == 0) {
-						System.out.println("0으로 나눌 수가 없습니다. ");
-						continue;
+						System.out.println("0으로 나눌 수가 없습니다. ");continue;
 					}else {
 						System.out.println(num1 + "/"+  num2 + "=" + (num1 / num2));
 					}
-				   break;
-				default : System.out.println("해당연산자가 없습니다.");continue;
+				   	break;
+			default : System.out.println("해당연산자가 없습니다.");continue;
 			}
 			break;
+		}
+		*/
+		/*
+		정수 입력 : 5
+		*****
+		****
+		***
+		**
+		*
+		
+		*/
+		System.out.print("정수 입력 : ");
+		int num = sc.nextInt();
+		for(int i = num; i >= 1 ;i--) {
+			for(int j = 1 ; j <= i; j++ ) {
+				System.out.print("*");
+			}
+			System.out.println();
 		}
 	}
 }
