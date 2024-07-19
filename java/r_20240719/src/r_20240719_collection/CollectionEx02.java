@@ -7,6 +7,7 @@ public class CollectionEx02 {
 
 	public static void main(String[] args) {
 		// 선언
+		
 		List<String> list = new ArrayList<String>();
 		// 저장
 		list.add("이숭무"); // 0
@@ -25,8 +26,12 @@ public class CollectionEx02 {
 		// 크기
 		System.out.println(list.size());
 		// 삭제
-		list.remove(0); // index로 삭제
+		
 		list.remove("이상범"); // object로 삭제
+		// index로 삭제
+		String s1 = list.remove(0);
+		System.out.println(s1);
+		
 		// 모두 삭제
 		list.clear();
 		// 문자열로 변환
@@ -39,6 +44,7 @@ public class CollectionEx02 {
 		for(String s : list) {
 			System.out.println(s);
 		}
+		
 	}
 	
 	
