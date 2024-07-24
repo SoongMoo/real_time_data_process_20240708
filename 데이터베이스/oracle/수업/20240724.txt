@@ -242,5 +242,5 @@ select * from hr.employees where last_name like '%u_i%';
 select job_id from hr.employees; -- AC_ACCOUNT
 -- 직무가 AC_로 시작하는 사원들을 출력
 select * from hr.employees where job_id like 'AC\_%' escape '\';
--- 직무가 D_P인 사원들을 출력하시오.
+-- 직무가 D_P를 포함한 사원들을 출력하시오.
 select * from hr.employees where job_id like '%D\_P%' escape '\';
