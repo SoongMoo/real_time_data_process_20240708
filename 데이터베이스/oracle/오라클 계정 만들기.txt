@@ -1,9 +1,9 @@
+사용자 계정 추가
 alter session set "_ORACLE_SCRIPT"=true;
 
 create user 사용자계정 identified by 비밀번호;
 
 grant resource,create session, connect, dba  to 사용자계정;
-
 
 alter user 사용자계정 default tablespace users quota unlimited on users;
 =================================================================================================
@@ -23,5 +23,10 @@ create user miso identified by 1234;
 
 grant resource,create session, connect, dba  to miso;
 
-
 alter user miso default tablespace users quota unlimited on users;
+===================================================================================================
+사용자 계정 삭제
+drop user 사용자계정 cascade;
+
+1.
+drop user miso cascade;
