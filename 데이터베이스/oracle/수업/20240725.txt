@@ -182,4 +182,69 @@ select employee_id, last_name, first_name
      , substr(last_name,instr(last_name, 's'), 2 )
 from hr.employees;
 
-------------------------------------------------------------
+--1.
+--- 이름에서 's'의 index가 3인 직원들을 출력하시오.
+select * from hr.employees where instr(first_name, 's') = 3;
+
+--2.
+--- 사원번호, 성, 이름, 급여를 출력할 때 이름은 3번째부터 마지막글자까지 출력하시오.
+select employee_id, last_name, first_name, salary, substr(first_name,3)
+from hr.employees;
+
+--- instr
+select instr('helloworld', 'o') --- 5
+from dual;
+select instr('helloworld', 'o', 6) --- 7
+from dual;                       //       5              + 1
+select instr('helloworld', 'o', instr('helloworld', 'o') + 1 ) --- 7
+from dual;
+select instr('helloworld', 'o', -1) --- 7
+from dual;
+select instr('helloworld', 'a') --- 0
+from dual;
+select instr('helloworld', 'world') --- 6
+from dual;        --문자열에서 첫번째 문자의 index
+
+--- lower, upper, initcap, concat, substr, instr, length
+-- lpad, rpad
+--- highland0를 high*****
+--- highland0를 ****land0
+select lpad('hello', 10, '*') from dual;
+select lpad(substr('highland0',-4,4), length('highland0') ,'*')
+from dual;
+select rpad('hello', 10, '*') from dual;
+select rpad(substr('highland0',1,4), length('highland0') ,'*')
+from dual;
+
+-- 사번, 이름에 3글자만 출력하고 나머지 뒤에는 별표, 급여, 직무를 출력
+select employee_id, first_name, salary, job_id
+       ,rpad(substr(first_name,1,3) ,  length(first_name), '*')
+from hr.employees;
+
+--- '   Steven    '
+select * from hr.employees
+where first_name = trim('   Steven    '); 
+select trim('   Steven    ') from dual; 
+select ltrim('   Steven    ') from dual; 
+select rtrim('   Steven    ') from dual; 
+
+---  'JACK and JUE'에서 'J'를 'BL'로 변경하시오.
+select replace('JACK and JUE' , 'J', 'BL')from dual;
+-- 사원번호 , 이름, 급여, 직무, 부서번호를 출력할 때 직무의 _AS를 abc로 변경해서 출력
+-- 직무에 _AS가 포함된 직원만 출력하시오.
+select job_id from hr.employees where job_id like '%\_AS%' escape '\';
+select employee_id, first_name, salary, job_id, department_id 
+      ,replace(job_id, '_AS', 'abc')
+from hr.employees where job_id like '%\_AS%' escape '\';
+
+--  011-746-1970 , 010-***-1970
+--  010-7146-1970 , 010-****-1970
+--  02-314-1970, 02-***-1970
+
+--- 010-***
+select rpad(
+        substr('011-746-1970', 1, instr('011-746-1970','-'))
+        ,length(substr('011-746-1970',1, instr('011-746-1970','-', -1)-1 ))
+        ,'*'
+        )
+    || substr('010-***-1970', -5, 5) from dual;
