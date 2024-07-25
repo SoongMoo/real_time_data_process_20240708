@@ -29,4 +29,5 @@ alter user miso default tablespace users quota unlimited on users;
 drop user 사용자계정 cascade;
 
 1.
+alter session set "_ORACLE_SCRIPT"=true;
 drop user miso cascade;
