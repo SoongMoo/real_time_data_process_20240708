@@ -1,0 +1,185 @@
+--- 사원번호, 성, 직무, 급여를 출력할 때 급여가 10000이상이고 
+--- 직무가 MK_MAN인 사원을 출력하시오.
+select employee_id, last_name, job_id, salary
+from hr.employees
+where salary >= 10000 and job_id = 'MK_MAN';
+
+select employee_id, last_name, job_id, salary
+from hr.employees
+where salary >= 10000 and job_id like '%MAN';
+
+--- 사원번호, 성, 직무, 급여를 출력할 때 급여가 10000이상과 
+--- 직무가 MK_MAN인 사원을 출력하시오.
+select employee_id, last_name, job_id, salary
+from hr.employees
+where salary >= 10000 or job_id = 'MK_MAN';
+
+select employee_id, last_name, job_id, salary
+from hr.employees
+where salary >= 10000 or job_id like '%MAN%';
+---- 우선 순위 규칙 : AND => OR
+select last_name, job_id, salary
+from hr.employees
+where job_id = 'SA_REP' 
+   or job_id = 'AD_PRES'
+   and salary > 15000;
+
+select last_name, job_id, salary
+from hr.employees
+where (job_id = 'SA_REP'  or job_id = 'AD_PRES')
+   and salary > 15000;
+
+--- 정렬 -- ascending(오름차순) : asc ,  descending(내림차순) : desc
+select * from hr.employees;
+//DESCRIBE hr.employees;
+select * from hr.employees
+order by employee_id desc; 
+
+--- 입사일 빠른 사원부터 출력
+select * from hr.employees
+order by hire_date asc;
+select * from hr.employees
+order by hire_date;-- asc는 생략할 수 있다.
+--- 
+/*
+select last_name, job_id as jobs, department_id, hire_date
+from hr.employees
+where jobs = 'SA_REP'; ---where절에는 별칭을 사용할 수 없다.
+*/
+select last_name, job_id as jobs, department_id, hire_date  ---1
+from hr.employees    -- 2
+where job_id = 'SA_REP'; -- 3
+--- 2 - 3 - 1
+select last_name, job_id as jobs, department_id, hire_date  ---1
+from hr.employees
+order by job_id;
+
+select last_name, job_id as jobs, department_id, hire_date 
+from hr.employees
+order by jobs;
+///        1           2              3             4
+select last_name, job_id as jobs, department_id, hire_date 
+from hr.employees
+order by 2;
+--1. 
+-- 사번, 이름, 년봉을 출력 할 때 년봉이 낮은 사람부터 출력하시오.
+select employee_id , first_name, salary * 12 
+from hr.employees
+order by salary * 12 ;
+select employee_id , first_name, salary * 12 year_sal
+from hr.employees
+order by year_sal ;
+select employee_id , first_name, salary * 12 year_sal
+from hr.employees
+order by 3 ;
+--2. 
+-- 이름, 부서번호, 급여를 출력하는데 부서번호는 오름차순을 하고 같은 부서의 있는 직원의
+-- 급여는 내림차순으로 정렬하여 출력하시오.
+select first_name, department_id, salary
+from hr.employees
+order by department_id asc, salary desc;
+
+select first_name, department_id, salary
+from hr.employees
+order by department_id , salary desc;
+
+select first_name, department_id, salary
+from hr.employees
+order by 2 , 3 desc;
+
+--3.
+-- 80인부서의 직원의 사원번호, 이름, 부서번호, 입사일을 출력할 때 입사일이 높은 사람부터 출력
+select employee_id, first_name, department_id, hire_date
+from hr.employees
+where department_id = 80
+order by hire_date desc;
+
+select employee_id, first_name, department_id
+from hr.employees
+where department_id = 80
+order by hire_date desc;
+
+--4.
+-- 사원번호, 이름, 직무, 입사일, 급여, 부서번호를 출력할 때 입사일이 02/08/17이후인 사원을
+-- 입사일이 빠른 직원부터 출력할 때  입사일이 같은 직원의 급여는 많이 받는 직원부터 출력
+select employee_id, first_name, job_id, hire_date, salary, department_id
+from hr.employees
+where hire_date > '02/08/17'
+order by hire_date asc , salary desc;
+
+--- 대소문자 변환 함수 사용
+select last_name ,upper(last_name), lower(last_name), job_id, lower(job_id)
+from hr.employees;
+--- Abel : 성
+select first_name, last_name, employee_id, salary
+from hr.employees
+where last_name = 'abel';
+
+select first_name, last_name, employee_id, salary
+from hr.employees
+where last_name = 'Abel';
+
+select first_name, last_name, employee_id, salary
+from hr.employees
+where last_name = initcap('abel');
+select first_name, last_name, employee_id, salary
+from hr.employees
+where last_name = initcap('ABEL');
+--- abel : 성
+select first_name, last_name, employee_id, salary
+from hr.employees
+where lower(last_name) = 'abel';
+--- ABEL : 성
+select first_name, last_name, employee_id, salary
+from hr.employees
+where upper(last_name) = 'ABEL';
+
+select * from hr.employees;
+
+--- 직원 사원번호 , 성, 이름 , 급여를 출력할 때 성과 이름은 붙여서 출력하시오.
+select employee_id, last_name || first_name, salary
+from hr.employees;
+
+select employee_id, concat(last_name , first_name), salary
+from hr.employees;
+
+--- 직원 사원번호 , 성, 이름 , 급여를 출력할 때 성과 급여은 붙여서 출력하시오.
+select employee_id, first_name, last_name || salary
+from hr.employees;
+
+select employee_id, first_name, concat(last_name , salary)
+from hr.employees;
+
+--- 성의 문자의 갯수가 5이상인 직원들만 출력하시오.
+select length(last_name), length(first_name) from hr.employees;
+select * from hr.employees where length(last_name) >= 5;
+-- 자르기
+select 'HelloWorld' from dual; 
+select substr('HelloWorld', 1, 5) from dual; --- Hello
+select substr('HelloWorld', 6, 2) from dual; --- Wo
+select substr('HelloWorld', -1, 2) from dual; --- Wo
+--              987654321-
+--             123456789
+select substr('HelloWorld', -4, 1) from dual;  -- W
+select substr('HelloWorld', -4, 4) from dual; -- orld
+select substr('HelloWorld', 7, 4) from dual;  -- orld
+-- 부서명을 2번째 부터 5글짜만 출력하시오.
+select * from hr.departments;
+select department_name , substr(department_name, 2, 5) from hr.departments;
+--- substr(index, 글자수), substring(index , index+글자수)
+
+--직무가 4번째 글자부터 2글자가 'PR'인 직무를 가진 직원들을 출력하시오.
+select * from hr.employees where job_id like '___PR%';
+select * from hr.employees where substr(job_id,4 ,2) = 'PR'; 
+
+-- 사원번호, 성, 이름, 급여를 출력할 때 성에 's'가 있는 경우 's'의 index를 출력하세요.
+select employee_id, last_name, first_name, salary, instr(last_name, 's')
+from hr.employees;
+
+-- 사원번호, 성, 이름, 급여를 출력할 때 성에 's'가 있는 위치 부터 2글자를 출력하시오.
+select employee_id, last_name, first_name 
+     , salary, instr(last_name, 's')
+     , substr(last_name,instr(last_name, 's'), 2 )
+from hr.employees;
+
+------------------------------------------------------------
