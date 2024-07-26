@@ -189,3 +189,70 @@ select first_name, last_name, length(first_name), length(last_name)
 from hr.employees
 where nullif(length(first_name), length(last_name)) is null;
 ---  nvl, nvl2, COALESCE, nullif
+
+-------------------------
+--- 조건문 : CASE, DECODE 
+--- 'IT_PROG' 이면 급여를 10% 더 주고
+--- 'ST_CLERK'이면 급여를 15% 더 주고
+--- 'SA_REP'이면 급여를 20% 더준다. 
+--- 나머지 직무는 급여 그대로
+--------------------
+/*
+switch(job_id){
+    case "SA_REP" : salary * 0.1
+    case "SA_REP" : salary * 0.1
+    case "SA_REP" : salary * 0.1
+    default : salary
+}
+*/
+select first_name, job_id, salary 
+    , case job_id when 'IT_PROG' then    salary * 0.1
+                  when 'ST_CLERK' then    salary * 0.2
+                  when 'SA_REP' then    salary * 0.3
+                  else salary end as sal
+from hr.employees;
+
+select first_name, job_id, salary 
+    , case when job_id = 'IT_PROG' then    salary * 0.1
+           when job_id = 'ST_CLERK' then    salary * 0.2
+           when job_id = 'SA_REP' then    salary * 0.3
+           else salary end as sal
+from hr.employees;
+--- 급여가 5000이하면 low를  10000이하면 'Medium'  20000이하면 'Good'
+--- 그 이상이면 'Excellent'가 출력되게 하시오.
+select first_name, salary
+      , case when salary < 5000 then 'low'
+             when salary < 10000 then 'Medium'
+             when salary < 20000 then 'Good'
+             else 'Excellent' end as sal
+from hr.employees;
+
+--- salary / 2000 나눈값의 몫이 0이면 0
+--                            1이면 0.09
+--                            2이면 0.20
+--                            3이면 0.30
+--                            4이면 0.40
+--                            아니면 0.50 출력하세요.
+select first_name , salary
+      ,case trunc(salary / 2000) when 0 then 0
+                                 when 1 then 0.09
+                                 when 2 then 0.20
+                                 when 3 then 0.30
+                                 when 4 then 0.40
+                                 else 0.50 end tax
+from hr.employees;
+
+select first_name , salary
+      ,decode (trunc(salary / 2000)   , 0 , 0
+                                     , 1 , 0.09
+                                     , 2 , 0.20
+                                     , 3 , 0.30
+                                     , 4 , 0.40
+                                     , 0.50) as tax
+from hr.employees;
+select first_name, job_id, salary 
+    , decode (job_id , 'IT_PROG' ,    salary * 0.1
+                     , 'ST_CLERK' ,    salary * 0.2
+                     , 'SA_REP' ,    salary * 0.3
+                     , salary)  as sal
+from hr.employees;
