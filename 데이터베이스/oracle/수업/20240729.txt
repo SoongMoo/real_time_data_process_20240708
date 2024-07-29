@@ -1,0 +1,133 @@
+---- 다중행 함수 : 그룹함수 : null포함하지 읺는다.
+
+--- 급여에서 급여를 많이 받는 직원과 급여가 제일 적은 직원, 그리고 한달 급여의 평균과
+--- 한달 동안 지급되는 급여의 금액을 출력하세요.
+SELECT max(salary), min(salary), round(avg(salary),5), sum(salary)
+FROM hr.employees;
+
+-- 전체 직원의 수 
+select count(employee_id), count(last_name), count(email), count(hire_Date),
+    -- , count(first_name) , count( PHONE_NUMBER), count(SALARY)
+    -- , count(COMMISSION_PCT), count(MANAGER_ID), count(DEPARTMENT_ID)
+     count(DEPARTMENT_ID)
+from hr.employees;
+--- 커미션을 받는 사원의 수 
+select * from hr.employees;
+select count(commission_pct) from hr.employees;
+-- 부서가 있는 사원의 수
+select count(department_id) from hr.employees;
+-- 부서가 없는 사원의 수
+select * from hr.employees where department_id is null;
+select count(*) from hr.employees where department_id is null;
+
+-- 80인 부서의 직원 수와 최대 급여와 최소급여를 구하시오.
+select * from hr.employees where department_id = 80;
+select count(*), max(salary), min(salary)  from hr.employees where department_id = 80;
+-- 그룹함수에서는 컬럼을 같이 사용할 수 없다.
+
+--- 부서를 출력하세요
+select department_id from hr.employees;
+--- 부서를 하번씩만 출력하시오.
+select DISTINCT department_id from hr.employees; 
+--- 부서의 수를 출력하시오.
+select  count(DISTINCT department_id) from hr.employees;
+
+-- 직무가 RE를 포함한 직원을 출력하시오.
+SELECT * from hr.employees where job_id like '%RE%';
+-- 직무가 RE를 포함한 직원의 최대 급여와 최소 급여 그리고 직원의 수와 평균급여를 출력하시오.
+SELECT max(salary) , min(salary), count(*) , round(avg(salary),3) from hr.employees 
+where job_id like '%RE%';
+
+--- 제일 먼저 입사한 사원과 제일 나중에 입사한 사원 입사일을 출력하세요.
+select min(hire_date), max(hire_date) from hr.employees;
+
+--- 80인 부서에서 커미션만 출력하시오.
+select commission_pct from hr.employees
+where department_id = 80;
+
+-- 사원 수, 커미션을 받는 사원 수 
+select count(commission_pct) from hr.employees
+where department_id = 80;
+
+--- commission_pct의 전체의 평균을 구하시오, 
+--- commission_pct을 받는 사원의 commission_pct의의 평균을 구하시오.
+select commission_pct from hr.employees;
+select nvl(commission_pct, 0) from hr.employees;
+select avg(nvl(commission_pct, 0)) from hr.employees; -- 전체 커미션 평균
+--- 커미션을 받는 직원의 커미션의 평균을 구하는 식
+select avg(commission_pct), sum(commission_pct)/ count(commission_pct)
+from hr.employees;
+-- 전체 직원의 평균을 구하는 식
+select sum(commission_pct) / count(*), avg(nvl(commission_pct, 0))
+from hr.employees;
+--- 그룹함수는 null을 연산하지 않으므로 null이 있는 경우 그룹함수의 값이 달라질 수 있다.
+
+-- 80인 부서에서 직무가 'SA_MAN'인 사원의 수와 커미션의 평균을 구하시오
+select * from hr.employees where department_id = 80 and job_id = 'SA_MAN';
+select count(*), avg(commission_pct) from hr.employees 
+where department_id = 80 and job_id = 'SA_MAN';
+
+select *  from hr.employees;
+--- 80인 부서의 급여의 평균, 급여의 합계, 최대 급여, 최소 급여
+select avg(salary), sum(salary), max(salary), min(salary)
+from hr.employees where department_id = 80;
+--- 90인 부서의 급여의 평균, 급여의 합계, 최대 급여, 최소 급여
+select avg(salary), sum(salary), max(salary), min(salary)
+from hr.employees where department_id = 90;
+--- 70인 부서의 급여의 평균, 급여의 합계, 최대 급여, 최소 급여
+select avg(salary), sum(salary), max(salary), min(salary)
+from hr.employees where department_id = 70;
+
+
+--- group by
+select department_id, avg(salary), sum(salary), max(salary), min(salary)
+from hr.employees
+where department_id in (90,80,70)
+group by department_id;
+
+select * from hr.employees
+order by job_id asc;
+
+-- job_id 가 FI_ACCOUNT인 지원의 급여의 평균, 급여의 합계, 최대값 , 최소값, 직원수를 출력
+-- job_id 가 IT_PROG인 지원의 급여의 평균, 급여의 합계, 최대값 , 최소값, 직원수를 출력
+-- job_id 가 PU_CLERK인 지원의 급여의 평균, 급여의 합계, 최대값 , 최소값, 직원수를 출력
+select job_id, sum(salary), avg(salary), min(salary), max(salary), count(*)
+from hr.employees
+where job_id in ('FI_ACCOUNT', 'IT_PROG', 'PU_CLERK')
+group by job_id;
+
+--- 직원들의 모든 정보를 출력할 때 부서를 오름차순으로 정렬하고 
+--- 정렬된 깉은 부서안에서 다른 직무하는 직원이 있다면 직무를 오름차순으로 정렬
+select * from hr.employees 
+order by department_id, job_id;
+
+--- 같은 부서의 다른 직무들의 급여의 평균, 급여의 합계, 최대값, 최소값
+--- 같은 부서에서 같은 직무를 하는 직원의 수를 출력하시오.
+select department_id , job_id
+      ,sum(salary), avg(salary), max(salary), min(salary), count(*)
+from hr.employees
+group by department_id , job_id
+order by department_id, job_id;
+--- group by절에 있는 컬럼들은 select절에 사용할 수 있다.
+
+--- 부서별 평균급여를 출력하세요
+select department_id, avg(salary)
+from hr.employees
+group by department_id;
+-- 이 때 평균급여가 8000을 초과한 부서와 평균급여는 ?
+select department_id, avg(salary)
+from hr.employees  --- 1
+-- where avg(salary) > 8000 는 안됨 -- 2
+group by department_id   -- 3
+having avg(salary) > 8000 --  그룹함수를 조건으로 사용한다.
+order by department_id;
+-- 그룹함수는 where절에 사용할 수 없다.
+-- 그룹함수는  group by 다음에 실해되므로 group by 이전에 실행되는 where절에서 사용하지
+-- 못한다.
+
+---  직무별 최대급여 , 최소급여, 급여의 합계, 직원수를 출력할 때 
+---  직무별 직원의 수가 3이상은 것만 출력하시오.
+select job_id, max(salary) , min(salary), sum(salary), count(*)
+from hr.employees
+group by job_id
+having count(*) >= 3;
