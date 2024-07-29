@@ -131,3 +131,122 @@ select job_id, max(salary) , min(salary), sum(salary), count(*)
 from hr.employees
 group by job_id
 having count(*) >= 3;
+
+-- REP를 포함하고 있지 않은 직무들중에서 각 직무별 최대 급여, 최소급여, 급여합계를 출력하세요.
+-- 이때 급여합계가 13000이상인 것만 출력하시오.
+-- 단, 급여의 합계가 많은 것부터 출력.
+--       1        2            3             4          5
+select job_id, min(salary), max(salary), sum(salary), count(*)
+from hr.employees
+where job_id not like '%REP%'
+group by job_id 
+having sum(salary) >= 13000
+order by 4 desc; -- sum(salary) desc;
+-- 각 부서별 부서의 급여의 합계, 최대, 최소, 사원의 수, 평균을 출력하는데 평균은 
+-- 소수점 2자리만 출력
+select department_id, min(salary), max(salary), sum(salary), count(*)
+       ,round(avg(salary),2)
+from hr.employees
+group by department_id;
+-- 부서에서 같은 직무를 하는 사원들의 최대 급여, 최소 급여, 
+-- 평균급여 급여의 합계와 같은 직무를 하는 사원의 수를 출력
+select department_id, job_id, min(salary), max(salary), sum(salary), count(*)
+from hr.employees
+group by department_id, job_id
+order by department_id, job_id ;
+-- 각부서에서 직무가 같은 사원들 중 입사일이 같은 사원의 수를 구하시오.
+-- 사원수가 2명이상만 출력
+-- 단, 80인 부서만 출력
+select department_id, job_id, hire_date, count(*)
+from hr.employees
+where department_id = 80
+group by department_id, job_id, hire_date
+having count(*) >= 2
+order by department_id, job_id, hire_date ;
+--- 평균급여가 7000이상인 부서만 출력하시오.평균 급여가 높은 것 부터 출력하시오.
+select department_id, avg(salary)
+from hr.employees
+group by department_id
+having avg(salary) >= 7000
+order by avg(salary) desc;
+-- 각 부서의 평균급여 중 최대 평균급여를 출력하시오.
+select  max(avg(salary)) from hr.employees
+group by department_id;
+
+--- 조인 : 두개 이상의 테이블로부터 데이터 가져오는 것
+select * from hr.employees;
+select * from hr.departments;
+--- T-SQL join
+--- 사원번호, 이름, 급여, 직무, 부서번호, 부서명
+select employee_id, first_name, salary, job_id, hr.employees.department_id 
+      ,department_name
+from hr.employees , hr.departments
+where hr.employees.department_id = hr.departments.department_id;
+
+select * from hr.employees;
+select * from hr.jobs;
+
+--- 사원번호, 이름 , 급여 , 직무 번호, 부서번호 , 직무명
+select employee_id, first_name, salary, department_id
+      , hr.jobs.job_id, job_title
+from hr.employees , hr.jobs
+where hr.employees.job_id = hr.jobs.job_id;
+
+select * from hr.departments;
+select * from hr.employees;
+-- 사원번호 , 이름, 급여, 직무 , 부서번호, 부서명
+select employee_id, first_name, salary, job_id
+     , d.department_id, department_name, d.manager_id
+from hr.employees e, hr.departments d
+where e.employee_id = d.manager_id;
+
+select * from hr.departments;
+select * from hr.locations;
+--- 부서번호, 부서명, 주소번호, 주소명,우편번호
+select department_id, department_name
+     , l.location_id , street_address, postal_code
+from hr.departments d, hr.locations l
+where d.location_id = l.location_id ;
+    
+-- ANSI - JOIN
+select department_id, department_name
+     , l.location_id , street_address, postal_code
+from hr.departments d join hr.locations l
+on d.location_id = l.location_id;
+
+select employee_id, first_name, salary, job_id
+     , d.department_id, department_name, d.manager_id
+from hr.employees e join hr.departments d
+on e.employee_id = d.manager_id
+where employee_id = 100;
+
+select * from hr.employees;
+select * from hr.job_history;
+--- 사원번호, 이름, 급여, 직무, 부서번호
+--- 시작일, 마지막일, 맡은 직무
+select e.employee_id, first_name, salary, e.job_id, e.department_id
+     , start_date, end_date, jh.job_id
+from hr.employees e join hr.job_history jh
+on e.employee_id = jh.employee_id;
+
+select * from hr.jobs;
+select * from hr.job_history;
+select * from hr.departments;
+-- 직무명, 최소 급여, 최대급여
+-- 직무번호, 시작일, 마친일
+-- 부서번호, 부서명
+--- T-SQL JOIN
+select job_title, min_salary, max_salary 
+      ,jh.job_id, start_date, end_date
+      ,d.department_id, department_name
+from hr.jobs j, hr.job_history jh, hr.departments d
+where j.job_id = jh.job_id and jh.department_id = d.department_id;
+-- ANSI - JOIN
+select job_title, min_salary, max_salary 
+      ,jh.job_id, start_date, end_date
+      ,d.department_id, department_name
+from hr.jobs j join hr.job_history jh
+on j.job_id = jh.job_id join  hr.departments d
+on jh.department_id = d.department_id;
+
+
