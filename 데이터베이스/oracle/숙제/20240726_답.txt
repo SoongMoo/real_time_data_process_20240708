@@ -45,7 +45,8 @@ where instr(lower(email), 's') = 5;
 -- 12. 이메일에서 앞에서 2글자를 출력하고 나머지는 오른쪽에 *로 채워서 출력하세요.
 select rpad('as', 10, '*') from dual;
 select email, rpad(substr(email,1,2),length(email), '*' )
-from employees;
+from hr.employees;
+
 
 -- 13. 입사일이 03/06/17 전화번호가 515.123.4567인 사원의 이메일을 
 --     앞에서 3글자만 출력하고 나머지는 *로 출력하세요
@@ -60,8 +61,9 @@ where job_id like '%_AS%';
 
 
 -- 15.이메일에 'A'가 처음과 끝에 있다면 이메일에서 삭제하여 출력하자.
-select email, trim('A' from email), trim(email)
-from employees;
+select email, trim('A' from email), trim(email), trim('   highland0  ')
+      , trim('A' from 'Ahighland0A') 
+from hr.employees;
 
 -- 16. 이메일에서 뒤에서 한글자가지고 오고 또 이메일에서 뒤에서 부터 2글자 가지고 오며,
 --     이메일에서 뒤에서 3번째부터 2글자만 출력하세요.
@@ -72,30 +74,28 @@ from employees;
 select first_name, hire_date, department_id, salary, salary * 12
 from employees;
 
-
 -- 17. 이름, 입사일, 부서번호, 급여 그리고 년봉을 출력할 때 
 -- 년봉에는 커미션이 포함되어야 한다.
 SELECT first_name, hire_date, department_id, salary ,commission_pct,
        (salary + salary * commission_pct ) * 12
-from employees;
+from hr.employees;
 
 
 -- 18. 입사일로부터 오늘날짜까지 몇일이 지났는지 일로 출력하세뇨.
 --  입사일, 이름, 성, 직무도 같이 출력
 select sysdate from dual;
-select  hire_date, first_name, last_name, job_id, 
-        trunc(sysdate - hire_date,0)
-from employees;
+select  hire_date, first_name, last_name, job_id, trunc(sysdate - hire_date)
+from hr.employees;
 
 -- 19. 입사일, 이름, 성, 직무을 출력할 때 입사일로 부터 몇 주가 지났는지 출력하시오.
 select  hire_date, first_name, last_name, job_id, 
-        round((sysdate - hire_date) / 7) week
-from employees;
+        trunc((sysdate - hire_date) / 7) week
+from hr.employees;
 
 -- 20. 입사일, 이름, 성, 직무을 출력할 때 입사일로 부터 몇 년차인지 출력하시오.
 select  employee_id, hire_date, first_name, last_name, job_id, 
         round((sysdate - hire_date) / 365) week
-from employees;
+from hr.employees;
 
 -- 21.년차가 17년 이상인 사원을 출력하시오.
 select * from employees where (sysdate - hire_date) / 365 >= 17;
@@ -110,7 +110,6 @@ select employee_id, first_name, hire_date, job_id, salary, mod(salary , 500)
 from hr.employees
 where mod(salary , 500) >= 400;
 
-
 --- 날짜 함수 
 --24. 오늘 날짜부터 다음 금요일은 몇일입니까?
 select next_day(sysdate, '금'), next_day(sysdate, '금요일')
@@ -118,7 +117,7 @@ from dual;
 
 -- 25. 이름 , 성, 직무, 입사일을 출력할 때 입사일로부터 다음 목요일이 언제였는지 출력하세요.
 select first_name, last_name job_id , hire_date, next_day(hire_date, '목')
-from employees;
+from hr.employees;
 
 -- 26 오늘부터 5개월후는 몇일입니까?
 select add_months(sysdate, 5)
@@ -128,7 +127,7 @@ from dual;
 --    정직원이 되는 날이 언제인지, 이름 , 성 , 입사일, 직무, 사원번호와 같이 출력하시오.
 select first_name, last_name, hire_date, job_id, employee_id,
        add_months(hire_date, 3)
-from employees
+from hr.employees
 where first_name = 'Neena';
 
 -- 28. 입사한 이후 다음 목요일이 '01/01/18'인사원을 구하시오.
@@ -146,21 +145,22 @@ select * from employees where last_day(hire_date) like '%/02/29';
 -- 31. 입사일로 부터 현재까지 몇달이 지났나요, 이름, 성, 직무, 입사일도 같이 출력
 select first_name, last_name, job_id, hire_date, 
        trunc(months_between(sysdate,hire_date))
-from employees;
+from hr.employees;
 
 -- 32 각 상원이 직무를 담당한 달은 몇달인지 출력하시오.
+select * from hr.job_history;
 select employee_id, job_id,start_date, end_date
         , round(months_between(end_date, start_date))
 from job_history;
 
 -- 33. 입사한지 200개월이 지난 사원들을 출력하시오.
-select * from employees
+select * from hr.employees
 where months_between(sysdate, hire_date) >= 200;
 
 --- 34. 성이 모두 소문자인 grant와 모두 대문자인 'GRANT'로 직원테이블에서
 --- 해당 사원을 찾으려 한다.
 select * from hr.employees
-where last_name in( initcap('grant') ,initcap('GRANT'));
+where last_name in( initcap('grant') , initcap('GRANT'));
 
 ---35. 'GranT'로 입력했을때 사원테이블에서 성이 'Grant'인 사원을 찾으시오.
 select * from hr.employees where last_name = initcap('GranT');
@@ -172,8 +172,11 @@ select * from hr.employees where upper(last_name) = upper('GranT');
 -- 출력되게 하시오
 select '나는 ' || upper(last_name) || ' ' || lower(first_name) || '입니다.'
 from hr.employees;
+select concat('나는 ' , concat(upper(last_name) , 
+                concat(' ' , concat(lower(first_name), '입니다.'))))
+from hr.employees;
 
--- 37. 성과 이름을 붙여 출력
+-- 37. 성과 이름을 붙여 출력 --- concat
 select concat(last_name, first_name) from hr.employees;
 
 --- 38. 성이 Davies에서 av만 출력하시오.
@@ -186,10 +189,10 @@ select substr(last_name,2) from hr.employees;
 select substr(last_name,-2,2) from HR.employees;
 
 --- 41. 성의 뒤에 on으로 끝나는 사람을 찾으시오
-select * from hr.employees where last_name like '%on';
+select * from hr.employees where last_name like '%on'; --- 예)ancdon
 
 -- 42. 성의 뒤에 세번째 글자가 so인 사람을 출력하시오
-select * from hr.employees where last_name like '%so_';
+select * from hr.employees where last_name like '%so_'; --- 예)abcdsof
 
 -- 43. 직원 정보를 출력하는데 이메일은 왼쪽에서 3글자만 출력하시오.
 --     직원번호, 성, 급여, 직무, 이메일
@@ -215,14 +218,13 @@ from HR.employees;
 
 --- 47. oc가 있는 성중 oc가 몇번째에 있는 위치인지 출력하시오.  
 -- 직원번호 성, 성의 위치, 직무
-select employee_id, last_name, instr(last_name, 'oc')
+select employee_id, last_name, instr(last_name, 'oc') -- 문자열의 첫번째글자 index
 from hr.employees;
 
 -- 48. 직무에 RE가 있는 경우 RE부터 3글자만 출력하시오.
 --    직원번호 성,  직무, 가공된 직무
-select employee_id, last_name, job_id, substr(job_id, instr(job_id,'RE'), 3)
+select employee_id, last_name, job_id, substr(job_id, instr(job_id,'RE'), 3) --REA
 from hr.employees;
-
 
 --- 49. 직원번호, 성, 입사일 , 급여, 
 --- 급여를 10칸에 출력하고 나머지 공간 앞에 * 표시가 되게 하자.
@@ -270,6 +272,11 @@ where (sysdate-hire_date) / 365 >= 8;
 select employee_id, hire_date , rpad(substr(last_name,1,3),6, '*')
 from hr.employees;
 
+select employee_id, hire_date , substr(last_name,1,3) || '***'
+from hr.employees;
+
+
+
 --- 58. 홍길동은 몇글자입니까?
 select length('홍길동') from dual;
 
@@ -280,3 +287,5 @@ from dual;
 
 --- 60.  결제가 이루어진 후 결제된 카드번호를 화면에 출력해야 하는 데 모든 번호를 출력하면 안된다.
 ---- 만약 카드번호가 1234 5678 9874 6321이라면 1234 **** 9874 6321로 출력되게 하시오.
+select substr('1234 5678 9874 6321',1, 5) ||  '****' 
+      || substr('1234 5678 9874 6321', -10)  from dual;
