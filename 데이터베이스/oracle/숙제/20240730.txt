@@ -30,7 +30,7 @@
 15.대륙 번호(REGION_ID)가 4인 국가의 번호(COUNTRY_ID) 와 이름(COUNTRY_NAME) 을 출력하시오.(hr.countries)
 
 16. 지역 번호와 주소, 우편번호(POSTAL_CODE), 도시명(CITY)이 출력되도록 하시오.
--- 단, UK인 국가만 나오도록 출력하시오.
+-- 단, UK(country_id)인 국가만 나오도록 출력하시오.
 
 17.평균 급여가 가장 높은 직무를 출력하시오.
                   
