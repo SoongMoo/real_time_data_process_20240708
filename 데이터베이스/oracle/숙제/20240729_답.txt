@@ -22,25 +22,25 @@ select to_char(sysdate, 'yy-mm-dd'), sysdate, to_char(sysdate,'dd-mm-yy'),
        TO_CHAR(SYSDATE, 'YYYY-MONDD HH24:MI:SS.SSSSS AM')
 from dual;
 -- 6. 25-04-2003 보다 늦게 입사한 사람을 출력하는 쿼리이다 두 쿼리는 어떻게 다른지 기술하시오. 
---1)--- 잘못된 비교 방법
+--1)--- 잘못된 비교 방법   
 SELECT * FROM EMPLOYEES WHERE TO_CHAR(HIRE_DATE, 'DD-MM-YYYY') > '25-04-2003';
 --2)-- 문자열을 날짜로 변경하여 날짜 비교
 SELECT * FROM EMPLOYEES WHERE HIRE_DATE > TO_DATE('25-04-2003', 'DD-MM-YYYY');
 
 --7. 숫자를 문자열로
 --- 1,234,567를 W1,234,567, $1,234,567, $1,234,567- 각각으로 출력하시오. 
-SELECT TO_CHAR(1234567.890, '9,999,999'),
-        TO_CHAR(1234567.890, '9,999,999.00'),
-        TO_CHAR(1234567.890, '$9,999,999.00'),
+SELECT TO_CHAR(1234567.890, 'L9,999,999'),
         TO_CHAR(1234567.890, 'L9,999,999.00'),
-        TO_CHAR(-1234567.890, 'L9,999,999.00MI')
+        TO_CHAR(1234567.890, '$9,999,999.00'),
+        TO_CHAR(1234567.890, '$9,999,999.00'),
+        TO_CHAR(-1234567.890, '$9,999,999.00MI')
 FROM DUAL;
 
 --8. 이름, 성, 직무 부서 그리고 급여를 세자리씩 ,를 찍고 $가 출력되게 하시오.
 SELECT  first_name, last_name, job_id, department_id,
         to_char(salary, '$99,999,999mi'),
         to_char(-salary, '$99,999,999mi') --회계 파트
-FROM EMPLOYEES;
+FROM hr.EMPLOYEES;
 --9. janette또는 JANETTE 또는 jaNette 값을 전달 받았다.
 ---   이름이 'Janette'인 사원을 출력하시오.
 SELECT * FROM EMPLOYEES
@@ -103,6 +103,16 @@ from employees;
 ---                         이외 급여의 45% 세금이다.
 -- trunc(salary / 2000)
 select first_name, last_name, salary, job_id, 
+    case  when trunc(salary / 2000, 0) = 0 then salary * 0.00
+          when trunc(salary / 2000, 0) = 1 then salary * 0.09
+          when trunc(salary / 2000, 0) = 2 then salary * 0.20
+          when trunc(salary / 2000, 0) = 3 then salary * 0.30
+          when trunc(salary / 2000, 0) = 4 then salary * 0.40
+          when trunc(salary / 2000, 0) = 5 then salary * 0.42
+          when trunc(salary / 2000, 0) = 6 then salary * 0.44
+          else salary * 0.45 end tex
+from employees;
+select first_name, last_name, salary, job_id, 
     case trunc(salary / 2000, 0) when 0 then salary * 0.00
                                  when 1 then salary * 0.09
                                  when 2 then salary * 0.20
@@ -112,7 +122,6 @@ select first_name, last_name, salary, job_id,
                                  when 6 then salary * 0.44
                                  else salary * 0.45 end tex
 from employees;
-
 select first_name, last_name, salary, job_id, 
     decode ( trunc(salary / 2000, 0) , 0 , salary * 0.00
                                      , 1 , salary * 0.09
@@ -128,7 +137,7 @@ select '나의 이름은 ' || last_name || first_name || '입니다.'
 from employees;
 -- 위 코드를 concat을 사용해서 출력화시오.
 select concat('나의 이름은 ',CONCAT(last_name, concat(first_name,'입니다'))) 
-from employees;
+from hr.employees;
 --14. nvl
 -- 성, 이름, 직무, 급여, 커미션을 포함한 년봉, null인 경우 0으로 
 select last_name, first_name, job_id, salary, 
@@ -142,7 +151,7 @@ select last_name, first_name, job_id, salary,
 --           널이면 세번째 값 출력
        nvl2(commission_pct, (salary + salary *  commission_pct) * 12,
                             salary * 12)
-from employees;
+from hr.employees;
 
 --16. nullif 
 --이름의 크기와 이메일의 크기를 비교해서 값이 같으면 null을 다르면 이름의 크기가 출력되게 하시오.
@@ -154,11 +163,13 @@ select first_name, length(first_name),
        -- exp1과 exp2가 같으면  null출력
        -- exp1과 exp2가 다르면 exp1를 출력
 from employees;
+
 --17.coalesce함수를 이용해서 년봉을 구하시오. 이름, 급여 커미션도 같이 출력
+-- nvl대신 coalesce
 select last_name, first_name, job_id, salary, 
        (salary + salary * coalesce(commission_pct,0)) * 12 year_sal
 from employees;
-
+-- nvl2대신 coalesce
 select last_name, coalesce(commission_pct, 
             (salary + salary * commission_pct) * 12 , salary * 12) year_sal
 from employees;
@@ -166,16 +177,17 @@ from employees;
 --  다중행 함수
 --18. 급여를 제일 많이 받는 사람과 적게 받는 사람을 출력, 급여 평균
 select max(salary), min(salary) ,  avg(salary)
-from employees;
+from hr.employees;
 
 ---19. 급여를 받는 사람의 수와, 부서를 가지고 있는 사람의 수를 출력하시오.
 select * from employees;
-select count(salary), count(department_id)
+select count(salary), count(*), count(department_id)
 from employees;
 
 --20. 커미션을 받는 사원들의 커미션의 평균과 직원 전체의 커미션 평균을 구하시오.
-select avg(commission_pct), sum(commission_pct) / count(*)
-from employees;
+select avg(commission_pct), sum(commission_pct) / count(*),
+       avg(nvl(commission_pct, 0))
+from hr.employees;
 
 --21. 전체의 사원의 수를 구하시오. (행 전체의 갯수)
 select count(*) from employees;
@@ -198,15 +210,16 @@ from employees
 where department_id = 80;
 
 --25. 중복되지 않은 부서들을 출력?
-select  distinct(department_id)
-from employees;
+select  distinct department_id
+from hr.employees;
 
---26. 중복되지 않은 부서의 수는?
-select count(distinct(department_id))
+--26. 중복되지 않은 부서의 수는? -- 직원이 속해 있는 부서의 수는?
+select count(distinct department_id )
 from employees;
 
 --27. 커미션의 받는 사원의 커미션 평균과 
 --    커미션을 받지 않는 사원을 포함한 커미션의 평균을 구하시오.
+--    반올림 하지 않고 소수점 이하 4자리만 출력
 select trunc(avg(commission_pct), 4), 
        trunc(sum(commission_pct) / count(*),4),
        trunc(avg(nvl(commission_pct,0)),4)
