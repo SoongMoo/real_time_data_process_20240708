@@ -18,7 +18,7 @@ select employee_id, department_id, first_name, hr.employees.job_id
 from hr.employees, hr.jobs
 where hr.employees.job_id = hr.jobs.job_id;
 
---- 컬럼같거나 값이 같아야 한다.
+--- 컬럼이 같거나 값이 같아야 한다.
 select * from hr.departments;
 select * from hr.employees;
 --- 부서번호, 부서명, 부서장번호,
