@@ -57,16 +57,16 @@ WHERE LOWER(FIRST_NAME) = 'janette' OR UPPER(FIRST_NAME) = 'JANETTE'
 --                   그이외는 급여
 -- 성, 이름, 급여도 같이 출력 
 SELECT LAST_NAME, FIRST_NAME, salary, job_id,
-       CASE job_id when 'IT_PROG' then salary + salary * 0.1
-                   when 'ST_CLERK' then salary + salary * 0.15
-                   when 'SA_REP' then salary + salary * 0.2
-                   else salary end sal
-from employees;
-SELECT LAST_NAME, FIRST_NAME, salary, job_id,
        CASE  when job_id ='IT_PROG' then salary + salary * 0.1
              when job_id = 'ST_CLERK' then salary + salary * 0.15
              when job_id = 'SA_REP' then salary + salary * 0.2
              else salary end sal
+from employees;
+SELECT LAST_NAME, FIRST_NAME, salary, job_id,
+       CASE job_id when 'IT_PROG' then salary + salary * 0.1
+                   when 'ST_CLERK' then salary + salary * 0.15
+                   when 'SA_REP' then salary + salary * 0.2
+                   else salary end sal
 from employees;
 SELECT LAST_NAME, FIRST_NAME, salary, job_id,
        decode ( job_id , 'IT_PROG'  , salary + salary * 0.1
