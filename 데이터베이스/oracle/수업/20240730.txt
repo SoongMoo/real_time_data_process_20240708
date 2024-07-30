@@ -206,3 +206,133 @@ select employee_id, first_name, salary, job_id, hire_date
 from hr.employees e inner join hr.departments d
 using (department_id )
 where department_id not in (50, 90);
+
+-- 3중 조인
+--  직무번호, 직무내용
+--  직무번호, 사원번호, 이름, 부서번호
+--  부서번호, 부서명
+
+-- T-SQL JOIN
+select j.job_id, job_title
+      ,e.job_id, employee_id, first_name, department_id
+      , department_id, department_name
+from hr.jobs j , hr.employees e , hr.departments      
+where j.job_id = e.job_id and e.department_id = d.department_id;
+-- ANSI - JOIN
+select j.job_id, job_title  -- jobs
+      ,e.job_id, employee_id, first_name, e.department_id -- employees
+      ,d.department_id, department_name -- departments
+from hr.jobs j inner join hr.employees e
+on j.job_id = e.job_id join hr.departments d
+on e.department_id = d.department_id;
+
+---직무번호, 사원번호, 이름,  급여, 부서번호
+---부서번호 , 부서명, 지역번호
+-- 지역번호 , 주소
+-- 직무번호 , 직무내용
+select e.job_id, employee_id, first_name, salary, e.department_id -- employees
+      ,d.department_id, department_name, d.location_id -- departments
+      ,l.location_id, street_address -- locations
+      ,j.job_id, job_title -- jobs
+from hr.employees e join hr.departments d
+on e.department_id = d.department_id join hr.locations l
+on d.location_id = l.location_id join hr.jobs j
+on e.job_id = j.job_id ;
+
+
+-- 직무번호, 직무내용, 최소 급여, 최대 급여 -- jobs
+-- 직무번호, 사원번호, 이름, 급여 , 입사일, 부서번호 -- employees
+-- 부서번호, 부서명, 지역번호  -- departments
+-- 지역번호, 주소, 국가번호 -- locations
+-- 국가 번호, 국가명  --- countries
+select j.job_id, job_title, min_salary , max_salary
+     , e.job_id, employee_id, first_name, salary, hire_date, e.department_id
+     , d.department_id, department_name, d.location_id
+     , l.location_id , street_address, country_id
+     , country_id, country_name 
+from hr.jobs j join hr.employees e
+on j.job_id = e.job_id join hr.departments d
+on e.department_id = d.department_id join hr.locations l
+on d.location_id = l.location_id join hr.countries c
+on l.country_id = c.country_id;
+
+-- self -join
+select * from hr.employees;
+
+--  105의 사원번호, 이름, 급여, 직무, 이메일, 상사
+select e1.employee_id,  e1.first_name, e1.salary
+      , e1.job_id, e1.email, e1.manager_id
+      , e2.first_name
+from hr.employees e1 , hr.employees e2
+where e1.manager_id = e2.employee_id and e1.employee_id = 105;
+
+--  사장(100)이 상사인 사원들(사원번호, 이름, 급여, 직무, 상사번호)을 출력하시오
+--  사장의 급여와 입사일을 출력하시오.
+select e1.employee_id, e1.first_name, e1.salary, e1.job_id, e1.manager_id
+       ,e2.salary, e2.hire_date 
+---  사원테이블        사장테이블
+from hr.employees e1 , hr.employees e2
+where e1.manager_id = e2.employee_id and e1.manager_id = 100;
+
+--  사장(100)이 상사인 사원들(사원번호, 이름, 급여, 직무, 상사번호)을 출력하시오
+--  사장의 급여, 입사일
+select e1.employee_id, e1.first_name, e1.salary, e1.job_id, e1.manager_id
+      , e2.salary, e2.hire_date
+from hr.employees  e1 join hr.employees e2
+on e1.manager_id = e2.employee_id
+where e1.manager_id = 100;
+
+--- 비 등가 조인 ( =을 사용하지 않는다.)
+select * from hr.jobs;
+select * from hr.employees;
+--- 사원번호, 이름, 급여, 직무
+--  직무번호, 직무내용, 최소금액, 최대금액
+select employee_id, salary, first_name, e.job_id
+      , j.job_id, job_title, min_salary, max_salary
+from hr.employees e join hr.jobs j
+on salary BETWEEN min_salary and max_salary;
+
+--- 부서가 없는 직원도 출력하자.
+select employee_id, first_name, salary, e.department_id
+      , department_name
+from hr.employees e left outer join hr.departments d
+on e.department_id = d.department_id;
+
+select employee_id, first_name, salary, e.department_id
+      , department_name
+from hr.departments d right outer join hr.employees e 
+on e.department_id = d.department_id ;
+
+select employee_id, first_name, salary
+      , d.department_id ,department_name
+from hr.departments d left outer join hr.employees e 
+on e.department_id = d.department_id ;
+
+select employee_id, first_name, salary
+      , d.department_id ,department_name
+from hr.departments d full outer join hr.employees e 
+on e.department_id = d.department_id ;
+-------------------------------------------
+
+select first_name, employee_id, salary, e.department_id
+      , department_name
+from hr.employees e , hr.departments d
+where e.department_id = d.department_id(+) ;
+
+select first_name, employee_id, salary, e.department_id
+      , department_name
+from hr.employees e , hr.departments d
+where e.department_id(+) = d.department_id ;
+
+--- 직무번호, 이름, 급여, 사원번호
+-- 직무번호, 직무 내용 
+select e.job_id, first_name, salary, employee_id
+       , j.job_id , job_title
+from hr.employees e right outer join hr.jobs j 
+on e.job_id = j.job_id;
+
+select e.job_id, first_name, salary, employee_id
+       , j.job_id , job_title
+from hr.employees e , hr.jobs j 
+--where e.job_id(+) = j.job_id;
+where j.job_id = e.job_id(+);
