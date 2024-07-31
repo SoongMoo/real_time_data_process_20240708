@@ -158,13 +158,163 @@ where salary in (select salary from hr.employees -- 다중행 서브쿼리
 --- 9000 ,8200 ,7700,7800,6900들중에서 제일 큰값보다 작은 값들에 해당하는 사원들 출력
 select * from hr.employees
 where salary < any (9000 ,8200 ,7700,7800,6900); 
--- < any :  큰값보다 작은 값
+-- < any :  큰값보다 더 작은 값 
 select * from hr.employees
 where salary < any (select salary from hr.employees -- 다중행 서브쿼리
                 where job_id = 'FI_ACCOUNT'); 
--- > any : 작은 값보다 큰값
+-- > any : 작은 값보다 더 큰값
 select * from hr.employees
 where salary > any (9000 ,8200 ,7700,7800,6900); 
-select * from hr.employees
+
+select * from hr.employees  
 where salary > any (select salary from hr.employees -- 다중행 서브쿼리
                 where job_id = 'FI_ACCOUNT');
+-- 같다. in : = any
+select * from hr.employees
+where salary = any (9000 ,8200 ,7700,7800,6900); 
+
+--------------------------
+select salary from hr.employees 
+                where job_id = 'FI_ACCOUNT';
+-- 큰값 보다 더  큰값
+select * from hr.employees
+where salary > all (9000 ,8200 ,7700,7800,6900); 
+
+select * from hr.employees
+where salary > all (select salary from hr.employees 
+                    where job_id = 'FI_ACCOUNT');
+--- 작은 값보다 더 작은 값 
+select * from hr.employees
+where salary < all (9000 ,8200 ,7700,7800,6900); 
+
+select * from hr.employees
+where salary < all (select salary from hr.employees 
+                    where job_id = 'FI_ACCOUNT'); 
+                    
+---  다중행 연산자.
+---  > ANY : 작은 보다 크다
+---  < ANY : 큰것 보다 작다
+---  = ANY : IN
+---  > ALL : 큰것 보다 크다
+---  < ALL : 작은 것보다 작다.
+
+--- 부하직원이 있는 사원을 모두 구하시오.
+select * from hr.employees
+where employee_id in (select distinct manager_id from hr.employees);
+
+-- 부하직원이 없는 직원들을 구하시오..
+select * from hr.employees -- null 값이 있으면 출력니 되지 않는다.
+where employee_id not in (select distinct manager_id from hr.employees);
+
+select * from hr.employees 
+where employee_id not in (select distinct manager_id from hr.employees
+                     where manager_id is not null);
+
+--- A
+SELECT salary FROM hr.employees where job_id = 'ST_CLERK'
+union  --- set연산 : 합집합
+--- B
+select salary from hr.employees where job_id = 'PU_CLERK';
+
+--- A
+SELECT salary FROM hr.employees where job_id = 'ST_CLERK'
+union all --- set연산 : 합집합 : 교집합은 중복해서 출력
+--- B
+select salary from hr.employees where job_id = 'PU_CLERK';
+
+--
+--- A
+SELECT salary FROM hr.employees where job_id = 'ST_CLERK'
+INTERSECT    -- set 연산 : 교집합
+--- B
+select salary from hr.employees where job_id = 'PU_CLERK';
+
+--- A
+SELECT salary FROM hr.employees where job_id = 'ST_CLERK'
+MINUS    -- set 연산 : 차집합
+--- B
+select salary from hr.employees where job_id = 'PU_CLERK';
+
+--A
+select employee_id, job_id from hr.employees 
+union
+select employee_id, job_id from hr.job_history;
+
+select employee_id, job_id from hr.employees 
+INTERSECT
+select employee_id, job_id from hr.job_history;
+-- 집합연산을 사용하게 되면 자동 ORDER BY
+
+select employee_id, job_id from hr.employees 
+union
+select employee_id, job_id from hr.job_history
+order by job_id;
+
+-- A
+select employee_id, job_id, department_id
+from hr.employees
+where department_id in (50, 90 , 80)
+union 
+select employee_id, job_id, department_id
+from hr.job_history
+where department_id in (50, 90 , 80);
+
+
+select employee_id, start_date, department_id
+from hr.job_history
+where department_id in (50, 90 , 80)
+union
+select manager_id, hire_date , employee_id
+from hr.employees
+where department_id in (50, 90 , 80);
+
+select employee_id, start_date, department_id --숫자
+from hr.job_history
+where department_id in (50, 90 , 80)
+union
+select manager_id, hire_date , email --문자
+from hr.employees
+where department_id in (50, 90 , 80);
+--- ORA-01790: expression must have same datatype as corresponding expression
+
+-- A 위 쿼리문에 있는 heading name을 따른다.
+select department_id did, hire_date hdate,  to_char(null) ch
+from hr.employees
+union
+-- B
+select location_id ,   to_date(null)     , city
+from hr.locations;
+
+select employee_id, job_id, salary
+from hr.employees
+union
+select employee_id, job_id, 0
+from hr.job_history;
+
+--- 응용 : 회원테이블(mem)  : user_id , user_pw, user_name , user_phone
+---        관리테이블(emp) : emp_id, emp_pw , emp_eamil   , emp_phone
+select user_id , user_pw, user_name , user_phone , 'mem' grade
+from mem
+where user_id = 'highland0'
+union
+select emp_id, emp_pw , emp_eamil   , emp_phone , 'emp' 
+from emp
+where emp_id = 'highland0';
+
+--DML : insert(Create) , select(Read) , updarte(Update), delete(Delete)
+create table employees
+as 
+select * from hr.employees;
+select * from employees;
+
+drop table employees;
+
+create table employees
+as
+select * from hr.employees
+where 1=2;
+
+select * from employees;
+desc employees;
+
+drop table employees;
