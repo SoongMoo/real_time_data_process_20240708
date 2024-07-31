@@ -64,7 +64,7 @@
 24. 직원번호, 성, 이름, 부서번호, 지역번호, 우편번호를 출력하는데 우편번호가 없는 직원을 출력해주세요.
 select employee_id, last_name, first_name, d.department_id, l.location_id, postal_code
 from hr.employees e join hr.departments d
-on  e.department_id = d.department_id full outer join hr.locations l
+on  e.department_id = d.department_id left outer join hr.locations l
 on d.location_id = l.location_id 
 where postal_code is null;
 
