@@ -122,3 +122,49 @@ select * from hr.employees
 where job_id = (select job_id from hr.employees where employee_id = 104)
 and salary in (select max(salary) from hr.employees 
                 group by department_id);
+-- 50인 부서의 최소 급여는 ? -- 2100
+select min(salary) from hr.employees where department_id = 50;
+-- 각부서의 최소 급여가 2100 급여보다 많이 받는 부서의 최소 급여와 부서번호는 출력
+select min(salary), department_id
+from hr.employees
+group by department_id
+having min(salary) > 2100;
+-- 각부서의 최소 급여가 50인 부서의 최소 급여보다 많이 받는 부서의 
+-- 최소 급여와 부서번호는 출력
+select min(salary), department_id
+from hr.employees
+group by department_id
+having min(salary) > (select min(salary) from hr.employees 
+                        where department_id = 50);
+
+--- FI_ACCOUNT인 직무를 가진 사원들의 최소 급여보다 더 적게 급여 받는 사원들의 정보. 
+select min(salary) from hr.employees 
+where job_id='FI_ACCOUNT'
+group by job_id;
+
+select * from hr.employees
+where salary < (select min(salary) from hr.employees 
+                where job_id='FI_ACCOUNT'
+                group by job_id);
+--- 직무가 FI_ACCOUNT인 사원의 급여를 출력
+select salary from hr.employees
+where job_id = 'FI_ACCOUNT';
+-- 9000 ,8200 ,7700,7800,6900에 해당되는 급여를 받는 사원들의 모든 정보를 출력
+select * from hr.employees
+where salary in (9000 ,8200 ,7700,7800,6900); 
+select * from hr.employees
+where salary in (select salary from hr.employees -- 다중행 서브쿼리
+                where job_id = 'FI_ACCOUNT');
+--- 9000 ,8200 ,7700,7800,6900들중에서 제일 큰값보다 작은 값들에 해당하는 사원들 출력
+select * from hr.employees
+where salary < any (9000 ,8200 ,7700,7800,6900); 
+-- < any :  큰값보다 작은 값
+select * from hr.employees
+where salary < any (select salary from hr.employees -- 다중행 서브쿼리
+                where job_id = 'FI_ACCOUNT'); 
+-- > any : 작은 값보다 큰값
+select * from hr.employees
+where salary > any (9000 ,8200 ,7700,7800,6900); 
+select * from hr.employees
+where salary > any (select salary from hr.employees -- 다중행 서브쿼리
+                where job_id = 'FI_ACCOUNT');
