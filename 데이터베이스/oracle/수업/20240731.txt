@@ -1,0 +1,124 @@
+-- 평균 급여가 가장 높은 직무를 출력하시오.
+select Max(avg(salary)) -- 24000
+from hr.employees
+group by job_id;
+
+select job_id, salary
+from hr.employees
+where salary = 24000;
+
+select job_id, salary
+from hr.employees
+where salary = (select Max(avg(salary)) -- 24000
+from hr.employees
+group by job_id);
+
+--- Abel의 급여를 출력하시오,
+select salary from hr.employees
+where last_name = 'Abel'; -- 11000
+
+-- Abel과 같은 급여를 받는 직원들을 출력하시오.
+select * from hr.employees
+where salary = 11000;
+
+select * from hr.employees
+where salary = (select salary from hr.employees
+where last_name = 'Abel');
+
+-- 90인 부서에서 급여를 제일 많이 받는 사원의 급여를 출력하시오.
+select max(salary)
+from hr.employees
+where department_id = 90; --- 24000
+-- 24000이상 받는 사원을 출력하시오.
+select * from hr.employees
+where salary >= 24000;
+
+-- 90인부서에서 제일 많이 받는 사원의 급여보다 많이 잗는 사원을 출력하시오.
+select * from hr.employees
+where salary >= (select max(salary)
+from hr.employees
+where department_id = 90);
+
+--사원번호 103인 사원의 상사와 같은 상사를 둔 직원의 이름 , 사번, 부서, 상사번호를 출력
+select first_name, employee_id, department_id, manager_id
+from hr.employees
+where manager_id = (select manager_id from hr.employees
+                 where employee_id = 103);
+--- 90인 부서의 평균급여 보다 더 많이 받는 사원의 성, 직무, 사번, 부서를 출력
+select employee_id, last_name, job_id, department_id
+from hr.employees
+where salary >= (select avg(salary) from hr.employees
+                 where department_id = 90);
+--- 성이 Rogers인 사원의 급여를 출력
+select salary from hr.employees
+where last_name = 'Rogers'; -- 2900
+--- 성이 Rogers인 사원의 직무를 출력
+select job_id from hr.employees 
+where last_name = 'Rogers'; -- ST_CLERK
+--- 급여가 2900이면서 직무가 'ST_CLERK'인 사원들의 이름, 직무, 급여 입사일을 출력
+select first_name, job_id, salary, hire_date
+from hr.employees
+where salary = 2900 
+and job_id = 'ST_CLERK';
+--- 'Rogers'의 급여와 직무가 같은 사원의 이름, 직무, 급여 입사일을 출력
+select first_name, job_id, salary, hire_date
+from hr.employees
+where salary = (select salary from hr.employees
+                where last_name = 'Rogers') 
+and job_id = (select job_id from hr.employees 
+                where last_name = 'Rogers');
+--- 입사일이 제일 늦은 사원의 이름 직무, 사번, 입사일 급여 출력
+select max(hire_date) from hr.employees;
+select first_name, job_id, employee_id, hire_date, salary
+from hr.employees
+where hire_date = '08/04/21';
+
+select first_name, job_id, employee_id, hire_date, salary
+from hr.employees
+where hire_date = (select max(hire_date) from hr.employees);
+--- 성이 Kumar인 사원의 직무와 같고  Kumar인 사원보다 입사일이 빠른 사원들의
+--- 성, 이름 , 직무, 입사일, 부서 를 출력하시오.
+select last_name, first_name, job_id, hire_date, department_id
+from hr.employees
+where job_id = (select job_id from hr.employees where last_name = 'Kumar')
+and hire_date <= (select hire_date from hr.employees where last_name = 'Kumar');
+
+--- 사장(100)보다 먼저 이뵤사한 사원들을 출력하시오.
+select * from hr.employees
+where hire_date < (select hire_date from hr.employees where employee_id = 100);
+
+--- 30인 부서에 있는 직무와 같은 직무를 하는 사원들을 출력하시오.
+/*
+select * from hr.employees 
+where job_id = (select job_id from hr.employees where department_id = 30);
+*/
+select job_id from hr.employees where department_id = 30;
+
+select * from hr.employees ---  다중행 서브쿼리
+where job_id in (select job_id from hr.employees where department_id = 30);
+
+-- 성이 Taylor인 사원과 같은 직무를 하는 사원들의 모든 정보를 출력
+select * from hr.employees 
+where job_id in (select job_id from hr.employees where last_name = 'Taylor' );
+
+---각 부서의 최소 급여를 구하시오.
+select min(salary) from hr.employees group by department_id;
+-- 30, 60, 90인 부서의 최소 급여를 구하시오.
+select min(salary) from hr.employees where department_id in (30, 60, 90)
+group by department_id;
+-- 직무가 'RE'를 포함하는 직무를 제외한 나머지 직무들을 출력하시오.
+select job_id from hr.employees where job_id not like '%RE%';
+--- 30, 60, 90인 부서의 최소 급여 와 같고 직무가 'RE'를 포함하는 직무에 속해 있지 않은 
+--- 사원들을 구하시오.
+select * from hr.employees
+where salary in (select min(salary) from hr.employees 
+                 where department_id in (30, 60, 90)
+                 group by department_id)
+and job_id not like '%RE%';
+
+-- 직원번호가 104인 직원의 직무와 같고 각부서의 최대 급여에 해당하는 
+-- 직원의 모든 정보를 출력
+select * from hr.employees
+where job_id = (select job_id from hr.employees where employee_id = 104)
+and salary in (select max(salary) from hr.employees 
+                group by department_id);
