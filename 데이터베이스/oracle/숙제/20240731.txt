@@ -62,6 +62,11 @@
 23. 직원번호, 성, 이름, 직무번호, 직무명을 출력하고 최대급여가 20000이상인 직원을 출력해주세요.
 
 24. 직원번호, 성, 이름, 부서번호, 지역번호, 우편번호를 출력하는데 우편번호가 없는 직원을 출력해주세요.
+select employee_id, last_name, first_name, d.department_id, l.location_id, postal_code
+from hr.employees e join hr.departments d
+on  e.department_id = d.department_id full outer join hr.locations l
+on d.location_id = l.location_id 
+where postal_code is null;
 
 25. 부서번호, 부서명, 지역번호, 도시를 출력하고 부서번호가 80인 도시를 출력해주세요
 
