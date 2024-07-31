@@ -43,9 +43,14 @@
 --    직원 이름, 직원번호, 직업번호, 직무내용 출력
 
 
-18. 부서장이 상사인 직원의 부서이름과 최저연봉, 최고연봉을 구하시오.
---    이름, 부서장번호, 부서번호, 최저연봉, 최고연봉 출력
-
+18. 부서장이 상사인 직원의 부서번호과 최저연봉, 최고연봉을 구하시오.
+--  부서번호, 최저연봉, 최고연봉 출력
+select e.department_id
+     , max(salary * (1 + nvl(commission_pct, 0)) * 12)
+     , min(salary * (1 + nvl(commission_pct, 0)) * 12)
+from hr.employees e join hr.departments d
+on e.department_id = d.department_id and e.manager_id = d.manager_id
+group by e.department_id ;
 
 19. 입사일이 '03/06/17' 이후인 사원들의 부서와 지역번호를 출력
 --    사원번호, 이름, 입사일, 부서번호, 부서명, 지역번호 출력
