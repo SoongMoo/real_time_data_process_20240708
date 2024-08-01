@@ -1,0 +1,307 @@
+desc hr.departments;
+/*
+DEPARTMENT_ID   NOT NULL NUMBER(4)    
+DEPARTMENT_NAME NOT NULL VARCHAR2(30) 
+MANAGER_ID               NUMBER(6)    
+LOCATION_ID              NUMBER(4)   
+*/
+create table departments
+as 
+select * from hr.departments;
+
+select * from departments;
+
+drop table departments;
+
+create table departments
+as
+select * from hr.departments
+where 1 = 2;
+
+select * from departments;
+
+create table employees
+as
+select * from hr.employees
+where 1 = 2;
+
+select * from employees;
+
+desc employees;
+
+
+select employee_id, first_name, salary , email, department_id
+from hr.employees;
+
+select * from hr.employees;
+
+INSERT INTO departments(department_id, 
+            department_name, manager_id, location_id)
+VALUES (70, 'Public Relations', 100, 1700);
+
+desc departments;
+
+INSERT INTO departments(department_name, department_id,
+ location_id, manager_id)
+VALUES ('Public Relations',70, 1700,  100);
+
+select * from departments;
+
+INSERT INTO departments (department_id, department_name)
+VALUES (30, 'Purchasing');
+
+INSERT INTO departments ( department_name, department_id)
+VALUES ('Purchasing', 30 );
+
+select * from departments;
+select * from hr.employees;
+
+INSERT INTO departments -- 컬럼 순서를 알아야 한다.
+VALUES (100, 'Finance', 100,  1700);
+desc departments;
+select * from departments;
+
+INSERT INTO departments -- 명시적 방법
+VALUES (100, 'Finance', null,  null);
+
+INSERT INTO departments (department_id, department_name)
+VALUES (30, 'Purchasing'); -- 암시적 방법
+
+INSERT INTO departments(department_id, -- 명시적 방법
+            department_name, manager_id, location_id)
+VALUES (70, 'Public Relations', null, null);
+
+insert into departments(DEPARTMENT_ID,DEPARTMENT_NAME,
+                        MANAGER_ID,LOCATION_ID)
+values (100, 'Finance', NULL, NULL);
+desc departments;
+select * from employees;
+desc employees;
+insert into employees(employee_id,
+                      first_name, last_name,
+                      email, phone_number,
+                      hire_date, job_id, salary,
+                      commission_pct, manager_id,
+                      department_id)
+values(113,
+        'Louis', 'Popp',
+        'LPOPP', '515.124.4567',
+        SYSDATE, 'AC_ACCOUNT', 6900,
+        NULL, 205, 110);
+
+
+select sysdate from dual; 
+select * from employees;
+
+insert into employees(employee_id,
+                      first_name, last_name,
+                      email, phone_number,
+                      hire_date, job_id, salary,
+                      commission_pct, manager_id,
+                      department_id)
+values(114,
+        '숭무', '이',
+        'highland0', '010-7146-1970',
+        to_date('30/07/24','dd/mm/yy'), 'AC_ACCOUNT', 6900,
+        NULL, 205, 110);
+select * from employees;
+create table jobs
+as 
+select * from hr.jobs
+where job_id like 'AD%';
+
+select * from jobs;
+
+insert into departments(department_id, department_name)
+select department_id, department_name from hr.departments
+where manager_id is not null;
+
+select * from departments;
+
+insert into employees
+select * from hr.employees
+where job_id not like 'AD%';
+
+select * from employees;
+
+
+delete from employees;
+select * from employees;
+
+insert into employees
+select * from hr.employees;
+
+select * from employees;
+
+
+update employees
+set department_id = 80
+where department_id = 60;
+
+select * from employees
+where department_id = 60;
+
+select * from employees
+where employee_id = 113;
+
+update employees
+set department_id = 50
+where employee_id = 113;
+
+
+select * from employees;
+commit;
+
+select * from employees
+where employee_id = 113;
+
+update employees
+set department_id = 100
+where employee_id = 113;
+
+select * from employees
+where employee_id = 113;
+commit;
+
+SELECT job_id FROM employees WHERE employee_id = 205; -- AC_MGR
+
+SELECT salary FROM employees WHERE employee_id = 205; -- 12008
+
+update employees
+set job_id = 'AC_MGR' , salary = 12008
+where employee_id = 104;
+select * from employees where employee_id = 104;
+--- 113인 사원 직무와 급여를 205번 사원의 급여와 직무로 변경하자.
+update employees
+set job_id =  (SELECT job_id FROM employees WHERE employee_id = 205)
+   , salary = (SELECT salary FROM employees WHERE employee_id = 205)
+where employee_id = 113;
+commit;
+update employees
+set department_id = 100;
+select * from employees;
+rollback;
+select * from employees;
+
+SELECT department_id FROM employees WHERE employee_id = 100; -- 90
+SELECT job_id FROM employees WHERE employee_id = 200; -- AD_ASST
+
+-- 부서가 90인 사원의 직무를 AD_ASST로 변경 하고 싶다.
+--- 100인 사원 부서에 해당되는 모든 직원 직무를 200인 사원직무로 변경
+update employees
+set job_id = 'AD_ASST'
+where department_id = 90;
+
+update employees
+set job_id = (SELECT job_id FROM employees WHERE employee_id = 200)
+where department_id = (SELECT department_id FROM employees 
+                        WHERE employee_id = 100);
+                        
+--- delete
+delete from employees;
+select * from employees;
+rollback;
+select * from employees;
+
+delete from departments;
+
+insert into departments
+select * from hr.departments;
+
+select * from departments;
+commit;
+delete from departments;
+
+select * from departments;
+rollback;
+
+delete from departments
+where department_name ='Finance';
+
+select * from departments
+where department_name = 'Finance';
+
+SELECT department_id FROM departments -- 70
+WHERE department_name LIKE '%Public%';
+--- 70인 부서를 삭제하겠다.
+delete from departments
+where department_id = 70;
+
+-- 부서명에 Public을 포함하고 있는 부서를 부서번호를 이용해서 삭제 하고 싶다.
+delete from departments
+where department_id = (SELECT department_id FROM departments
+                        WHERE department_name LIKE '%Public%');
+rollback;
+
+select * from departments;
+delete from departments;
+rollback;
+TRUNCATE table departments;
+rollback;
+------------------------------------------------------------
+/*
+class HireDate{
+    int id,
+    date hireDate = "2004.05.07"
+}
+*/
+drop table hire_date;
+create table hire_date
+(
+    id number,
+    hire_date date 
+);
+desc hire_date;
+insert into hire_date(id)
+values(10);
+select * from hire_date;
+drop table hire_date1;
+create table hire_date1
+(
+    id number,
+    hire_date date default sysdate
+);
+desc hire_date1;
+insert into hire_date1(id)
+values(10);
+select * from hire_date1;
+
+create table dept(
+    deptno number,
+    dname varchar2(14),
+    loc   varchar2(13),
+    create_date date default sysdate
+);
+desc dept;
+insert into dept
+values(10, '영업부', '1700', null);
+insert into dept(deptno, dname, loc)
+values(20, '기술부', 1800);
+select * from dept;
+/*
+class Board{
+   int boardNum,
+   String userId,
+   String boardName,
+   String boardSubject,
+   String boardContent,
+   Date boardDate,
+   int readCount = 0
+}
+*/
+create table board(
+    board_Num number,
+    user_Id varchar2(10),
+    BOARD_NAME  varchar2(20),
+    BOARD_SUBJECT varchar2(100),
+    BOARD_CONTENT varchar2(2000),
+    BOARD_DATE   date,
+    READ_COUNT   number default 0
+);
+insert into board(board_Num, user_Id, BOARD_NAME, BOARD_SUBJECT
+                  ,BOARD_CONTENT,  BOARD_DATE)
+values(1, 'highland0', '이숭무', '제목', '내용', sysdate);
+update board -- 조회수 증가
+set read_count = read_count + 1 
+where board_num = 1;
+select * from board where board_num = 1;
