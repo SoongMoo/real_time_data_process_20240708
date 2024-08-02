@@ -1,0 +1,108 @@
+select * from board;
+insert into board(BOARD_NUM, USER_ID, BOARD_NAME, BOARD_SUBJECT
+                 ,BOARD_CONTENT,BOARD_DATE,READ_COUNT )
+values(2, 'high', '이상범', '제목1', '내용', sysdate, 0);
+desc board;
+select * from board;
+--- 마지막 글 번호를 출력하시오.
+select max(board_num) from board;
+-- 마지막 다음 글번호를 출력하시오.
+select max(board_num) + 1 from board;
+select * from board;
+insert into board(BOARD_NUM, USER_ID, BOARD_NAME, BOARD_SUBJECT
+                 ,BOARD_CONTENT,BOARD_DATE,READ_COUNT )
+values((select max(board_num) + 1 from board)
+        , 'land', '이장범', '제목2', '내용2', sysdate, 0);
+        
+insert into board(BOARD_NUM, USER_ID, BOARD_NAME, BOARD_SUBJECT
+                 ,BOARD_CONTENT,BOARD_DATE,READ_COUNT )
+values(9 , 'land', '이장범', '제목2', '내용2', sysdate, 0);
+select * from board;
+
+select * from board where board_num = 9;
+delete from board where board_num = 9;
+
+
+select * from hr.employees;
+
+desc board;
+drop table board;
+create table board (
+BOARD_NUM        NUMBER not null,         
+USER_ID          VARCHAR2(10) ,   
+BOARD_NAME       VARCHAR2(20) not null,   
+BOARD_SUBJECT    VARCHAR2(100) not null,  
+BOARD_CONTENT    VARCHAR2(2000), 
+BOARD_DATE       DATE default sysdate ,           
+READ_COUNT       NUMBER DEFAULT 0
+);
+insert into board (board_num, board_name,BOARD_SUBJECT) 
+values(1, '이숭무', '제목1');
+select * from board;
+
+drop table board;
+create table board (
+BOARD_NUM        NUMBER primary key,         
+USER_ID          VARCHAR2(10) ,   
+BOARD_NAME       VARCHAR2(20) not null,   
+BOARD_SUBJECT    VARCHAR2(100) not null,  
+BOARD_CONTENT    VARCHAR2(2000), 
+BOARD_DATE       DATE default sysdate ,           
+READ_COUNT       NUMBER DEFAULT 0
+);
+
+insert into board (board_num, board_name,BOARD_SUBJECT) 
+values(1, '이숭무', '제목1');
+select * from board;
+insert into board (board_num, board_name,BOARD_SUBJECT) 
+values(2, '이숭무', '제목1');
+select * from board;
+insert into board (board_num, board_name,BOARD_SUBJECT) 
+values(2, '이숭무', '제목1');
+--- unique constraint (MISO.SYS_C007017) violated
+insert into board (board_num, board_name,BOARD_SUBJECT) 
+values(null, '이숭무', '제목1');
+--- These objects cannot accept NULL values.
+drop table board;
+create table board (
+BOARD_NUM        NUMBER primary key,         
+USER_ID          VARCHAR2(10),-- primary key ,   
+BOARD_NAME       VARCHAR2(20) not null,   
+BOARD_SUBJECT    VARCHAR2(100) not null,  
+BOARD_CONTENT    VARCHAR2(2000), 
+BOARD_DATE       DATE default sysdate ,           
+READ_COUNT       NUMBER DEFAULT 0
+);
+--- table에 primary key는 오로지 하나만 있어야 한다.
+desc board;
+select * from dba_constraints where table_name = 'BOARD';
+SELECT * FROM dba_cons_columns WHERE table_name = 'BOARD';
+
+drop table board;
+create table board (
+BOARD_NUM        NUMBER constraint BOARD_NUM_PK primary key, --- 열레벨        
+USER_ID          VARCHAR2(10),-- primary key ,   
+BOARD_NAME       VARCHAR2(20) not null,   
+BOARD_SUBJECT    VARCHAR2(100) not null,  
+BOARD_CONTENT    VARCHAR2(2000), 
+BOARD_DATE       DATE default sysdate ,           
+READ_COUNT       NUMBER DEFAULT 0
+);
+select * from dba_constraints where table_name = 'BOARD';
+insert into board (board_num, board_name,BOARD_SUBJECT) 
+values(1, '이숭무', '제목1');
+insert into board (board_num, board_name,BOARD_SUBJECT) 
+values(1, '이숭무', '제목1');
+drop table board;
+create table board (
+BOARD_NUM        NUMBER, 
+USER_ID          VARCHAR2(10),-- primary key ,   
+BOARD_NAME       VARCHAR2(20) not null,   
+BOARD_SUBJECT    VARCHAR2(100) not null,  
+BOARD_CONTENT    VARCHAR2(2000), 
+BOARD_DATE       DATE default sysdate ,           
+READ_COUNT       NUMBER DEFAULT 0,
+constraint BOARD_NUM_PK primary key(BOARD_NUM) -- 테이블레벨
+);
+insert into board (board_num, board_name,BOARD_SUBJECT) 
+values(1, '이숭무', '제목1');
