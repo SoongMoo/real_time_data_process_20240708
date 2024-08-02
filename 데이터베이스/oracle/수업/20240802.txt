@@ -109,7 +109,7 @@ constraint BOARD_NUM_PK primary key(BOARD_NUM) -- 테이블레벨
 insert into board (board_num, board_name,BOARD_SUBJECT) 
 values(1, '이숭무', '제목1');
 
-
+drop table member;
 create table member(
     member_num number,
     member_name varchar2(100),
@@ -119,6 +119,7 @@ create table member(
     constraint member_num_pk primary key(member_num)
 );
 drop table board;
+--- ***** 테이블레벨만 기억
 create table board (
 BOARD_NUM        NUMBER, 
 USER_ID          VARCHAR2(10),-- primary key ,   
@@ -132,6 +133,127 @@ constraint BOARD_NUM_PK primary key(BOARD_NUM), -- 테이블레벨,
 constraint member_num_FK FOREIGN KEY(member_num)
 REFERENCES member(member_num)
 );
+select * from member;
+select * from board;
+
+insert into board (board_num, board_name,BOARD_SUBJECT, member_num) 
+values(1, '이숭무', '제목1', 100);
+--integrity constraint (MISO.MEMBER_NUM_FK) violated - parent key not found
+
+insert into member(member_num, member_name, member_id, member_email
+                 , member_phone)
+values(100, '이숭무', 'highland', 'highland@nate.com', '010-1234-1234');
+select * from member;
+
+insert into board (board_num, board_name,BOARD_SUBJECT, member_num) 
+values(1, '이숭무', '제목1', 100);
+
+select member_name, member_email
+      , board_subject, board_date
+from member m join board b
+on m.member_num = b.member_num;
+
+select fisrt_name , last_name, salary, hire_date 
+      , department_id, department_name
+from     hr.employees e join hr.departments d
+on e.department_id = d.department_id;
 
 
+select * from hr.departments;       
+select * from hr.locations;
 
+-------------------------
+---  jobs --- job_id : primary key
+---  employees : job_id : foreign key  
+---              department_id : foreign key
+---  deportments : department_id :  primary key
+---                location_id : foreign key
+---  locations   : location_id : primary key
+
+
+select e.manager_id 상사, d.manager_id 부서장 
+from hr.employees e join hr.departments d
+on e.department_id = d.department_id;
+     --foreign key =  primary key
+--- join은 같은 값끼리의 비교이다.
+select * 
+from hr.employees e join hr.departments d
+on e.manager_id = d.manager_id;
+--   foreign key = foreign key
+drop table board;
+create table board (
+BOARD_NUM        NUMBER, 
+USER_ID          VARCHAR2(10),-- primary key ,   
+BOARD_NAME       VARCHAR2(20) not null,   
+BOARD_SUBJECT    VARCHAR2(100) not null,  
+BOARD_CONTENT    VARCHAR2(2000), 
+BOARD_DATE       DATE default sysdate ,           
+READ_COUNT       NUMBER DEFAULT 0,
+member_num       number constraint member_num_FK  REFERENCES member(member_num),
+constraint BOARD_NUM_PK primary key(BOARD_NUM) -- 테이블레벨,
+);
+
+
+drop table member;
+create table member(
+    member_num number,
+    member_name varchar2(100),
+    member_id varchar2(50) constraint member_id_UU unique, --- unique key  
+    member_email varchar2(100),
+    member_phone varchar2(50),
+    constraint member_num_pk primary key(member_num) -- 중복허용 하지 않는다.
+);
+insert into member 
+values(1, '이숭무', 'aaaa0', 'aa@nate.com', '010-1123-1234' );
+insert into member 
+values(2, '이숭무', 'aaaa0', 'aa@nate.com', '010-1123-1234' );
+--- unique constraint (MISO.MEMBER_ID_UU) violated
+insert into member 
+values(2, '이숭무', 'aaab0', 'aa@nate.com', '010-1123-1234' );
+insert into member 
+values(3, '이숭무', null, 'aa@nate.com', '010-1123-1234' );
+
+drop table member;
+create table member(
+    member_num number,
+    member_name varchar2(100),
+    member_id varchar2(50) constraint member_id_UU unique, --- unique key  
+    member_email varchar2(100) constraint member_email_UU unique,
+    member_phone varchar2(50) constraint member_phone_UU unique,
+    constraint member_num_pk primary key(member_num) -- 중복허용 하지 않는다.
+);
+insert into member 
+values(1, '이숭무', 'aaab0', 'aa@nate.com', '010-1123-1234' );
+insert into member 
+values(2, '이숭무', 'aaaa0', 'aa@nate.com', '010-1123-1234' );
+--- unique constraint (MISO.MEMBER_EMAIL_UU) violated
+insert into member
+values(2, '이숭무', 'aaaa0', 'aaa@nate.com', '010-1123-1234' );
+--- unique constraint (MISO.MEMBER_PHONE_UU) violated
+insert into member
+values(2, '이숭무', 'aaaa0', 'aaa@nate.com', '010-1123-1235' );
+
+--- primary key : 테이블에 오직 한개.
+--                not null이다.
+--                중복 데이터를 허용하지 않는다.
+--                레코드를 유일하게 구별하기 위한 컬럼으로 사용
+-- foreign key : 다른 테이블(부모 테이브) 로부터 자식 테이블에 전이된 컬럼 
+--               다른 테이블의 primary  컬럼이 전이 된다.
+--               자식 테이블이 삭제 되야 부모테이블이 삭제 된다.
+--               부모테이블에 데이터 있어야 자식 테이블 데이터가 저장된다.
+-- unique : 한 테이블에 여러 개를 만들 수 있다
+--          컬럼의 데이터를 유일하게 관리한다.
+--          null을 허용한다.
+
+drop table member;
+create table member(
+    member_num number,
+    member_name varchar2(100),
+    member_id varchar2(50) , --- unique key  
+    member_email varchar2(100) ,
+    member_phone varchar2(50) ,
+    constraint member_num_pk primary key(member_num),-- 중복허용 하지 않는다.
+    constraint member_id_UU unique (member_id),
+    constraint member_email_UK unique (member_email),
+    constraint member_phone_UU unique (member_phone)
+);
