@@ -66,14 +66,13 @@ values(null, '이숭무', '제목1');
 drop table board;
 create table board (
 BOARD_NUM        NUMBER primary key,         
-USER_ID          VARCHAR2(10) primary key ,   
+USER_ID          VARCHAR2(10),-- primary key ,   
 BOARD_NAME       VARCHAR2(20) not null,   
 BOARD_SUBJECT    VARCHAR2(100) not null,  
 BOARD_CONTENT    VARCHAR2(2000), 
 BOARD_DATE       DATE default sysdate ,           
 READ_COUNT       NUMBER DEFAULT 0
 );
---- table can have only one primary key,   Remove the extra primary key.
 --- table에 primary key는 오로지 하나만 있어야 한다.
 desc board;
 select * from dba_constraints where table_name = 'BOARD';
@@ -94,7 +93,7 @@ insert into board (board_num, board_name,BOARD_SUBJECT)
 values(1, '이숭무', '제목1');
 insert into board (board_num, board_name,BOARD_SUBJECT) 
 values(1, '이숭무', '제목1');
---- unique constraint (MISO.BOARD_NUM_PK) violated
+
 
 drop table board;
 create table board (
@@ -109,6 +108,30 @@ constraint BOARD_NUM_PK primary key(BOARD_NUM) -- 테이블레벨
 );
 insert into board (board_num, board_name,BOARD_SUBJECT) 
 values(1, '이숭무', '제목1');
-insert into board (board_num, board_name,BOARD_SUBJECT) 
-values(1, '이숭무', '제목1');
----unique constraint (MISO.BOARD_NUM_PK) violated
+
+
+create table member(
+    member_num number,
+    member_name varchar2(100),
+    member_id varchar2(50),
+    member_email varchar2(100),
+    member_phone varchar2(50),
+    constraint member_num_pk primary key(member_num)
+);
+drop table board;
+create table board (
+BOARD_NUM        NUMBER, 
+USER_ID          VARCHAR2(10),-- primary key ,   
+BOARD_NAME       VARCHAR2(20) not null,   
+BOARD_SUBJECT    VARCHAR2(100) not null,  
+BOARD_CONTENT    VARCHAR2(2000), 
+BOARD_DATE       DATE default sysdate ,           
+READ_COUNT       NUMBER DEFAULT 0,
+member_num       number,
+constraint BOARD_NUM_PK primary key(BOARD_NUM), -- 테이블레벨,
+constraint member_num_FK FOREIGN KEY(member_num)
+REFERENCES member(member_num)
+);
+
+
+
