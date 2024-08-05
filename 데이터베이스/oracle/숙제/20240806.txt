@@ -32,7 +32,7 @@ READ_COUNT             		NUMBER
 
 BOARD_NUM : primary key (BOARD_BOARD_NUM_PK)
 READ_COUNT ; 디펄트 값은 0
-
+USER_ID : FOREIGN KEY (BOARD_USER_ID_FK)
 
 
 문제 3) 회원테이블에 아래 내용을 포함하여 5개의 데이터를 넣으시오.
