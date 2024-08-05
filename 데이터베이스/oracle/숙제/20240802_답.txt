@@ -1,104 +1,114 @@
--- 1. ºÎ¼­¹øÈ£, ºÎ¼­¸í, Áö¿ª¹øÈ£, ±¹°¡ ¹øÈ£¸¦ Ãâ·ÂÇÏ¼¼¿ä
---      ±¹°¡ ¹øÈ£ us¸¸ Ãâ·Â ÇÏ¼¼¿ä
+-- 1. ë¶€ì„œë²ˆí˜¸, ë¶€ì„œëª…, ì§€ì—­ë²ˆí˜¸, êµ­ê°€ ë²ˆí˜¸ë¥¼ ì¶œë ¥í•˜ì„¸ìš”
+--      êµ­ê°€ ë²ˆí˜¸ usë§Œ ì¶œë ¥ í•˜ì„¸ìš”
 select department_id, department_name, l.location_id, c.country_id
-from hr.departments d, hr.locations l, hr.countries c
-where d.location_id = l.location_id
-and l.country_id = c.country_id
-and c.country_id = 'US';
--- 2. Á÷¿ø¹øÈ£, ¼º, ÀÌ¸§, ÁÖ¼Ò, Á÷¹«, ºÎ¼­¹øÈ£, Áö¿ª¹øÈ£, Á÷¹«³»¿ë, ³ª¶ó ÀÌ¸§À» Ãâ·Â
+from hr.departments d join hr.locations l
+on d.location_id = l.location_id join hr.countries c
+on l.country_id = c.country_id
+where c.country_id = 'US';
+
+
+-- 2. ì§ì›ë²ˆí˜¸, ì„±, ì´ë¦„, ì£¼ì†Œ, ì§ë¬´, ë¶€ì„œë²ˆí˜¸, ì§€ì—­ë²ˆí˜¸, ì§ë¬´ë‚´ìš©, ë‚˜ë¼ ì´ë¦„ì„ ì¶œë ¥
 select employee_id, last_name, first_name, j.job_id, d.department_id, l.location_id,
        job_title, street_address, country_name
-from hr.jobs j, hr.employees e, hr.departments d, hr.locations l, hr.countries c
-where j.job_id = e.job_id and e.department_id = d.department_id 
-and d.location_id = l.location_id and l.country_id = c.country_id;
--- 3. Á÷¹«°¡ 'ST_CLERK'ÀÎ »ç¶÷ÀÇ ±¹ÀûÀº?
+from hr.jobs j join hr.employees e
+on j.job_id = e.job_id join hr.departments d 
+on e.department_id = d.department_id join  hr.locations l
+on d.location_id = l.location_id join hr.countries c 
+on l.country_id = c.country_id;
+-- 3. ì§ë¬´ê°€ 'ST_CLERK'ì¸ ì‚¬ëŒì˜ êµ­ì ì€?
 select last_name, first_name, j.job_id, country_name
-from hr.jobs j, hr.employees e, hr.departments d, hr.locations l, hr.countries c
-where j.job_id = e.job_id and e.department_id = d.department_id
-and d.location_id = l.location_id and l.country_id = c.country_id
-and j.job_id = 'ST_CLERK';
--- 4. ¸¶ÄÉÆÃ ºÎ¼­ÀÇ »ç¿øÀÇ ¿¬ºÀÀº?
+from hr.jobs j join hr.employees e
+on  j.job_id = e.job_id join  hr.departments d 
+on e.department_id = d.department_id join hr.locations l
+on d.location_id = l.location_id join  hr.countries c 
+on l.country_id = c.country_id
+where j.job_id = 'ST_CLERK';
+-- 4. ë§ˆì¼€íŒ… ë¶€ì„œì˜ ì‚¬ì›ì˜ ì—°ë´‰ì€?
 select salary, first_name, last_name, department_name
-from hr.employees e, hr.departments d
-where e.department_id = d.department_id
-and department_name = 'Marketing';
--- 5. Á÷¿øÀÌ ¾ø´Â ºÎ¼­ÀÇ °³¼ö¸¦ ±¸ÇÏ½Ã¿À.
+from hr.employees e join hr.departments d
+on e.department_id = d.department_id
+where department_name = 'Marketing';
+-- 5. ì§ì›ì´ ì—†ëŠ” ë¶€ì„œì˜ ê°œìˆ˜ë¥¼ êµ¬í•˜ì‹œì˜¤.
 select count(*)
 from hr.departments
-where manager_id is null;
--- 6. Á÷¹« È÷½ºÅä¸® Å×ÀÌºí¿¡¼­ ½ÃÀÛÀÏ°ú ¸¶Áö¸·ÀÏÀÌ 5³â ÀÌ»ó Â÷ÀÌ³ª´Â Á÷¿øÀÇ ¼º, ÀÌ¸§, ºÎ¼­¸íÀ» Ãâ·Â
+where department_id not in (select distinct department_id
+                            from employees 
+                            where departmen_id is not null);
+-- 6. ì§ë¬´ íˆìŠ¤í† ë¦¬ í…Œì´ë¸”ì—ì„œ ì‹œì‘ì¼ê³¼ ë§ˆì§€ë§‰ì¼ì´ 5ë…„ ì´ìƒ ì°¨ì´ë‚˜ëŠ” ì§ì›ì˜ ì„±, ì´ë¦„, ë¶€ì„œëª…ì„ ì¶œë ¥
 select last_name, first_name, department_name
-from hr.job_history j, hr.employees e, hr.departments d
-where j.employee_id = e.employee_id and e.department_id = d.department_id
-and j.end_date-j.start_date > 1825;
--- 7 ºÎ¼­°¡ ¾ø´Â Á÷¿ø°ú Á÷¿øÀÌ ¾ø´Â ºÎ¼­¸¦ Ãâ·ÂÇÏ°í ºÎ¼­ÀÇ ÀÌ¸§±îÁö Ãâ·ÂÇÏ½Ã¿À.
+from hr.job_history j join hr.employees e
+on j.employee_id = e.employee_id join  hr.departments d 
+one.department_id = d.department_id
+where j.end_date-j.start_date > 1825;
+
+-- 7 ë¶€ì„œê°€ ì—†ëŠ” ì§ì›ê³¼ ì§ì›ì´ ì—†ëŠ” ë¶€ì„œë¥¼ ì¶œë ¥í•˜ê³  ë¶€ì„œì˜ ì´ë¦„ê¹Œì§€ ì¶œë ¥í•˜ì‹œì˜¤.
 select employee_id
     , d.department_id, department_name
 from hr.employees e full outer join hr.departments d
 on e.department_id = d.department_id
-where e.department_id is null ;
--- 8 Á÷¿ø¹øÈ£, ÀÌ¸§, ºÎ¼­¹øÈ£, ºÎ¼­¸í, Áö¿ª¹øÈ£, ÁÖ¼Ò, city¸¦ Ãâ·ÂÇÏ´Âµ¥ CITY°¡ 'London'ÀÎ »ç¿øÀ» Ãâ·ÂÇÏ½Ã¿À.
+
+-- 8 ì§ì›ë²ˆí˜¸, ì´ë¦„, ë¶€ì„œë²ˆí˜¸, ë¶€ì„œëª…, ì§€ì—­ë²ˆí˜¸, ì£¼ì†Œ, cityë¥¼ ì¶œë ¥í•˜ëŠ”ë° CITYê°€ 'London'ì¸ ì‚¬ì›ì„ ì¶œë ¥í•˜ì‹œì˜¤.
 select employee_id, first_name
     , d.department_id, department_name
     , l.location_id, street_address, city
-from hr.employees e, hr.departments d, hr.locations l
-where e.department_id = d.department_id
-and d.location_id = l.location_id
-and city = 'London';
--- 9 Á÷¹«¿¡ 'IT'°¡ µé¾î°¡´Â »ç¿ø Áß ±Ş¿©°¡ 3000ÀÌ»óÀÎ »ç¿øÀ» Ãâ·ÂÇÏ½Ã¿À.
---    Á÷¿ø¹øÈ£, Á÷¿øÀÌ¸§, Á÷¹«¹øÈ£, Á÷¹«, ±Ş¿© Ãâ·Â
+from hr.employees e join hr.departments d
+on e.department_id = d.department_id join hr.locations l
+on d.location_id = l.location_id
+where city = 'London';
+-- 9 ì§ë¬´ì— 'IT'ê°€ ë“¤ì–´ê°€ëŠ” ì‚¬ì› ì¤‘ ê¸‰ì—¬ê°€ 3000ì´ìƒì¸ ì‚¬ì›ì„ ì¶œë ¥í•˜ì‹œì˜¤.
+--    ì§ì›ë²ˆí˜¸, ì§ì›ì´ë¦„, ì§ë¬´ë²ˆí˜¸, ì§ë¬´, ê¸‰ì—¬ ì¶œë ¥
 select employee_id, first_name, salary
     , d.department_id, department_name
     ,j.job_id
-from hr.employees e, hr.departments d, hr.jobs j
-where j.job_id = e.job_id
-and e.department_id = d.department_id
-and j.job_id like '%IT%'
+from hr.employees e join hr.departments d
+on j.job_id = e.job_id join hr.jobs j
+on e.department_id = d.department_id
+where j.job_id like '%IT%'
 and salary > 3000;
--- 10 Á÷¹«¿¡ 'IT'°¡ µé¾î°¡Áö ¾Ê´Â »ç¿øÀÇ »ç¿ø¹øÈ£, ÀÌ¸§, ±Ş¿©, ºÎ¼­¹øÈ£, ºÎ¼­, Á÷¹«¸¦ Ãâ·ÂÇÏ½Ã¿À.
---    ´Ü, ±Ş¿©¸¦ ³»¸²Â÷¼øÀ¸·Î Á¤·Ä
+-- 10 ì§ë¬´ì— 'IT'ê°€ ë“¤ì–´ê°€ì§€ ì•ŠëŠ” ì‚¬ì›ì˜ ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œë²ˆí˜¸, ë¶€ì„œ, ì§ë¬´ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.
+--    ë‹¨, ê¸‰ì—¬ë¥¼ ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œ ì •ë ¬
 select employee_id, first_name, salary
     , d.department_id, department_name
     , j.job_id
-from hr.employees e, hr.departments d, hr.jobs j
-where e.job_id = j.job_id
-and e.department_id = d.department_id
+from hr.employees e join hr.departments d  
+on e.job_id = j.job_id join hr.jobs j
+on e.department_id = d.department_id
 order by salary desc;
--- 11 Áö¿ª¹øÈ£°¡ 1700ÀÎ »ç¿øÀÇ »ç¿ø¹øÈ£, »ç¿øÀÌ¸§, ºÎ¼­¹øÈ£, ºÎ¼­ÀÌ¸§, Áö¿ª¹øÈ£, ÁÖ¼Ò, µµ½Ã¸¦ ±¸ÇÏ½Ã¿À.
+-- 11 ì§€ì—­ë²ˆí˜¸ê°€ 1700ì¸ ì‚¬ì›ì˜ ì‚¬ì›ë²ˆí˜¸, ì‚¬ì›ì´ë¦„, ë¶€ì„œë²ˆí˜¸, ë¶€ì„œì´ë¦„, ì§€ì—­ë²ˆí˜¸, ì£¼ì†Œ, ë„ì‹œë¥¼ êµ¬í•˜ì‹œì˜¤.
 select employee_id, first_name
      , d.department_id, department_name
      , l.location_id, street_address, city
-from hr.employees e, hr.departments d, hr.locations l
-where e.department_id = d.department_id
-and d.location_id = l.location_id
-and l.location_id = 1700;
--- 12 ºÎ¼­ÀåÀÌ Á¸ÀçÇÏÁö ¾Ê´Â ºÎ¼­ÀÇ ±¹°¡¸íÀ» Ãâ·ÂÇÏ½Ã¿À
+from hr.employees e join hr.departments d
+on e.department_id = d.department_id join  hr.locations l
+on d.location_id = l.location_id
+where l.location_id = 1700;
+-- 12 ë¶€ì„œì¥ì´ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ë¶€ì„œì˜ êµ­ê°€ëª…ì„ ì¶œë ¥í•˜ì‹œì˜¤
 select manager_id, department_name, country_name
 from hr.departments d join hr.locations l
 on d.location_id = l.location_id join hr.countries c
 on l.country_id = c.country_id
 and manager_id is null;
--- 13 µµ½Ã¸íÀÌ o·Î ³¡³ª´Â µµ½ÃÀÇ Áö¿ªÄÚµå°¡ 2 ÀÌÇÏÀÎ µµ½Ã¸í, ±¹°¡¸í, Áö¿ª¹øÈ£, Áö¿ª¸íÀ» Ãâ·ÂÇÏ½Ã¿À
+-- 13 ë„ì‹œëª…ì´ oë¡œ ëë‚˜ëŠ” ë„ì‹œì˜ ì§€ì—­ì½”ë“œê°€ 2 ì´í•˜ì¸ ë„ì‹œëª…, êµ­ê°€ëª…, ì§€ì—­ë²ˆí˜¸, ì§€ì—­ëª…ì„ ì¶œë ¥í•˜ì‹œì˜¤
 select city, c.region_id, country_name, region_name
 from hr.locations l, hr.countries c, hr.regions r
 where l.country_id = c.country_id
 and c.region_id = r.region_id
 and city like '%o'
 and c.region_id >= 2;
--- 14 ºÎ¼­¸íÀÌ g ·Î ³¡³ª´Â ºÎ¼­ÀÇ ±¹°¡ÄÚµå¸¦ ¸ğµÎ Ãâ·ÂÇÏ½Ã¿À
+-- 14 ë¶€ì„œëª…ì´ g ë¡œ ëë‚˜ëŠ” ë¶€ì„œì˜ êµ­ê°€ì½”ë“œë¥¼ ëª¨ë‘ ì¶œë ¥í•˜ì‹œì˜¤
 select d.location_id, department_name, l.country_id
 from hr.departments d join hr.locations l
 on d.location_id = l.location_id join hr.countries c
 on l.country_id = c.country_id
 and department_name like '%g';
--- 15 AD ·Î ½ÃÀÛÇÏ´Â Á÷¹«¸¦ °¡Áø »ç¿ø Áß Á÷¹« ³»¿ëÀÌ t·Î ³¡³ª´Â »ç¿øÀÇ ÀÌ¸§, Á÷¹«, Á÷¹«³»¿ëÀ» Ãâ·ÂÇÏ½Ã¿À
+-- 15 AD ë¡œ ì‹œì‘í•˜ëŠ” ì§ë¬´ë¥¼ ê°€ì§„ ì‚¬ì› ì¤‘ ì§ë¬´ ë‚´ìš©ì´ të¡œ ëë‚˜ëŠ” ì‚¬ì›ì˜ ì´ë¦„, ì§ë¬´, ì§ë¬´ë‚´ìš©ì„ ì¶œë ¥í•˜ì‹œì˜¤
 select first_name, e.job_id, job_title
 from hr.jobs j join hr.employees e
 on j.job_id = e.job_id
 and e.job_id like 'AD%'
 and job_title like '%t';
--- 16 ÀÔ»çÀÏÀÌ 2004³âµµ ÀÌÈÄÀÌ¸ç ÇöÀç Á÷¹«ÀÇ ÃÖÀú ¿¬ºÀÀÌ 4000 ÀÌ»óÀÎ Á÷¿øÀÇ
---     ÀÌ¸§, ¿¬ºÀ, ÃÖÀú¿¬ºÀ, ÀÔ»çÀÏ, ºÎ¼­¸í, ºÎ¼­ÀÇ ÁÖ¼Ò¸¦ Ãâ·ÂÇÏ½Ã¿À
+-- 16 ì…ì‚¬ì¼ì´ 2004ë…„ë„ ì´í›„ì´ë©° í˜„ì¬ ì§ë¬´ì˜ ìµœì € ì—°ë´‰ì´ 4000 ì´ìƒì¸ ì§ì›ì˜
+--     ì´ë¦„, ì—°ë´‰, ìµœì €ì—°ë´‰, ì…ì‚¬ì¼, ë¶€ì„œëª…, ë¶€ì„œì˜ ì£¼ì†Œë¥¼ ì¶œë ¥í•˜ì‹œì˜¤
 select first_name, salary, min_salary, hire_date, department_name, street_address
 from hr.jobs j, hr.employees e, hr.departments d, hr.locations l
 where j.job_id = e.job_id
@@ -107,97 +117,96 @@ and d.location_id = l.location_id
 and to_char(hire_date, 'yy/mm/dd') > '04%'
 and min_salary >= 4000
 order by hire_date;
-17 ANSI-JOINÀ» »ç¿ëÇØ¼­ »ç¿ø¹øÈ£, ÀÌ¸§, ºÎ¼­¹øÈ£, À§Ä¡¸¦ Ãâ·ÂÇÏ´Âµ¥ »ó»ç°¡ 149ÀÎ »ç¿øµé¸¸ Ãâ·ÂÇÏ½Ã¿À.
---     ÀÌ¸§, ¿¬ºÀ, ÃÖÀú¿¬ºÀ, ÀÔ»çÀÏ, ºÎ¼­¸í, ºÎ¼­ÀÇ ÁÖ¼Ò¸¦ Ãâ·ÂÇÏ½Ã¿À
+17 ANSI-JOINì„ ì‚¬ìš©í•´ì„œ ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ë¶€ì„œë²ˆí˜¸, ìœ„ì¹˜ë¥¼ ì¶œë ¥í•˜ëŠ”ë° ìƒì‚¬ê°€ 149ì¸ ì‚¬ì›ë“¤ë§Œ ì¶œë ¥í•˜ì‹œì˜¤.
+--     ì´ë¦„, ì—°ë´‰, ìµœì €ì—°ë´‰, ì…ì‚¬ì¼, ë¶€ì„œëª…, ë¶€ì„œì˜ ì£¼ì†Œë¥¼ ì¶œë ¥í•˜ì‹œì˜¤
 select employee_id, first_name, e.department_id, location_id
 from hr.employees e join hr.departments d
 on e.department_id = d.department_id 
 where e.manager_id = 149;
-18. Á÷¹«¿¡ 4¹øÂ°¿¡¼­ 6¹øÂ°±îÁö PRO°¡ ÀÖ´Ù¸é it_programÀ¸·Î Ãâ·Â
-                                 ACC°¡ ÀÖ´Ù¸é finance_account
-                                 ³ª¸ÓÁö´Â business·Î Ãâ·ÂÇÏ½Ã¿À.
+18. ì§ë¬´ì— 4ë²ˆì§¸ì—ì„œ 6ë²ˆì§¸ê¹Œì§€ PROê°€ ìˆë‹¤ë©´ it_programìœ¼ë¡œ ì¶œë ¥
+                                 ACCê°€ ìˆë‹¤ë©´ finance_account
+                                 ë‚˜ë¨¸ì§€ëŠ” businessë¡œ ì¶œë ¥í•˜ì‹œì˜¤.
 select case substr(job_id , 4,3) when 'PRO' then 'it_program'
                                  when 'ACC' then 'finance_account'
                                  else 'business' end job
 from hr.employees;
-19. Á÷¹«¿¡ REP°¡ Æ÷ÇÔµÇ¾î ÀÖ´Â »ç¿øµéÀÇ Æò±Õ ±Ş¿©¿Í ÃÖ¼Ò±Ş¿©
-      ÃÖ´ë±Ş¿© ±Ş¿©ÀÇ ÇÕ°è¸¦ ±¸ÇÏ½Ã¿À.
+19. ì§ë¬´ì— REPê°€ í¬í•¨ë˜ì–´ ìˆëŠ” ì‚¬ì›ë“¤ì˜ í‰ê·  ê¸‰ì—¬ì™€ ìµœì†Œê¸‰ì—¬
+      ìµœëŒ€ê¸‰ì—¬ ê¸‰ì—¬ì˜ í•©ê³„ë¥¼ êµ¬í•˜ì‹œì˜¤.
 select avg(salary), min(salary), max(salary), sum(salary)
 from hr.employees
 where job_id like '%REP%';
-20.  ºÎ¼­º° ÃÖ´ë ±Ş¿©°¡ 10000ÀÌ»óÀÎ ºÎ¼­¸¸ Ãâ·ÂÇÏ½Ã¿À.
+20.  ë¶€ì„œë³„ ìµœëŒ€ ê¸‰ì—¬ê°€ 10000ì´ìƒì¸ ë¶€ì„œë§Œ ì¶œë ¥í•˜ì‹œì˜¤.
 select department_id, max(salary)
 from hr.employees
 group by department_id
 having max(salary) >= 10000;
-21. Á÷¹«¿¡ 'SA'Æ÷ÇÔÇÏ°í ÀÖÁö ¾ÊÀº »ç¿øµéÁß Á÷¹«º° ±Ş¿©ÀÇ ÇÕ°è°¡ 
-10000À» ÃÊ°úÇÏ´Â Á÷¹«¿Í ±Ş¿©ÀÇ ÇÕ°è¸¦ Ãâ·ÂÇÏ½Ã¿À.
-¶ÇÇÑ ±Ş¿©ÀÇ ÇÕ°è¸¦ ³»¸²Â÷¼øÀ¸·Î Á¤·ÄÇÏ¿© Ãâ·Â
+21. ì§ë¬´ì— 'SA'í¬í•¨í•˜ê³  ìˆì§€ ì•Šì€ ì‚¬ì›ë“¤ì¤‘ ì§ë¬´ë³„ ê¸‰ì—¬ì˜ í•©ê³„ê°€ 
+10000ì„ ì´ˆê³¼í•˜ëŠ” ì§ë¬´ì™€ ê¸‰ì—¬ì˜ í•©ê³„ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.
+ë˜í•œ ê¸‰ì—¬ì˜ í•©ê³„ë¥¼ ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œ ì •ë ¬í•˜ì—¬ ì¶œë ¥
 select job_id, sum(salary)
 from hr.employees
 where job_id not like '%SA%'
 group by job_id
 having sum(salary) > 10000;
-22. ºÎ¼­°¡ 20ÀÌ°Å³ª 50ÀÎ ºÎ¼­ÀÇ »ç¿ø¹øÈ£¿Í ºÎ¼­¹øÈ£ ¹× ºÎ¼­¸í 
-±×¸®°í À§Ä¡Á¤º¸¸¦ Ãâ·ÂÇÏ½Ã¿À.
+22. ë¶€ì„œê°€ 20ì´ê±°ë‚˜ 50ì¸ ë¶€ì„œì˜ ì‚¬ì›ë²ˆí˜¸ì™€ ë¶€ì„œë²ˆí˜¸ ë° ë¶€ì„œëª… 
+ê·¸ë¦¬ê³  ìœ„ì¹˜ì •ë³´ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.
 select employee_id, d.department_id, d.department_name, location_id
 from hr.employees e, hr.departments d
 where e.department_id = d.department_id 
 and e.department_id in (20,50);
-23. Matos¶ó´Â ¼ºÀ» °¡Áö°í ÀÖ´Â »ç¿øÀÌ ÀÖ´Ù.
-ÀÌ »ç¿øÀÇ ºÎ¼­Á¤º¸¿Í »ç¿ø¹øÈ£ ±×¸®°í ¼ºÀ» Ãâ·ÂÇÏ½Ã¿À.
+23. Matosë¼ëŠ” ì„±ì„ ê°€ì§€ê³  ìˆëŠ” ì‚¬ì›ì´ ìˆë‹¤.
+ì´ ì‚¬ì›ì˜ ë¶€ì„œì •ë³´ì™€ ì‚¬ì›ë²ˆí˜¸ ê·¸ë¦¬ê³  ì„±ì„ ì¶œë ¥í•˜ì‹œì˜¤.
 select employee_id,last_name, e.department_id, department_name
 from hr.employees e, hr.departments d
 where e.department_id = d.department_id
 and last_name = 'Matos';
-24. Matos¶ó´Â ¼ºÀ» °¡Áö°í ÀÖ´Â »ç¿ø°ú King¶ó´Â ¼ºÀ» 
-      °¡Áø »ç¿øÀÌ ÀÖ´Ù.
-ÀÌ »ç¿øÀÇ ºÎ¼­Á¤º¸¿Í »ç¿ø¹øÈ£ ±×¸®°í ¼ºÀ» Ãâ·ÂÇÏ½Ã¿À.
+24. Matosë¼ëŠ” ì„±ì„ ê°€ì§€ê³  ìˆëŠ” ì‚¬ì›ê³¼ Kingë¼ëŠ” ì„±ì„ 
+      ê°€ì§„ ì‚¬ì›ì´ ìˆë‹¤.
+ì´ ì‚¬ì›ì˜ ë¶€ì„œì •ë³´ì™€ ì‚¬ì›ë²ˆí˜¸ ê·¸ë¦¬ê³  ì„±ì„ ì¶œë ¥í•˜ì‹œì˜¤.
 select employee_id,last_name, e.department_id, department_name
 from hr.employees e, hr.departments d
 where e.department_id = d.department_id
 and last_name in ('Matos','King');
-25. King¶ó´Â ¼ºÀ» °¡Áö°í ÀÖ´Â »ç¿øÀÌ ÀÖ´Ù.
-ÀÌ »ç¿øÀÇ ºÎ¼­Á¤º¸¿Í »ç¿ø¹øÈ£ ±×¸®°í ¼ºÀ» Ãâ·ÂÇÏ½Ã¿À.
+25. Kingë¼ëŠ” ì„±ì„ ê°€ì§€ê³  ìˆëŠ” ì‚¬ì›ì´ ìˆë‹¤.
+ì´ ì‚¬ì›ì˜ ë¶€ì„œì •ë³´ì™€ ì‚¬ì›ë²ˆí˜¸ ê·¸ë¦¬ê³  ì„±ì„ ì¶œë ¥í•˜ì‹œì˜¤.
 select employee_id,last_name, e.department_id, department_name
 from hr.employees e join hr.departments d
 on e.department_id = d.department_id
 where last_name = 'King';
-26. ºÎ¼­Å×ÀÌºí¿¡¼­ ºÎ¼­¹øÈ£¿Í ºÎ¼­¸í ±×¸®°í Áö¿ªÄÚµå¿Í 
-      Áö¿ª¸íÀ» Ãâ·ÂÇÏ´Âµ¥ Áö¿ªÄÚµå°¡ 1400ÀÎ Áö¿ª¸¸ Ãâ·Â
+26. ë¶€ì„œí…Œì´ë¸”ì—ì„œ ë¶€ì„œë²ˆí˜¸ì™€ ë¶€ì„œëª… ê·¸ë¦¬ê³  ì§€ì—­ì½”ë“œì™€ 
+      ì§€ì—­ëª…ì„ ì¶œë ¥í•˜ëŠ”ë° ì§€ì—­ì½”ë“œê°€ 1400ì¸ ì§€ì—­ë§Œ ì¶œë ¥
 select department_id , department_name, d.location_id, STREET_ADDRESS
 from hr.departments d join hr.locations l
 on d.location_id = l.location_id and d.location_id = 1400;
-27. Á÷¿øÀÇ Á¤º¸¸¦ Ãâ·ÂÇÒ ¶§ ºÎ¼­Á¤º¸¿Í ±× ºÎ¼­ÀÇ ÁÖ¼Ò¸¦ 
-      Ãâ·ÂÇÏ½Ã¿À.
+27. ì§ì›ì˜ ì •ë³´ë¥¼ ì¶œë ¥í•  ë•Œ ë¶€ì„œì •ë³´ì™€ ê·¸ ë¶€ì„œì˜ ì£¼ì†Œë¥¼ 
+      ì¶œë ¥í•˜ì‹œì˜¤.
 select employee_id, first_name , 
        d.department_id, department_name,
        l.location_id, STREET_ADDRESS
 from hr.employees e, hr.departments d, HR.locations l
 where e.department_id = d.department_id 
 and d.location_id = l.location_id;
-28. Á÷¿øÁ¤º¸¸¦ Ãâ·ÂÇÒ ¶§ ±× Á÷¿øÀÇ ºÎ¼­Á¤º¸¿Í ±× Á÷¿ø 
-      Á÷¹«³»¿ëÀ» Ãâ·ÂÇÏ½Ã¿À.
-      ºÎ¼­¹øÈ£, ºÎ¼­¸í, Á÷¹«¹øÈ£, Á÷¹«³»¿ë
+28. ì§ì›ì •ë³´ë¥¼ ì¶œë ¥í•  ë•Œ ê·¸ ì§ì›ì˜ ë¶€ì„œì •ë³´ì™€ ê·¸ ì§ì› 
+      ì§ë¬´ë‚´ìš©ì„ ì¶œë ¥í•˜ì‹œì˜¤.
+      ë¶€ì„œë²ˆí˜¸, ë¶€ì„œëª…, ì§ë¬´ë²ˆí˜¸, ì§ë¬´ë‚´ìš©
 select employee_id, first_name,  
        d.department_id, department_name,
        j.job_id, job_title
 from hr.jobs j , hr.employees e, hr.departments d 
 where j.job_id = e.job_id and e.department_id = d.department_id;
 
-29. »ç¿øÁ¤º¸¿Í ºÎ¼­Á¤º¸¸¦ Ãâ·ÂÇÒ ¶§ »ç¿øÀÌ ¾ø´Â ºÎ¼­µµ Ãâ·ÂÇÏµÇ
-200¹ø ºÎ¼­ºÎÅÍ 260ºÎ¼­¸¦ Á¦¿ÜÇÏ°í Ãâ·ÂÇÏ½Ã¿À.
+29. ì‚¬ì›ì •ë³´ì™€ ë¶€ì„œì •ë³´ë¥¼ ì¶œë ¥í•  ë•Œ ì‚¬ì›ì´ ì—†ëŠ” ë¶€ì„œë„ ì¶œë ¥í•˜ë˜
+200ë²ˆ ë¶€ì„œë¶€í„° 260ë¶€ì„œë¥¼ ì œì™¸í•˜ê³  ì¶œë ¥í•˜ì‹œì˜¤.
 select employee_id, first_name,
        d.department_id , department_name
 from hr.employees e right outer join hr.departments d
 on e.department_id = d.department_id
 where d.department_id not between 200 and 260;
 
-30. »ç¿øÁ¤º¸¿Í ºÎ¼­Á¤º¸¸¦ Ãâ·ÂÇÒ ¶§ »ç¿øÀÌ ¾ø´Â ºÎ¼­µµ Ãâ·ÂÇÏµÇ
-»ç¿ø¹øÈ£°¡ È¦¼öÀÎ °Í ¸¸ Ãâ·ÂÇÏ½Ã¿À.
+30. ì‚¬ì›ì •ë³´ì™€ ë¶€ì„œì •ë³´ë¥¼ ì¶œë ¥í•  ë•Œ ì‚¬ì›ì´ ì—†ëŠ” ë¶€ì„œë„ ì¶œë ¥í•˜ë˜
+ì‚¬ì›ë²ˆí˜¸ê°€ í™€ìˆ˜ì¸ ê²ƒ ë§Œ ì¶œë ¥í•˜ì‹œì˜¤.
 select employee_id, first_name,
        d.department_id , department_name
 from hr.employees e right outer join hr.departments d
 on e.department_id = d.department_id
 where mod(employee_id, 2) = 1; 
-
