@@ -105,12 +105,13 @@ create table employees_1(
     last_name varchar2(20),
     email varchar2(100),
     salary number default 0, --- -200
-    value1 number, -- 10
+    value1 integer not null,-- 10
     value2 number, -- 11
     city varchar2(20),-- '서울', '인천', '부산', '대구', '대전'
     gender char(1),
     constraint employee_id_PK primary key(employee_id),
     constraint salary_CK check(salary >= 0),
+    constraint ch_value1_CK check (value1 between 1 and 100),
     constraint value1_value2_CK check(value2 > value1),
     constraint city_CK check (city in ('서울', '인천', '부산', '대구', '대전') ),
     constraint gender_CK check (gender in ('M','F'))  
@@ -180,3 +181,74 @@ SELECT * FROM DEPARTMENTS;
 ALTER TABLE DEPARTMENTS
 ADD ( MANAGER_ID NUMBER(6),
       LOCATION_ID NUMBER(6) NOT NULL);
+
+---- alter : 테이블 정보를 변경할 때 사용
+/*
+• 새 열 추가
+• 기존 열 정의 수정
+• 새 열에 기본값 정의
+• 열 삭제
+• 열 이름 바꾸기
+• 제약 조건 추가
+• 제약 조건 삭제
+*/
+DESC DEPARTMENTS;
+SELECT * FROM DEPARTMENTS;
+INSERT INTO DEPARTMENTS
+VALUES(100, '영업부', 170, 1700);
+
+
+ALTER TABLE DEPARTMENTS
+MODIFY (DEPARTMENT_NAME DATE);
+--- "column to be modified must be empty to change datatype"
+ALTER TABLE DEPARTMENTS
+MODIFY (MANAGER_ID VARCHAR2(20));
+--- "column to be modified must be empty to change datatype
+ALTER TABLE DEPARTMENTS
+MODIFY (MANAGER_ID NUMBER(9, 3));
+ALTER TABLE DEPARTMENTS
+MODIFY (DEPARTMENT_NAME VARCHAR2(1000));
+--- Table DEPARTMENTS이(가) 변경되었습니다.
+DESC DEPARTMENTS;
+DROP TABLE DEPARTMENTS;
+CREATE TABLE DEPARTMENTS(
+    DEPARTMENT_ID NUMBER(4),
+    DEPARTMENT_NAME VARCHAR2(100),
+    MANAGER_ID NUMBER(6),
+    LOCATION_ID NUMBER(4)
+);
+ALTER TABLE DEPARTMENTS
+MODIFY(DEPARTMENT_NAME NUMBER);
+
+DROP TABLE DEPARTMENTS;
+CREATE TABLE DEPARTMENTS(
+    DEPARTMENT_ID NUMBER(4),
+    DEPARTMENT_NAME VARCHAR2(100),
+    MANAGER_ID NUMBER(6)
+);
+ALTER TABLE DEPARTMENTS
+ADD ( LOC_ID  NUMBER(6) DEFAULT 1700);
+
+INSERT INTO DEPARTMENTS(DEPARTMENT_ID, DEPARTMENT_NAME, MANAGER_ID)
+VALUES(100, '영업부', 170);
+SELECT * FROM DEPARTMENTS;
+
+ALTER TABLE DEPARTMENTS
+MODIFY MANAGER_ID  DEFAULT 170;
+
+INSERT INTO DEPARTMENTS(DEPARTMENT_ID, DEPARTMENT_NAME)
+VALUES(200, '영업부');
+SELECT * FROM DEPARTMENTS;
+
+ALTER TABLE DEPARTMENTS
+RENAME COLUMN  LOC_ID TO LOCATION_ID;
+
+ALTER TABLE DEPARTMENTS
+DROP COLUMN LOCATION_ID;
+/*
+ALTER TABLE TABLE명 
+ADD
+MODIFY
+DROP
+RENAME 
+*/
