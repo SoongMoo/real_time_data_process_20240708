@@ -1,0 +1,93 @@
+create table member(
+    member_num number ,
+    member_name VARCHAR2(50),
+    member_id VARCHAR2(50),
+    constraint member_num_PK primary key(member_num)
+);
+create table board(
+    board_num number,
+    board_writer varchar2(100),
+    board_subject VARCHAR2(100),
+    board_content varchar2(2000),
+    member_num number ,
+    constraint board_num_PK primary key(board_num),
+    constraint member_num_FK foreign key(member_num) 
+    REFERENCES member(member_num)
+);
+insert into member(member_num, member_name, member_id)
+values(1, '숭무', 'high');
+insert into board (board_num, board_writer, board_subject, board_content 
+                 , member_num)
+values(10, '글쓴이', '제목', '내용',1 );
+insert into board (board_num, board_writer, board_subject, board_content 
+                 , member_num)
+values(20, '글쓴이', '제목', '내용',1 );
+select * from board;
+-- 부모 데이터 삭제 안됨.
+delete from member 
+where member_num = 1;
+-----
+delete from board
+where member_num = 1;
+select * from board where member_num = 1;
+delete from member 
+where member_num = 1;
+select * from member;
+--------
+drop table board;
+create table board(
+    board_num number,
+    board_writer varchar2(100),
+    board_subject VARCHAR2(100),
+    board_content varchar2(2000),
+    member_num number ,
+    constraint board_num_PK primary key(board_num),
+    constraint member_num_FK foreign key(member_num) 
+    REFERENCES member(member_num) on delete CASCADE
+);
+--- member
+insert into member(member_num, member_name, member_id)
+values(1, '숭무', 'high');
+select * from member;
+-- board
+insert into board (board_num, board_writer, board_subject, board_content 
+                 , member_num)
+values(10, '글쓴이', '제목', '내용',1 );
+insert into board (board_num, board_writer, board_subject, board_content 
+                 , member_num)
+values(20, '글쓴이', '제목', '내용',1 );
+select * from board;
+
+delete from  member
+where member_num = 1; 
+select * from board;
+select * from member;
+-------------------------------------------------------------
+drop table board;
+create table board(
+    board_num number,
+    board_writer varchar2(100),
+    board_subject VARCHAR2(100),
+    board_content varchar2(2000),
+    member_num number ,
+    constraint board_num_PK primary key(board_num),
+    constraint member_num_FK foreign key(member_num) 
+    REFERENCES member(member_num) on delete set null
+);
+--- member
+insert into member(member_num, member_name, member_id)
+values(1, '숭무', 'high');
+select * from member;
+-- board
+insert into board (board_num, board_writer, board_subject, board_content 
+                 , member_num)
+values(10, '글쓴이', '제목', '내용',1 );
+insert into board (board_num, board_writer, board_subject, board_content 
+                 , member_num)
+values(20, '글쓴이', '제목', '내용',1 );
+select * from board;
+---- 
+delete from member
+where member_num = 1;
+select * from member;
+select * from board;
