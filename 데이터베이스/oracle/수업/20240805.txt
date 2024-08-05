@@ -4,18 +4,21 @@ create table member(
     member_id VARCHAR2(50),
     constraint member_num_PK primary key(member_num)
 );
+drop table board;
 create table board(
     board_num number,
     board_writer varchar2(100),
     board_subject VARCHAR2(100),
     board_content varchar2(2000),
-    member_num number ,
+    member_num number,
     constraint board_num_PK primary key(board_num),
     constraint member_num_FK foreign key(member_num) 
     REFERENCES member(member_num)
 );
+--- member
 insert into member(member_num, member_name, member_id)
 values(1, '숭무', 'high');
+-- board
 insert into board (board_num, board_writer, board_subject, board_content 
                  , member_num)
 values(10, '글쓴이', '제목', '내용',1 );
@@ -25,7 +28,7 @@ values(20, '글쓴이', '제목', '내용',1 );
 select * from board;
 -- 부모 데이터 삭제 안됨.
 delete from member 
-where member_num = 1;
+where member_num = 1;  --- child record found
 -----
 delete from board
 where member_num = 1;
@@ -35,7 +38,7 @@ where member_num = 1;
 select * from member;
 --------
 drop table board;
-create table board(
+create table board( -- 자식테이블
     board_num number,
     board_writer varchar2(100),
     board_subject VARCHAR2(100),
@@ -91,3 +94,89 @@ delete from member
 where member_num = 1;
 select * from member;
 select * from board;
+
+-----------not null, primary key, foreign key, unique
+
+---- ckeck constraint
+drop table employees_1;
+create table employees_1(
+    employee_id number(6),
+    first_name varchar2(30),
+    last_name varchar2(20),
+    email varchar2(100),
+    salary number default 0, --- -200
+    value1 number, -- 10
+    value2 number, -- 11
+    city varchar2(20),-- '서울', '인천', '부산', '대구', '대전'
+    gender char(1),
+    constraint employee_id_PK primary key(employee_id),
+    constraint salary_CK check(salary >= 0),
+    constraint value1_value2_CK check(value2 > value1),
+    constraint city_CK check (city in ('서울', '인천', '부산', '대구', '대전') ),
+    constraint gender_CK check (gender in ('M','F'))  
+);
+insert into employees_1(employee_id, first_name, last_name, email
+                    ,salary)
+values(1, '숭무','이', 'high', 10);
+select * from employees_1;
+insert into employees_1(employee_id, first_name, last_name, email
+                    ,salary, value1,  value2)
+values(2, '숭무','이', 'high', 10 , 10, 11);
+select * from employees_1;
+insert into employees_1(employee_id, first_name, last_name, email
+                    ,salary, value1,  value2, city)
+values(3, '숭무','이', 'high', 10 , 10, 11, '대구');
+select * from employees_1;
+insert into employees_1(employee_id, first_name, last_name, email
+                    ,salary, value1,  value2, city, gender)
+values(4, '숭무','이', 'high', 10 , 10, 11, '대구', 'M');
+select * from employees_1;
+
+drop table dept;
+create table dept   --- 다른 테이블 복사하기
+(deptno, deptname,  mngid , locid)
+as
+select * from hr.departments;
+
+select * from dept;
+
+drop table employees;
+create table employees  --- 다른 테이블 복사하기
+as
+select * from hr.employees;  --- 서브쿼리
+select * from employees;
+-----------
+drop table departments;
+desc hr.departments;
+create table departments(
+    department_id number(4) not null,
+    department_name varchar2(30),
+    manager_id number(6)
+);
+insert into departments (department_id,department_name, manager_id)
+values(100, '영업부', 200);
+select * from departments;
+
+alter table departments
+add (location_id NUMBER(4));
+select * from departments;
+
+drop table departments;
+create table departments(
+    department_id number(4) not null,
+    department_name varchar2(30),
+    manager_id number(6)
+);
+SELECT * FROM DEPARTMENTS;
+ALTER TABLE DEPARTMENTS
+ADD (LOCATION_ID NUMBER(6) NOT NULL);
+
+drop table departments;
+create table departments(
+    department_id number(4) not null,
+    department_name varchar2(30)
+);
+SELECT * FROM DEPARTMENTS;
+ALTER TABLE DEPARTMENTS
+ADD ( MANAGER_ID NUMBER(6),
+      LOCATION_ID NUMBER(6) NOT NULL);
