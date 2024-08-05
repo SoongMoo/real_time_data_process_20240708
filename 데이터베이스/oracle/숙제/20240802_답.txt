@@ -91,6 +91,7 @@ from hr.departments d join hr.locations l
 on d.location_id = l.location_id join hr.countries c
 on l.country_id = c.country_id
 and manager_id is null;
+
 -- 13 도시명이 o로 끝나는 도시의 지역코드가 2 이하인 도시명, 국가명
 --- , 대륙번호, 대륙명을 출력하시오
 select location_id , city
