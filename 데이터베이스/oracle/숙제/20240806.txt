@@ -13,6 +13,7 @@ USER_REGIST          		TIMESTAMP
 USER_EMAIL           		VARCHAR2(200) 
 JOIN_OK              			VARCHAR2(500)
 
+회원 제약조건
 USER_ID     : primary key (MEMBER_USER_ID_PK)
 USER_EMAIL : unique (member_USER_EMAIL_UU)
 USER_REGIST  : 디펄트 값은 sysdate
@@ -30,6 +31,7 @@ BOARD_DATE             		TIMESTAMP
 IP_ADDR                		VARCHAR2(15)   
 READ_COUNT             		NUMBER      
 
+게시판 제약조건 
 BOARD_NUM : primary key (BOARD_BOARD_NUM_PK)
 READ_COUNT ; 디펄트 값은 0
 USER_ID : FOREIGN KEY (BOARD_USER_ID_FK)
