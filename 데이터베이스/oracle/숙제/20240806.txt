@@ -44,7 +44,7 @@ values('highland0','111111','이숭무','1999-12-12','1','서울','010-1234-1234
 문제4)게시판 테이블에 데이터를 아래 내용 포함 6개 이상을 넣는데 위 회원들은 최소 한개 이상 게시글이 등록되게 하시오.
 BOARD_NUM은 입력하지 않고 자동부여가 되게 작성하시오. 
 insert into board(BOARD_NUM,USER_ID,BOARD_NAME,BOARD_PASS,BOARD_SUBJECT,BOARD_CONTENT,IP_ADDR)
-values(1, 'highland0', '상장범 아빠', '1111','제목', '내용', '192.168.3.117');
+values( BOARD_NUM 자동부여 , 'highland0', '상장범 아빠', '1111','제목', '내용', '192.168.3.117');
 
 문제5) highland0회원의 회원아이디, 회원명, 이메일, 게시글 번호, 게시글 제목, READ_COUNT를 출력하시오.
 문제6) 게시글을 읽으면 READ_COUNT가 1씩 증가 할 것이다. 
