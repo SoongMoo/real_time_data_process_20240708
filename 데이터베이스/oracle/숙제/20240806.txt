@@ -15,10 +15,9 @@ USER_EMAIL           		VARCHAR2(200)
 JOIN_OK              			VARCHAR2(500)
 
 회원 제약조건
-user_num     : primary key (MEMBER_USER_ID_PK)
+user_num     : primary key (MEMBER_user_num_PK)
 USER_EMAIL : unique (member_USER_EMAIL_UU)
 USER_ID : unique (member_USER_ID_UU)
-USER_EMAIL : unique (member_USER_EMAIL_UU)
 USER_REGIST  : 디펄트 값은 sysdate
 USER_GENDER : M/F만 들어가야한다.
 USER_PH1  : 11에서 13자리만 들어가야 한다.
