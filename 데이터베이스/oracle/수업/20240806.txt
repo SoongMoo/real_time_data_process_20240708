@@ -1,0 +1,456 @@
+-- dml : insert , select , update, delete : crud : 데이터
+-- ddl : create, alter, drop :  스키마 : 테이블, 뷰, index : object 
+-- tcl : commit, rollback, savepoint
+
+--  view
+drop table departments;
+create table departments
+as
+select * from hr.departments;
+
+drop table employees;
+create table employees
+as
+select * from hr.employees;
+--- 사번, 이름, 직무, 급여, 입사일 , 커미션을 포함한 연봉
+--- (year_sal : 연봉은 null이될수 없음) 을 출력할 때
+--  직무에 'REP'가 포함된 사원들만 출력하시오.
+select employee_id,first_name, job_id, salary
+      , salary * (1 + nvl(commission_pct, 0)) * 12 year_sal
+from employees
+where job_id like '%REP%';
+
+create view rep_view
+as
+select employee_id,first_name, job_id, salary
+      , salary * (1 + nvl(commission_pct, 0)) * 12 year_sal
+from employees
+where job_id like '%REP%';
+
+select * from rep_view;
+drop view rep_view;
+create view rep_view
+as
+select employee_id,first_name, job_id, salary, department_id
+      , salary * (1 + nvl(commission_pct, 0)) * 12 year_sal
+from employees
+where job_id like '%REP%';
+select * from rep_view;
+
+create or REPLACE view rep_view
+as 
+select employee_id,first_name, job_id, salary, department_id
+      , salary * (1 + nvl(commission_pct, 0)) * 12 year_sal
+from employees
+where job_id like '%REP%';
+--- alter명령을 사용하지 못하므로 뷰를 수정하진 못하므로 
+--- create or REPLACE 를 사용한다.
+select * from rep_view;
+
+create or REPLACE view vw_80
+as
+select * from employees
+where department_id = 80; 
+
+select * from vw_80;   --은닉 가능하다.
+
+create or REPLACE view vw_emp
+as
+select employee_id, first_name, last_name, job_id, department_id
+from employees;
+
+select * from employees;
+select * from vw_emp; -- 은닉
+
+create or REPLACE view vw_emp
+as
+select employee_id eid, first_name fname, last_name lname
+    , job_id jid, department_id did
+from employees;
+
+select * from vw_emp; 
+
+create or REPLACE view vw_emp
+(eid , fname, lname, jid, did)
+as
+select employee_id , first_name , last_name 
+    , job_id , department_id 
+from employees;
+
+select * from vw_emp; 
+
+--- 각 부서의 급여의 합계, 최소 급여, 최대 급여, 급여의 평균, 부서의 사원수를 출력하시오.
+select department_id,sum(salary), min(salary), max(salary) , avg(salary), count(*)
+from employees
+group by department_id;
+
+create or REPLACE view vw_grp
+as
+select department_id,sum(salary) ssal, min(salary) min_sal
+     , max(salary) max_sal , avg(salary) avg_sal, count(*) cnt
+from employees
+group by department_id;
+
+select * from vw_grp;
+
+create or REPLACE view vw_80
+as 
+select * from employees
+where department_id = 80;
+
+select * from vw_80;
+
+insert into vw_80
+values(210, '숭무', '이', 'high', '010-1234-1231', sysdate, 'PR_REP'
+      , 19000, null, null, 110); --- 보이지 않아도 insert는 가능하다.
+select * from vw_80;
+select * from employees;
+
+delete from vw_80      --- 보이는 것만 삭제를 할 수 있다.
+where employee_id = 210;
+
+delete from vw_80     --- 뷰를 통해서 보이는 것은 뷰를 이용해서 삭제 할 수 있다.
+where employee_id = 149;
+
+---- 부서가 50인 사원의 사원번호, 성, 이메일, 입사일, 직무가 보이는 뷰를 만드세요.
+--- 뷰명은 emp50vw이다.
+create or REPLACE view emp50vw
+as
+select employee_id, last_name, email, hire_date, job_id
+from employees
+where department_id = 50;
+
+select * from emp50vw;
+insert into emp50vw  --- too many values
+values(300, '장', 'jang', sysdate, 'ST_MAN', 100);
+
+insert into emp50vw --- 뷰를 통해서는 보이는 컬럼에만 값을 입력 할 수 있다,
+values(300, '장', 'jang', sysdate, 'ST_MAN');
+
+update emp50vw
+set salary = 300 --- invalid identifier"
+where department_id = 50;
+
+select * from emp50vw;
+
+update emp50vw
+set email = 'RHEE'
+where employee_id = 120;
+select * from emp50vw where employee_id = 120;
+select * from employees where employee_id = 120;
+
+update emp50vw
+set email = 'RHEE'
+where employee_id = 205; --- 보여지는 데이터에 대해서만 update와 delete가 가능하다.
+-- insert는 뷰를 통해 보여지지 않는 데이터도 저장이 가능하다. -- 테이블에서 확인
+
+select * from employees;
+
+------ 부서번호, 부서명, 사번, 이름, 급여 출력
+select employee_id, first_name, salary
+      ,d.department_id, department_name
+from employees e join departments d
+on e.department_id = d.department_id;
+
+create or REPLACE view dep_emp_vw
+as
+select employee_id, first_name, salary
+      ,d.department_id, department_name
+from employees e join departments d   --- 복합 뷰
+on e.department_id = d.department_id;
+select * from dep_emp_vw;
+update dep_emp_vw
+set salary = 100
+where employee_id = 100;
+
+create table viewupd1(
+    c1 number,   -- 1
+    c2 int       -- 1
+);
+create table viewupd2(
+    c1 number,   -- 1
+    c3 number    ---1
+);
+insert into viewupd1 values(1,1);
+insert into viewupd2 values(1,1);
+select  v1.c1, c2, c3
+from viewupd1 v1 join viewupd2 v2
+on v1.c1 = v2.c1;
+
+create view v_viewupd
+as 
+select  v1.c1, c2, c3
+from viewupd1 v1 join viewupd2 v2 -- 복합 뷰
+on v1.c1 = v2.c1;
+select * from v_viewupd;
+
+update v_viewupd
+set c2= 10, c3 = 20 --- 동시에 두개 이상의 테이블을 수정 할 수 없다.
+where c1 = 1;
+
+--- 18c이하에서는 적용 안됨.
+update v_viewupd
+set c2 = 10    --- 복합뷰도 하나의 테이블만 수정을 하는 경우에는 수정이 된다.
+where c1 = 1;
+
+create or REPLACE view empvu10
+as
+select employee_id, last_name, email, hire_date, job_id, department_id
+from employees
+where department_id = 10;
+
+select * FROM empvu10;
+
+insert into empvu10 
+values(300, '이', 'high', sysdate , 'AD_ASST', 10);
+select * FROM empvu10;
+
+--- 읽기 전용
+create or REPLACE view empvu10
+as
+select employee_id, last_name, email, hire_date, job_id, department_id
+from employees
+where department_id = 10
+with read only; --- select만 가능 한 뷰
+insert into empvu10 
+values(300, '이', 'high', sysdate , 'AD_ASST', 10);
+
+--- 뷰에 보이는 것만 DML을 할 수 있게 하자.
+create or REPLACE view empvu10
+as
+select employee_id, last_name, email, hire_date, job_id, department_id
+from employees
+where department_id = 10
+with check option;
+
+insert into empvu10 
+values(300, '이', 'high', sysdate , 'AD_ASST', 10);
+
+select * from empvu10;
+
+insert into empvu10 
+values(300, '이', 'high', sysdate , 'AD_ASST', 20);
+--- view WITH CHECK OPTION where-clause violation
+create or REPLACE view empvu10
+as
+select employee_id, last_name, email, hire_date, job_id, department_id
+from employees
+where department_id = 10
+with check option CONSTRAINT empvu30_ck;
+
+drop view empvu10;
+
+------ 시퀀스
+create table goods(
+    goods_num varchar2(10),
+    goods_name varchar2(100),
+    goods_price number
+);
+insert into  goods (goods_num, goods_name, goods_price)
+values('miso_100000', '청바지' , 1000);
+--- value too large for column
+insert into  goods (goods_num, goods_name, goods_price)
+values('miso_10000', '청바지' , 1000);
+insert into  goods (goods_num, goods_name, goods_price)
+values('miso_10001', '냉장고' , 2000);
+
+select * from goods;
+
+insert into member
+values(10, '이숭무','high');
+
+insert into board
+values(1 ,'글쓴이', '제목', '내용',  0, 10);
+insert into board
+values((select max(board_num) + 1 from board)
+       ,'글쓴이', '제목', '내용',  0, 10);
+select * from board;
+
+create SEQUENCE seq_num
+increment by 10
+start with 10
+maxvalue 9990
+NOCYCLE
+NOCACHE;
+
+create SEQUENCE seq_num
+start with 10;
+
+select seq_num.nextval
+from dual;
+
+select seq_num.currval
+from dual;
+
+insert into board
+values(seq_num.nextval  ,'글쓴이', '제목', '내용',  0, 10);
+select * from board;
+
+
+insert into  goods (goods_num, goods_name, goods_price)
+values(concat('miso_' , 10000 + seq_num.nextval), '냉장고' , 2000);
+
+select * from goods;
+select * from board;
+
+
+
+create SEQUENCE seq_num
+increment by 10
+start with 10
+maxvalue 9990
+NOCYCLE
+NOCACHE;
+
+create SEQUENCE seq_num
+start with 10;
+
+create SEQUENCE seq_num;
+desc board;
+drop table board;
+create table board(
+BOARD_NUM     NUMBER GENERATED ALWAYS  as IDENTITY(start with 1 increment by 1) ,       
+BOARD_WRITER           VARCHAR2(30)  , 
+BOARD_SUBJECT          VARCHAR2(100)  ,
+BOARD_CONTENT          VARCHAR2(2000) ,
+READ_COUNT             NUMBER    
+);
+insert into board(BOARD_NUM, BOARD_WRITER, BOARD_SUBJECT, BOARD_CONTENT
+                 , READ_COUNT)
+values(1,'글쓴이', '제목', '내용',  0); --오류 발생
+
+insert into board(BOARD_WRITER, BOARD_SUBJECT, BOARD_CONTENT
+                 , READ_COUNT)
+values('글쓴이', '제목', '내용',  0);
+select * from board;
+
+
+select  jh.JOB_ID, START_DATE, END_DATE
+        ,first_name, e.employee_id, salary
+from hr.employees e left  join hr.job_history jh
+on e.employee_id = jh.employee_id;
+
+create SEQUENCE seq_num;
+
+alter SEQUENCE seq_num
+INCREMENT BY 1
+maxvalue 9999999;
+
+drop SEQUENCE seq_num;
+
+select seq_num.currval, seq_num.nextval
+from dual;
+
+
+delete from goods;
+create table goods(
+    goods_num varchar2(10),
+    goods_name varchar2(100),
+    goods_price number
+);
+-- goods_num을 10001부터 1씩 증가 하는 값을 부여 해주면서 상품 정보를 입력하고 싶다.
+-- SEQUENCE는 사용하지 않는다.
+-- miso_10001 => miso_10002 => ... => 자동으로 증가 해야 한다.
+-- goods_num값을 출력하시오. goods_num의 처음은 miso_10001이다.
+select concat('miso_' , nvl(max(substr(goods_num, 6)), 10000) + 1) from goods;
+-- miso_10001
+select goods_num from goods;
+
+insert into  goods (goods_num, goods_name, goods_price)
+values(
+(select concat('miso_' , nvl(max(substr(goods_num, 6)), 10000) + 1) from goods)
+, '냉장고' , 2000);
+
+select * from goods;
+
+-- index
+create index idx_did
+on departments(department_id);
+
+select * from departments
+where department_id = 90;
+
+
+
+---- 사원번호, 이름, 급여, 직무, 부서를 출력할 때 직무에 'REP'가 포함된 사원들만 출력
+select employee_id, first_name, salary , job_id, department_id
+from employees
+where job_id like '%REP%';
+
+create index emp_hob_idx
+on employees(job_id); 
+
+--- 이름의 앞에서 두글자가 'Oc'인 직원을 출력하시오.
+select * from employees
+where substr(first_name, 1, 2) = 'Oc';
+
+create index sub_idx 
+on employees(substr(first_name, 1, 2)); -- 함수 기반의 index
+
+--- 각부서의 급여의 평균이 10000인 부서와 평균급여를 출력하시오.
+select department_id , avg(salary)
+from employees
+group by department_id
+having  avg(salary) = 10000;
+
+create index avgsal
+on employees(avg(salary)); --- group 함수는 index만들 수 없다
+
+drop index sub_idx;
+
+select * from user_indexes where table_name='EMPLOYEES';
+
+-- 각 부서의 최대 급여에 해당하는 사원 정보인 
+--- 이름, 급여,직무, 입사일, 최대급여, 부서를 출력하시오.
+select first_name, salary, job_id, hire_date, department_id
+from employees;
+
+select department_id, max(salary)
+from employees
+group by department_id;
+
+select first_name, salary, job_id, hire_date, e2.department_id , min_sal
+from employees e1 join (select department_id, max(salary) min_sal
+                        from employees           --- inline view
+                        group by department_id) e2
+on e1.department_id = e2.department_id;
+
+--- 사번, 이름 , 급여, 부서, 각 부서의 평균급여를 출력 할 때 평균 
+--- 급여보다 많이 받는 사원들을 출력
+select department_id , avg(salary)
+from employees
+group by  department_id;
+
+select employee_id, first_name, salary, avg_sal
+from  employees e1 join (select department_id , avg(salary) avg_sal
+                        from employees
+                        group by  department_id) e2
+on e1.department_id = e2.department_id
+where salary >= avg_sal;
+
+---- 지역번호(location_id)가  1700에 해당하는 부서의 부서명과
+--- 그 부서에서 근무하는 사원의 사원번호, 이름, 급여를  출력하시오.
+select employee_id , first_name, salary
+     , d.department_id, department_name
+from employees e join departments d
+on e.department_id = d.department_id
+where location_id = 1700;
+
+select employee_id , first_name, salary
+     , d.department_id, department_name
+from employees e join (select department_id, department_name
+                       from departments
+                       where location_id = 1700) d
+on e.department_id = d.department_id;
+
+--- 사원의 사원번호, 이름, 급여를 80인 부서의 사원만 가지고 오시오.
+select employee_id, first_name, salary
+from employees
+where department_id = 80;
+
+select * 
+from (select employee_id, first_name, salary -- inline view
+        from employees
+        where department_id = 80);
+
+---- 기본 쿼리
