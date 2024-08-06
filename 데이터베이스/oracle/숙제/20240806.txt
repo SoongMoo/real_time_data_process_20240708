@@ -9,7 +9,7 @@ USER_BIRTH  	NOT NULL 	TIMESTAMP
 USER_GENDER 	NOT NULL 	VARCHAR2(1)   
 USER_ADDR   	NOT NULL 	VARCHAR2(200) 
 USER_PH1    	NOT NULL 	VARCHAR2(13)  
-USER_PH2             			VARCHAR2(13)  
+USER_PH2             		VARCHAR2(13)  
 USER_REGIST          		TIMESTAMP  
 USER_EMAIL           		VARCHAR2(200) 
 JOIN_OK              			VARCHAR2(500)
@@ -18,13 +18,15 @@ JOIN_OK              			VARCHAR2(500)
 user_num     : primary key (MEMBER_USER_ID_PK)
 USER_EMAIL : unique (member_USER_EMAIL_UU)
 USER_ID : unique (member_USER_ID_UU)
+USER_EMAIL : unique (member_USER_EMAIL_UU)
 USER_REGIST  : 디펄트 값은 sysdate
-
+USER_GENDER : M/F만 들어가야한다.
+USER_PH1  : 11에서 13자리만 들어가야 한다.
 문제2) 게시판 테이블을 만들고 각 컬럼에 제약조건을 부여 하시오.제약 조건은 alter문을 이용할것 , 열레벨과 테이블 레벨 둘다 실습해 보세요.
 Table BOARD
 ====================================
 BOARD_NUM     	NOT NULL 	NUMBER         
-USER_ID       	NOT NULL 	VARCHAR2(20)   
+USER_num       	NOT NULL 	VARCHAR2(20)   
 BOARD_NAME    	NOT NULL 	VARCHAR2(20)    --- 글 쓴이 
 BOARD_PASS    	NOT NULL 	VARCHAR2(200)  
 BOARD_SUBJECT 	NOT NULL 	VARCHAR2(100)  -- 제목
@@ -36,7 +38,7 @@ READ_COUNT             		NUMBER
 게시판 제약조건 
 BOARD_NUM : primary key (BOARD_BOARD_NUM_PK)
 READ_COUNT ; 디펄트 값은 0
-USER_ID : FOREIGN KEY (BOARD_USER_ID_FK)
+USER_num : FOREIGN KEY (BOARD_USER_ID_FK)
 
 
 문제 3) 회원테이블에 아래 내용을 포함하여 5개의 데이터를 넣으시오.
