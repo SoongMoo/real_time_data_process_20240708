@@ -1,6 +1,7 @@
 문제 1) 회원 테이블을 만드시오. 각 컬럼에 제약 조건을 부여 하시오. 제약 조건은 alter문을 이용할것 , 열레벨과 테이블 레벨 둘다 실습해 보세요.
 Table MEMBER
 ================================
+user_num          not null          VARCHAR2(20)  
 USER_ID     	NOT NULL 	VARCHAR2(20)  
 USER_PW     	NOT NULL 	VARCHAR2(200) 
 USER_NAME   	NOT NULL 	VARCHAR2(40)  
@@ -14,8 +15,9 @@ USER_EMAIL           		VARCHAR2(200)
 JOIN_OK              			VARCHAR2(500)
 
 회원 제약조건
-USER_ID     : primary key (MEMBER_USER_ID_PK)
+user_num     : primary key (MEMBER_USER_ID_PK)
 USER_EMAIL : unique (member_USER_EMAIL_UU)
+USER_ID : unique (member_USER_ID_UU)
 USER_REGIST  : 디펄트 값은 sysdate
 
 문제2) 게시판 테이블을 만들고 각 컬럼에 제약조건을 부여 하시오.제약 조건은 alter문을 이용할것 , 열레벨과 테이블 레벨 둘다 실습해 보세요.
@@ -38,8 +40,9 @@ USER_ID : FOREIGN KEY (BOARD_USER_ID_FK)
 
 
 문제 3) 회원테이블에 아래 내용을 포함하여 5개의 데이터를 넣으시오.
-insert into member (user_id,USER_PW,USER_NAME,USER_BIRTH,USER_GENDER,USER_ADDR ,USER_PH1,USER_PH2,USER_REGIST,USER_EMAIL)
-values('highland0','111111','이숭무','1999-12-12','1','서울','010-1234-1234',null,default,null);
+회원번호는 mem_100001부터 부여된다.
+insert into member (USER_num, user_id,USER_PW,USER_NAME,USER_BIRTH,USER_GENDER,USER_ADDR ,USER_PH1,USER_PH2,USER_REGIST,USER_EMAIL)
+values(USER_num 자동부여, 'highland0','111111','이숭무','1999-12-12','1','서울','010-1234-1234',null,default,null);
 
 문제4)게시판 테이블에 데이터를 아래 내용 포함 6개 이상을 넣는데 위 회원들은 최소 한개 이상 게시글이 등록되게 하시오.
 BOARD_NUM은 입력하지 않고 자동부여가 되게 작성하시오. 
