@@ -1,0 +1,282 @@
+-- 사번, 이름 , 급여, 직무, 입사일, 이메일 , 부서번호를 출력
+SELECT EMPLOYEE_ID, FIRST_NAME , SALARY, HIRE_DATE, EMAIL, DEPARTMENT_ID
+FROM EMPLOYEES;
+--- 뷰
+CREATE VIEW VW_EMP
+AS
+SELECT EMPLOYEE_ID, FIRST_NAME , SALARY, HIRE_DATE, EMAIL, DEPARTMENT_ID
+FROM EMPLOYEES;
+
+-- INLINE VIEW
+SELECT * 
+FROM (SELECT EMPLOYEE_ID, FIRST_NAME , SALARY, HIRE_DATE, EMAIL, DEPARTMENT_ID
+FROM EMPLOYEES);
+
+--- 부서별 최소급여에 해당하는 사원의 사번, 이름 , 급여, 직무
+--  입사일, 이메일 , 부서번호를 출력
+SELECT DEPARTMENT_ID, MIN(SALARY)
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID;
+
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY, JOB_ID, HIRE_DATE, EMAIL
+      ,E.DEPARTMENT_ID , MIN_SAL
+FROM EMPLOYEES E JOIN (SELECT DEPARTMENT_ID, MIN(SALARY) MIN_SAL
+                        FROM EMPLOYEES
+                        GROUP BY DEPARTMENT_ID) D
+ON E.DEPARTMENT_ID = D.DEPARTMENT_ID 
+WHERE E.SALARY = D.MIN_SAL
+ORDER BY DEPARTMENT_ID;
+
+--- 각 부서에서 평균급여보다 많이 받는 사원의 사번, 이름 , 급여, 직무
+--  입사일, 이메일 , 부서번호를 출력하시오.
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY, JOB_ID, HIRE_DATE, EMAIL
+      ,E.DEPARTMENT_ID , avg_SAL
+FROM EMPLOYEES E join (select department_id, avg(salary) avg_SAL
+                       from employees
+                       group by department_id) d
+on E.DEPARTMENT_ID = d.DEPARTMENT_ID
+where salary >= avg_SAL;
+
+--- 각 직무에서 최소 급여를 받는 사원의 사번, 이름 , 급여, 직무
+--  입사일, 이메일 , 부서번호를 출력하시오.
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY, e.JOB_ID, HIRE_DATE, EMAIL
+      ,DEPARTMENT_ID , min_sal
+FROM EMPLOYEES e join (select job_id , min(salary) min_sal
+                       from employees
+                       group by job_id) d
+on e.job_id = d.job_id and SALARY = min_sal
+order by job_id;
+
+---- 다중 insert : 멀티 insert
+create table employees1(
+    EMPLOYEE_ID NUMBER(6),
+     FIRST_NAME VARCHAR2(20),
+    LAST_NAME VARCHAR2(25)
+);
+create table employees2(
+    EMPLOYEE_ID NUMBER(6),
+    HIRE_DATE DATE,
+    JOB_ID varchar2(100)
+);
+select EMPLOYEE_ID,FIRST_NAME,LAST_NAME, HIRE_DATE, JOB_ID
+from employees;
+
+insert all
+       into employees1(employee_id, first_name, last_name)
+       values(EMPLOYEE_ID, FIRST_NAME, LAST_NAME)
+       into employees2(employee_id, HIRE_DATE, JOB_ID)
+       values(EMPLOYEE_ID, HIRE_DATE, JOB_ID)
+select EMPLOYEE_ID,FIRST_NAME,LAST_NAME, HIRE_DATE, JOB_ID
+from employees;
+
+select * from employees1;
+select * from employees2;
+
+---- 입사일 05/12/24 보다 작으면 employees1에 넣고 
+---- 그렇지 않으면 employees2넣고자 한다.
+TRUNCATE table employees1;
+TRUNCATE table employees2;
+
+select employee_id, first_name, last_name, hire_date, job_id
+from hr.employees;
+
+insert all
+       when hire_date < '05/12/24' then
+            into employees1(employee_id, first_name, last_name)
+            values(employee_id,first_name,last_name)
+       else
+            into employees2(employee_id, hire_date, job_id)
+            values(employee_id,hire_date,job_id)
+select employee_id, first_name, last_name, hire_date, job_id
+from hr.employees;
+--- 입사일 05/12/24 보다 작으면 사원들은 employees1
+--- commission_pct가 null이 아닌 사원은 employees2넣고자 한다.
+TRUNCATE table employees1;
+TRUNCATE table employees2;
+
+insert all
+        when hire_date <= '05/12/24' then
+            into employees1(employee_id, first_name, last_name)
+            values(employee_id, first_name, last_name)
+        when commission_pct is not null then
+            into employees2(employee_id, hire_date, job_id)
+            values(employee_id, hire_date, job_id)
+select employee_id, first_name, last_name, hire_date, job_id
+       , commission_pct
+from hr.employees;
+-----  일괄처리
+create table education(
+    edu_ID VARCHAR2(10),
+    school_Year Date,
+    school varchar2(100)
+);
+insert all
+        into education(edu_ID, school_Year, school)
+        values('2222','24/05/28','디지털 대학교')
+        into education(edu_ID, school_Year, school)
+        values('2223','24/05/28','디지털')
+select * from dual;
+/*
+insert into education
+values('2222','24/05/28','디지털 대학교')
+values('2223','24/05/28','디지털')
+*/
+---------------------------
+---- dml :  insert, select , update, delete (crud) , merge 
+---- ddl :  create, alter, drop , truncate, rename
+---- dcl :  grant, revoke
+---- tcl :  commit, rollback, savepoint 
+
+--- merge : 병합
+--- 있는면 update, 없으면 insert
+--- 장버구니, 관심상품
+create table emp
+as
+select * from hr.employees
+where 1 = 2;
+desc emp;
+select * from hr.employees
+where employee_id = 100;
+insert into emp
+values(100,'Steven','King','SKING', '515.123.4567', '03/06/17'
+        ,'AD_PRES', 24000, null,null, 90);
+select * from emp;
+merge into emp c
+using hr.employees e
+on(c.employee_id = e.employee_id)
+when matched then
+update set salary = c.salary * 1.1
+when not matched then
+insert values(e.employee_id,e.FIRST_NAME,e.LAST_NAME, e.EMAIL
+            , e.PHONE_NUMBER,e.HIRE_DATE, e.JOB_ID , e.SALARY
+            , e.COMMISSION_PCT, e.MANAGER_ID, e.DEPARTMENT_ID);
+select * from emp where employee_id = 100;
+truncate table emp;
+insert into emp
+values(100,'Steven','King','SKING', '515.123.4567', '03/06/17'
+        ,'AD_PRES', 24000, null,null, 90);
+select * from emp;
+merge into emp c
+using (select * from hr.employees) d
+on (c.employee_id = d.employee_id)
+when matched then
+update set 
+    salary = c.salary * 1.1,
+    hire_date = sysdate,
+    email = d.email
+when not matched then
+insert (EMPLOYEE_ID,LAST_NAME, EMAIL, HIRE_DATE, JOB_ID )
+values (d.EMPLOYEE_ID,d.LAST_NAME,d.EMAIL, d.HIRE_DATE, d.JOB_ID);
+desc hr.employees;
+
+truncate table emp;
+merge into emp e
+using (select * from hr.employees where employee_id = 100) d
+on (e.employee_id = d.employee_id)
+when matched then
+    update set
+        salary = e.salary * 1.1
+when not matched then
+    insert values(d.employee_id,d.first_name,d.last_name,d.email,
+                  d.phone_number,sysdate,  d.job_id, 17000, 0.35
+                 , d.manager_id,d.department_id );
+select * from emp;
+
+--- 있으면 delete, 없으면 insert
+merge into emp e
+using (select * from hr.employees where employee_id = 100)d
+on (e.employee_id = d.employee_id)
+when MATCHED THEN
+update set    
+    hire_date = sysdate
+delete where employee_id = 100
+when not matched then
+    insert values(d.employee_id,d.first_name,d.last_name,d.email,
+                  d.phone_number,sysdate,  d.job_id, 17000, 0.35
+                 , d.manager_id,d.department_id );
+select * from emp;
+
+create  table cart(
+    goods_num VARCHAR(10),
+    cart_date date not null,
+    cart_qty integer not null
+);
+merge into cart c
+using (select * from hr.employees where employee_id = 100)d
+on(c.goods_num = d.employee_id)
+when MATCHED THEN
+update set 
+    cart_qty = cart_qty + 1
+when not MATCHED THEN
+insert values(d.employee_id, sysdate , 10);
+select * from cart;
+
+------- window 함수 : group by : partition by
+select column1,...,window_function(컬럼) over ( partition by 컬럼 
+                                                order by  windowing 절 | 컬럼)
+from 테이블;
+--------------------------------------------------------------
+truncate table employees;
+insert into employees
+select * from hr.employees;
+
+--- 사원번호, 이름 , 직무 그리고 부서와 급여의 합계를 출력하세요.
+select employee_id, first_name, job_id, e.department_id, sum_sal
+from employees e join (select department_id, sum(salary) sum_sal
+                       from employees
+                       group by department_id) d
+on e.department_id = d.department_id;
+
+select employee_id, first_name, job_id, department_id
+      , sum(salary) over (partition by department_id) sum_sal
+from employees;
+
+---  직무별 급여의 평균 그리고  사원번호, 이름, 급여를 출력
+select employee_id, first_name, salary , e.job_id, avg_sal
+from employees e join (select job_id, avg(salary)avg_sal from employees
+                       group by job_id) j
+on e.job_id = j.job_id;
+
+select employee_id, first_name, salary , job_id
+       , avg(salary) over(partition by job_id order by job_id ) av_sal
+from employees;
+--------------------------------------------------------------------------
+-- employees 테이블의 첫 행부터 마지막행까지 
+-- 직원 번호, 이름, 급여, 급여의 총합계를 출력하시오
+select employee_id, first_name , salary 
+      , sum(salary) over (order by salary rows between unbounded preceding 
+                                              and  UNBOUNDED FOLLOWING) sum_sal
+from employees;
+
+select employee_id, first_name , salary , sum(salary) over () sum_sal
+from employees;
+
+--- employees 테이블의 첫 행부터 마지막행까지 
+--- 직원 번호, 이름, 급여, 급여의 누적 합계를 출력하시오;
+select employee_id, first_name , salary 
+      , sum(salary) over (order by salary rows between unbounded preceding
+                                          and  CURRENT row) sum_salary
+from employees;
+
+-- employees 테이블의 첫 행부터 마지막행까지 직원 번호, 이름, 급여, 
+-- 급여의 합계를 현재 행 부터 마지막행까지의 합을 구하시오;
+select employee_id, first_name , salary 
+      , sum(salary) over (order by salary 
+                            rows  between CURRENT row /* 현행 */
+                            and  UNBOUNDED FOLLOWING /* 마지막행*/) sum_sal
+from employees;
+
+---RANK(); -- 순위를 출력할 때 , 동순위 같은 값이 출력, -- 1,1,1,4
+--- 각부서에서 급여가 몇위 일까?
+select employee_id, first_name, salary
+      , RANK() over (partition by department_id order by salary desc) rank
+from employees;
+--- DENSE_RANK() --- 1,1,1,2
+select employee_id, first_name, salary
+      , DENSE_RANK() over (partition by department_id order by salary desc) rank
+from employees;
+
+select employee_id, first_name, salary, department_id
+      , RANK() over (partition by department_id order by salary desc) rank
+      , DENSE_RANK() over (partition by department_id order by salary desc) d_rank
+from employees;
