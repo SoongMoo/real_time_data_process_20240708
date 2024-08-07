@@ -280,3 +280,34 @@ select employee_id, first_name, salary, department_id
       , RANK() over (partition by department_id order by salary desc) rank
       , DENSE_RANK() over (partition by department_id order by salary desc) d_rank
 from employees;
+
+--- 부서와 부서별 최대 급여와 이름, 사번, 급여, 직무를 출력
+select employee_id, first_name, salary , job_id,
+        max(salary) over (partition by department_id )
+from hr.employees;
+
+select * from hr.employees order by department_id, salary desc;
+
+select employee_id, first_name, salary , job_id, department_id ,
+        first_value(salary) over (partition by department_id order by salary desc)
+from hr.employees;
+
+select employee_id, first_name, salary , job_id, department_id ,max_sal
+from hr.employees e join (select department_id , max(salary) max_sal
+                       from hr.employees group by department_id) d
+on e.department_id = d.department_id;
+--- 부서와 부서별 최소 급여와 이름, 사번, 급여, 직무를 출력
+select employee_id, first_name, salary, job_id, e.department_id
+from hr.employees e join (select department_id , min(salary)
+                        from hr.employees 
+                        group by department_id) d
+on e.department_id = d.department_id;
+select employee_id, first_name, salary, job_id, department_id
+        , min(salary) over (partition by department_id )
+from hr.employees;
+select employee_id, first_name, salary, job_id, department_id
+    , first_value(salary) over (partition by department_id order by salary asc)
+from hr.employees;
+select employee_id, first_name, salary, job_id, department_id
+    , last_value(salary) over (partition by department_id order by salary desc)
+from hr.employees;   
