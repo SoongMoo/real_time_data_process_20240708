@@ -1,0 +1,97 @@
+CREATE TABLE publisher (
+	publisher_num varchar2(13) NOT NULL,
+	publisher_name VARCHAR(50),
+	publisher_tel VARCHAR(30),
+	publisher_addr VARCHAR(255),
+	bank_code varchar2(13),
+	account_num varchar2(13)
+);
+CREATE TABLE contract (
+	contract_num varchar2(13) NOT NULL,
+	publisher_num varchar2(13),
+	contract_date DATE,
+	contract_text VARCHAR2(2000),
+	min_rate number(4,2)
+);
+CREATE TABLE contract_book (
+	contract_num varchar2(13) NOT NULL,
+	book_num varchar2(13) NOT NULL
+);
+CREATE TABLE purchase (
+	purchase_num varchar2(13) NOT NULL,
+	member_num varchar2(13),
+	purchase_date DATE,
+	deli_addr VARCHAR(255),
+	deli_tel VARCHAR(30),
+	pay_method VARCHAR(255),
+	total_price INTEGER
+);
+CREATE TABLE purchase_book (
+	purchase_num varchar2(13) NOT NULL,
+	book_num varchar2(13) NOT NULL,
+	purchase_price INTEGER,
+	purchase_qty INTEGER
+);
+CREATE TABLE books (
+	book_num varchar2(13) NOT NULL,
+	book_name VARCHAR(50),
+	book_category VARCHAR2(2000),
+	author VARCHAR(50),
+	book_date DATE
+);
+CREATE TABLE storage (
+	book_num varchar2(13) NOT NULL,
+	inventory INTEGER
+);
+CREATE TABLE members (
+	member_num varchar2(13) NOT NULL,
+	member_name VARCHAR(50),
+	member_addr VARCHAR(255),
+	member_tel VARCHAR(30),
+	member_point INTEGER
+);
+CREATE TABLE offer (
+	purchase_num varchar2(13) NOT NULL,
+	delivery_num varchar2(13),
+	invoice varchar2(13)
+);
+CREATE TABLE deliverys (
+	delivery_num varchar2(13) NOT NULL,
+	delivery_name VARCHAR(50),
+	delivery_tel VARCHAR(30)
+);
+CREATE TABLE accounts (
+	abjustment_num varchar2(13) NOT NULL,
+	delivery_num varchar2(13),
+	abjustment_price INTEGER,
+	abjustment_date DATE
+);
+CREATE TABLE books_check (
+	member_num varchar2(13) NOT NULL,
+	book_num varchar2(13) NOT NULL,
+	check_date DATE
+);
+CREATE TABLE indirect (
+	delivery_num varchar2(13) NOT NULL,
+	subway_num varchar2(13),
+	subway_loc INTEGER
+);
+CREATE TABLE direct (
+	delivery_num varchar2(13) NOT NULL,
+	delivery_addr VARCHAR(255)
+);
+
+alter table publisher
+add constraint publisher_num_PK primary key(publisher_num);
+
+alter table contract
+modify contract_num constraint contract_num_pk primary key;
+
+alter table contract
+drop constraint contract_num_pk;
+
+alter table contract
+add constraint contract_num_pk primary key(contract_num);
+
+ALTER TABLE contract_book
+add constraint contract_book_pk primary key(contract_num,book_num);
