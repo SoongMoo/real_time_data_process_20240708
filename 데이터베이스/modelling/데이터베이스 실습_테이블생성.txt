@@ -81,6 +81,7 @@ CREATE TABLE direct (
 	delivery_addr VARCHAR(255)
 );
 
+/*   ==================== primery key ========== */
 alter table publisher
 add constraint publisher_num_PK primary key(publisher_num);
 
@@ -95,3 +96,86 @@ add constraint contract_num_pk primary key(contract_num);
 
 ALTER TABLE contract_book
 add constraint contract_book_pk primary key(contract_num,book_num);
+
+alter table purchase
+add constraint purchase_num_pk primary key(purchase_num);
+
+alter table purchase_book
+add constraint purchase_book_pk primary key(purchase_num,book_num);
+
+alter table books
+add constraint book_num_pk primary key(book_num);
+
+alter table offer
+add constraint offer_pk primary key(purchase_num);
+
+alter table members
+add constraint member_num_pk primary key(member_num);
+
+alter table storage
+add constraint  storage_PK primary key(book_num);
+
+alter table deliverys
+add constraint delivery_num_PK  primary key(delivery_num);
+
+alter table accounts
+add constraint abjustment_num_pk primary key(abjustment_num);
+
+alter table books_check
+add constraint books_check_pk primary key(member_num, book_num);
+
+alter table indirect 
+add constraint indirect_pk primary key(delivery_num);
+
+alter table direct 
+add constraint direct_pk primary key(delivery_num);
+
+/*   ==================== foreign key ========== */
+alter table contract
+add constraint contract_num_FK foreign key(publisher_num)
+    REFERENCES publisher (publisher_num);
+
+alter table contract_book
+add (constraint contract_num_FK foreign key(contract_num)
+    REFERENCES contract(contract_num),
+    constraint book_num_FK foreign key(book_num)
+    REFERENCES books (book_num));
+
+alter table purchase
+add constraint member_num_FK foreign key(member_num) 
+    REFERENCES members(member_num);
+
+alter table purchase_book
+add constraint purchase_num_FK foreign key(purchase_num)
+    REFERENCES purchase(purchase_num);
+alter table purchase_book
+add constraint purchase_book_num_FK foreign key(book_num)
+    REFERENCES storage(book_num);
+
+alter table offer
+add (constraint offer_puchase_num_FK foreign key(purchase_num)
+    REFERENCES purchase(purchase_num),
+    CONSTRAINT offer_delivery_num_FK foreign key(delivery_num)
+    REFERENCES deliverys);
+    
+alter table storage
+add constraint storage_book_num_FK foreign key(book_num)
+    REFERENCES books;
+    
+alter table books_check 
+add (constraint books_check_member_num_fk foreign key(member_num)
+    REFERENCES members,
+    constraint book_check_book_num_FK foreign key(book_num)
+    REFERENCES storage);
+
+alter table accounts
+add constraint account_delivery_num_FK foreign key(delivery_num)
+    REFERENCES deliverys;
+
+alter table indirect
+add constraint indirect_delivery_num_FK foreign KEY(delivery_num)
+    REFERENCES deliverys;
+    
+alter table direct
+add constraint direct_delivery_num_FK foreign KEY(delivery_num)
+    REFERENCES deliverys;
