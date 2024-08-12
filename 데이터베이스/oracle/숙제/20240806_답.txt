@@ -1,0 +1,105 @@
+create table members(
+user_num            VARCHAR2(20)  NOT NULL,
+USER_ID     	 	VARCHAR2(20)  NOT NULL,
+USER_PW     		VARCHAR2(200) NOT NULL,
+USER_NAME   	 	VARCHAR2(40)  NOT NULL,
+USER_BIRTH  	 	TIMESTAMP  NOT NULL,
+USER_GENDER 	 	VARCHAR2(1)   NOT NULL,
+USER_ADDR   	 	VARCHAR2(200) NOT NULL,
+USER_PH1    	 	VARCHAR2(13)  ,
+USER_PH2             		VARCHAR2(13)  ,
+USER_REGIST          		TIMESTAMP  ,
+USER_EMAIL           		VARCHAR2(200) ,
+JOIN_OK              			VARCHAR2(500)
+);
+alter table members
+modify user_num constraint user_num_PK primary key;
+
+alter table members
+drop constraint user_num_PK;
+
+alter table members
+add constraint user_num_PK primary key(user_num);
+
+/*==================unique =================*/
+alter table members
+modify (USER_EMAIL constraint USER_EMAIL_UU unique,
+        USER_ID  constraint USER_ID_UU unique);
+        
+alter table members
+drop constraint USER_EMAIL_UU;
+alter table members
+drop constraint USER_ID_UU;
+
+alter table members
+add (constraint USER_EMAIL_UU unique( USER_EMAIL),
+    constraint USER_ID_UU unique( USER_ID));
+
+alter table members
+modify ( USER_GENDER constraint USER_GENDER_CK check(USER_GENDER in('M' , 'F')),
+    USER_PH1  constraint USER_PH1_CK check (length(USER_PH1) between 11 and 13 ));
+
+alter table members
+drop constraint USER_GENDER_CK;
+
+alter table members
+drop constraint USER_PH1_CK;
+
+alter table members
+add (  constraint USER_GENDER_CK check(USER_GENDER in('M' , 'F')),
+       constraint USER_PH1_CK check (length(USER_PH1) between 11 and 13 ));
+
+alter table members
+modify  USER_REGIST default sysddate;
+
+
+create table board(
+    BOARD_NUM     	 	NUMBER       NOT NULL ,  
+    USER_num       		VARCHAR2(20)   NOT NULL ,
+    BOARD_NAME    	 	VARCHAR2(20)  NOT NULL ,  --- 글 쓴이 
+    BOARD_PASS       	VARCHAR2(200)  NOT NULL ,
+    BOARD_SUBJECT 		VARCHAR2(100) , -- 제목
+    BOARD_CONTENT          		VARCHAR2(2000), -- 내용
+    BOARD_DATE             		TIMESTAMP   ,
+    IP_ADDR                		VARCHAR2(15) ,  
+    READ_COUNT             		NUMBER      
+);
+alter table board
+add constraint board_num_pk primary key(board_num);
+
+alter table board
+modify READ_COUNT  default 0;
+
+alter table board 
+add constraint board_user_num_FK foreign key(user_num)
+    REFERENCES members;
+
+---3.
+select concat('mem_',nvl(max(substr(USER_num,5)),10000) + 1) from members; ---mem_100001
+insert into members (USER_num, user_id,USER_PW,USER_NAME
+                    ,USER_BIRTH,USER_GENDER,USER_ADDR 
+                    ,USER_PH1,USER_PH2,USER_REGIST,USER_EMAIL)
+values((select concat('mem_',nvl(max(substr(USER_num,5)),10000) + 1) from members)
+     , 'highland5','111111','이숭무'
+     ,'1999-12-12','M','서울','010-1234-1234',null,default,null);
+
+select nvl(max(BOARD_NUM),0) + 1 from board;
+insert into board(BOARD_NUM,USER_NUM,BOARD_NAME,BOARD_PASS
+                  ,BOARD_SUBJECT,BOARD_CONTENT,IP_ADDR)
+values( (select nvl(max(BOARD_NUM),0) + 1 from board)
+        ,'mem_10004', '상장범 아빠', '1111'
+        ,'제목', '내용', '192.168.3.117');
+select * from MEMBERS;
+
+-- 5. 
+select user_id, user_name, USER_EMAIL 
+    , board_num, board_subject, read_count
+from members m join board b
+on m.user_num = b.user_num;
+
+-- 6. 
+UPDATE BOARD 
+SET READ_COUNT = READ_COUNT + 1
+WHERE board_num = 1;
+
+SELECT * FROM BOARD;
