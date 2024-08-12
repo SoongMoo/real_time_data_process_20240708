@@ -103,3 +103,78 @@ SET READ_COUNT = READ_COUNT + 1
 WHERE board_num = 1;
 
 SELECT * FROM BOARD;
+
+---7.
+SELECT * 
+FROM MEMBERS 
+WHERE USER_NUM = (SELECT USER_NUM FROM BOARD 
+                  WHERE BOARD_NUM = 2);
+                  
+select * 
+from members m join board b
+on m.user_num = b.user_num
+where  board_num = 2;
+---8.
+SELECT COUNT(*) FROM BOARD;
+
+---9.
+select user_num, count(*)
+from board
+group by user_num;
+
+-- 10.
+SELECT COUNT(*) FROM MEMBERS;
+
+-- 11.
+update members  --- 회원 수정
+set user_ph1 = '02-9876-1234',
+    user_email = 'highland0@nate.com' ,
+    user_pw = '2222'    
+where user_id = 'highland0';
+
+select * from members where user_id = 'highland0';
+-- 12. 
+update board
+set board_subject = '나는 열심히 공부할래',
+    board_content = '열심히 공부해서 \n 빨리 취업이 될 수 있게 노력해야지'
+where board_num = 1;
+select * from board;
+
+-- 13. 
+select board_num, user_id, board_subject, read_count,
+       replace(board_content,'\n','<br />') content
+from board
+where board_num = 1;
+
+--14.
+select  substr(board_subject, 1, 5) || '...'
+from board;
+
+-- 15.
+select rpad(substr(user_id,1,5), length(user_id), '*')
+from members
+where user_email = 'highland0@nate.com' 
+and user_ph1 = '02-9876-1234';
+
+-- 16.
+select rownum,  user_num ,cnt
+from(select  user_num, count(*) cnt from board
+    group by user_num     --- inline view : rownum
+    order by cnt desc)
+where rownum = 1;
+
+-- 17.
+commit;
+
+--- 18.
+delete from members
+where user_name = '이숭무';
+
+-- 19.
+rollback;
+
+-- 20.
+delete from board 
+where board_num = 1 
+and user_num = (select user_num from members
+                where user_id = 'highland0');
