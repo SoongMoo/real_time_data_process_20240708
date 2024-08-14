@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="#" method="get">
+    사원번호 : <input type="text" name="eid" placeholder="자동부여"  value="miso_100001" readonly ><br />
+    아이디 : <input type="text" name="userId" size="30"  placeholder="아이디/이메일" required autofocus/><br />
+    비밀번호 : <input type="password" name="userPw" minlength="8" maxlength="13" placeholder="비밀번호" required /><br />
+    이메일 : <input type="email" name ="userEmail" placeholder="@를 포함"/><br />
+    검색 : <input type="search" name="search"/><br />
+    홈페이지 : <input type="url" name="homePage" placeholder="http://부터작성" /><br />
+    연락처 : <input type="tel" name="userTel" /><br />
+    수량 : <input type="number" name="qty" min= "1" max="10" step="2"/><br />
+    투표수 : <input type="range" min = 0 max = 10 value="5" /><br />
+    색상 : <input type="color" name="clr" value="#7d3212" ><br />
+    날짜 : <input type="date" name="date" value="2024-09-04"><br />
+    월 : <input type="month" name="mon" value="2023-11"/><br />
+    주 : <input type="week" name="wk" value="2024-W33" /><br />
+    시간 : <input type="time" name="tm" value="16:17"/><br />
+    현지시간 : <input type="datetime-local" name="loc" value="2024-08-29T11:37" /><br />
+    <h3>리스트</h3>
+    <select name="sel1">
+        <option>===항목선택===</option>
+        <option >배구</option>
+        <option >농구</option>
+        <option >축구</option>
+        <option >야구</option>
+    </select><br />
+    <select name="sel6" multiple>
+        <option>===항목선택===</option>
+        <option >배구</option>
+        <option >농구</option>
+        <option >축구</option>
+        <option >야구</option>
+    </select><br />
+    <select name="sel2">
+        <option value="0">===항목선택===</option>
+        <option value="1">배구</option>
+        <option value="2">농구</option>
+        <option value="3" selected>축구</option>
+        <option value="4">야구</option>
+    </select><br />
+    <select name="sel3" size="3">
+        <option value="1">배구</option>
+        <option value="2">농구</option>
+        <option value="3">축구</option>
+        <option value="4">야구</option>
+        <option value="4">족구</option>
+        <option value="4">정구</option>
+    </select><br />
+    <select name="sel4" size="3" multiple>
+        <option value="1">배구</option>
+        <option value="2">농구</option>
+        <option value="3">축구</option>
+        <option value="4">야구</option>
+        <option value="5">족구</option>
+        <option value="6">정구</option>
+    </select><br />
+    <select name="local">
+        <optgroup label="관악구">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </optgroup>
+        <optgroup label="동작구">
+            <option>가</option>
+            <option>나</option>
+            <option>다</option>
+        </optgroup>
+    </select><br />
+    자기소개서 : <textarea rows="10" cols="100">안녕하세요</textarea><br />
+    성별 : <input type="radio" name="gender" value="F" checked>여자
+           <input type="radio" name="gender" value="M">남자<br />
+    이메일 수신요부 : 
+    <input type="radio" name="send" value="F" >발송
+    <input type="radio" name="send" value="M">미발송<br />
+    취미 :
+    <input type="checkbox" name="interest" value="독서" checked>독서
+    <input type="checkbox" name="interest" value="바둑">바둑
+    <input type="checkbox" name="interest" value="음악감상">음악감상
+    <input type="checkbox" name="interest" value="운동">운동<br />
+    <input type="submit" value="전송" />
+    <input type="reset" value="취소" /><br />
+
+    </form>
+</body>
+</html>
