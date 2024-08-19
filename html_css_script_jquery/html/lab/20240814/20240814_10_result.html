@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="writeForm">
+<form action="goodsWrite" method="post" id="frm" enctype="multipart/form-data">
+	<table border = "1" width ="600" align="center">
+		<tr><th width="100">상품번호</th>
+			<td><input type="text" name="goodsNum"  readonly="readonly"/>자동부여</td></tr>
+		<tr><th>상품명</th>
+			<td><input type="text" name="goodsName"  /></td></tr>
+		<tr><th>상품가격</th>
+			<td><input type="number" name="goodsPrice" min="0"  /></td></tr>
+		<tr><th>배송비</th>
+			<td><input type="number" name="deliveryCost" min="0" max="5000" step="50"/></td></tr>
+		<tr><th>상품설명</th>
+			<td><textarea rows="10" cols="50" name="goodsContent" ></textarea></td></tr>
+		<tr><th>대문이미지</th>
+			<td><input type="file" name="goodsMainStore" /></td></tr>
+		<tr><th>이미지</th>
+			<td><input type="file" name="goodsImages" multiple="multiple" /> </td></tr>
+		<tr><th colspan="2">
+		<!-- <input type="submit" id="btn" value="상품 등록" /> -->
+			<input type="button" id="btn" value="상품 등록" /></th></tr>
+	</table>
+</form>
+</div>
+</body>
+</html>
