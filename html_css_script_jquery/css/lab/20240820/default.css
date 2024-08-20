@@ -38,3 +38,6 @@ a:hover {
 a img {
 	border: none;
 }
+hr {
+	display: none;
+}
