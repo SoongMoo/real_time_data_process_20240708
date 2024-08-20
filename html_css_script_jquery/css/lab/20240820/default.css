@@ -41,3 +41,8 @@ a img {
 hr {
 	display: none;
 }
+.image-centered img
+{
+	margin: 0 auto;
+	width: auto;
+}
