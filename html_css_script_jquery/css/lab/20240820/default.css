@@ -1,0 +1,40 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	background: #A80154;
+	font-family: 'Chivo', sans-serif;
+	font-size: 12pt;
+	font-weight: 300;
+	color: #363636;
+}
+h1, h2, h3 {
+	margin: 0;
+	padding: 0;
+}
+
+p, ol, ul {
+	margin-top: 0px;
+}
+
+p {
+	line-height: 190%;
+}
+
+strong {
+}
+
+a {
+	color: #171717;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a img {
+	border: none;
+}
