@@ -1,2 +1,0 @@
-top:250px; 
-		left:50px;V
