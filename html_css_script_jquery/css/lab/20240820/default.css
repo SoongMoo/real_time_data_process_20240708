@@ -46,3 +46,10 @@ hr {
 	margin: 0 auto;
 	width: auto;
 }
+
+#banner 
+{
+background: url(images/pic01.jpg) no-repeat center;
+height: 330px;
+background-size: cover;
+}
