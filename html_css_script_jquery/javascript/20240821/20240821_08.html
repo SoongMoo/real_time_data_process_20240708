@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        // 비교(관계) 연산자 : 결과는 부울타입이다.
+        var a = 10;
+        var b = 3;
+        var result;
+        result = a > b ;
+        document.write(result); document.write("<br />"); // true
+        result = a < b ;
+        document.write(result); document.write("<br />"); // false
+        result = a >= b ;
+        document.write(result); document.write("<br />"); // true
+        result = a <= b ;
+        document.write(result); document.write("<br />"); // false
+        result = a == b ;
+        document.write(result); document.write("<br />"); // false
+        result = a != b ;
+        document.write(result); document.write("<br />"); // true
+        // 논리연산
+        var b1 = true;
+        var b2 = false;
+        var b3 = true;
+        result = true && true; // true;
+        document.write(result); document.write("<br />");
+        result = false && true; // false
+        document.write(result); document.write("<br />");
+
+        var kor = 70.5;
+        var eng = 80;
+        var mat = 60.5;
+        /// 평균이 60이상이고 각과목의 점수가 40이상이면 true
+        result = kor >= 40 && mat >= 40 && eng >= 40 
+               && (kor + eng + mat ) / 3 >= 60;
+        document.write(result); document.write("<br />"); // true
+        if(kor >= 40 && mat >= 40 && eng >= 40 
+                    && (kor + eng + mat ) / 3 >= 60){
+            document.write("합격<br />");
+        }else{
+            document.write("불합격<br />");
+        }
+        // 4년마다 윤년이지만  2200 % 4 == 0  : ture 
+        // 100년마다는 윤년이 아니다. 2200 % 100 != 0 : true
+        // 그렇지만 400년마다는 윤년이어야 한다. 2200 % 400 == 0 : true 
+        // 그렇다면 year = 2200년은 윤년일가? 윤년이면 true이다
+        year = 2200;
+        result = year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+        document.write(result); document.write("<br />");
+        if(year % 4 == 0 && year % 100 != 0 || year % 400 == 0){
+            document.write("윤년이다");
+        }else{
+            document.write("평년이다");
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
