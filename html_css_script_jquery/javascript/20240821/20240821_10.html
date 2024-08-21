@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        // 증감연산자
+        // 증가연산자
+        var num = 20; 
+        num = num + 1;
+        document.write(num); document.write("<br />");
+        num += 1;
+        document.write(num); document.write("<br />");
+        num ++;
+        document.write(num); document.write("<br />");
+        ++ num;
+        document.write(num); document.write("<br />");
+        // 감소 연산자
+        num = num -1;
+        document.write(num); document.write("<br />");
+        num -= 1;
+        document.write(num); document.write("<br />");
+        num --; // 후행
+        document.write(num); document.write("<br />");
+        -- num; // 선행
+        document.write(num); document.write("<br />"); // 20
+
+        document.write(num--); document.write("<br />"); // 20
+        // 1.
+        document.write(num); document.write("<br />"); // 19
+        // 2.
+        num = num - 1;
+        document.write(num); document.write("<br />"); // 18
+
+        document.write(++num); document.write("<br />"); // 19
+        //1.
+        num = num + 1;                                  
+        //2.
+        document.write(num); document.write("<br />");  // 20
+
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

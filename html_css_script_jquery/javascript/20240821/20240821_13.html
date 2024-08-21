@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        var myArea = prompt("지역을 입력하세요." , "02");
+        switch(myArea){
+            case "02": document.write("서울입니다.");break;
+            case "031" : document.write("경기도입니다.");break;
+            case "032" : document.write("인천입니다.");break;
+            default: document.write("선택한 지역이 없습니다.");
+        }
+        document.write("<br />");
+        switch(myArea){
+            case "02": areaName =  "서울";break;
+            case "031" : areaName =  "경기도";break;
+            case "032" : areaName =  "인천";break;
+            default: areaName =  "없음";
+        }
+        document.write(areaName);document.write("<br />");
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
