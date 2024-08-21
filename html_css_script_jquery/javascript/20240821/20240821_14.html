@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        // 1 ~ 10까지 더하기
+        var sum = 0;
+        for(var i= 0; i <= 10; i ++){
+            sum += i; // sum = sum + i;
+        }
+        document.write("1~10까지의 합 : " + sum + "<br />");
+        // 6단 출력
+        for(var gop = 1; gop <= 9; gop++ ){
+            document.write(" 6 * " + gop + " = " + 6 * gop);
+            document.write("<br />");
+        }
+        //  원하는단 출력
+        var dan = Number(prompt("원하는단을 입력하세요. ", 6));
+        for(var gop = 1; gop <= 9; gop++ ){
+            document.write( dan + "  * " + gop + " = " + dan * gop);
+            document.write("<br />");
+        }
+        // 홀수 출력
+        var dan = Number(prompt("원하는단을 입력하세요. ", 6));
+        for(var gop = 1; gop <= 9; gop++ ){
+            if(gop % 2 == 0) continue;
+            document.write( dan + "  * " + gop + " = " + dan * gop);
+            document.write("<br />");
+        }
+
+
+
+
+
+
+
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

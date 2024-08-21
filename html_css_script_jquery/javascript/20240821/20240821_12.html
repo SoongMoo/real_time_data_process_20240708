@@ -6,9 +6,9 @@
     <title>Document</title>
     <script type="text/javascript">
         // 제어문
-        var kor = prompt("국어점수를 입력하세요?", 0);
-        var mat = prompt("수학점수를 입력하세요?");
-        var eng = prompt("영어점수를 입력하세요?", 0);
+        var kor = Number(prompt("국어점수를 입력하세요?", 0));
+        var mat = Number(prompt("수학점수를 입력하세요?"));
+        var eng = Number(prompt("영어점수를 입력하세요?", 0));
         var avg = (kor + mat + eng) / 3;
         var result = kor >= 40 && eng >= 40 && mat >= 40 && avg >= 60;
         if(result){ // true

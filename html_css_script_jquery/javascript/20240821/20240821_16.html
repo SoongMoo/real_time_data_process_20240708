@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        // 1~ 10까지의 합
+        var sum = 0;
+        for (var i = 1; i <= 10; i++) {
+            sum += i;
+        }
+        document.write(sum + "<br />");
+        sum = 0;
+        var i = 1
+        for (; i <= 10;) {
+            sum += i;
+            i++
+        }
+        document.write(sum + "<br />");
+        sum = 0;
+        var i = 1;
+        while (i <= 10) {
+            sum += i;
+            i++;
+        }
+        document.write(sum + "<br />");
+        // 1 ~ 100
+        sum = 0;
+        var i = 1;
+        while (i <= 100) {
+            sum += i;
+            i++;
+        }
+        // 6단
+        var gop = 1;
+        while (gop <= 9) {
+            document.write("6 * " + gop + " = " + 6 * gop);
+            document.write("<br />");
+            gop++;
+        }
+
+        var dan = Number(prompt("단을 입력하세요. : ", 6));
+        var gop = 1;
+        while (gop <= 9) {
+            document.write(dan + " * " + gop + " = " + dan * gop);
+            document.write("<br />");
+            gop++;
+        }
+        // 5단 , 6단, 7단
+        var dan = 5;
+        while (dan <= 7) {
+            var gop = 1;
+            while (gop <= 9) {
+                document.write(dan + " * " + gop + " = " + dan * gop);
+                document.write("<br />");
+                gop++;
+            }
+            dan++;
+        }
+        /*
+        ******
+        *****
+        ****
+        ***
+        **
+        *
+        */
+        var i = 6;
+        while (i >= 1) {
+            var j = 1;
+            while (j <= i) {
+                document.write("*");
+                j++;
+            }
+            document.write("<br />");
+            i--;
+        }
+        /*
+        *
+        **
+        ***
+        ****
+        *****
+        ******
+        */
+        var i = 1;
+        while (i <= 6) {
+            var j = 1;
+            while (j <= i) {
+                document.write("*");
+                j++;
+            }
+            document.write("<br />");
+            i++;
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
