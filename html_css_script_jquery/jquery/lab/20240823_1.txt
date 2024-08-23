@@ -1,4 +1,4 @@
-아래 javascript를 jquery로 변경하시오.
+아래 javascript를 jquery로 변경하시오.valCk() 함수는 그대로 사용.
 <!DOCTYPE html>
 <html lang="en">
 <head>
