@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function keyEvt(){
+            var txt = document.getElementsByTagName("textarea");
+            var msg = document.getElementsByTagName("span");
+            var val = txt[0].value;
+            if(val.length >= 0 && val.length <= 10){
+                txt[0].style.color = "black";
+            }
+            if(val.length >10 && val.length <= 15){
+                txt[0].style.color = "red";
+            }
+            if(val.length > 15){
+                alert("15글자만 입력 가능합니다.");
+                txt[0].value = val.substr(0, 15);
+                msg[0].innerText =  "(15자 입력)";
+            }else{
+                msg[0].innerText =  "("+ val.length + "자 입력)";
+            }
+        }
+    </script>
+</head>
+<body>
+    <textarea rows="10" cols="60" onkeyup="keyEvt()"></textarea><span>(0자 입력)</span>
+</body>
+</html>
