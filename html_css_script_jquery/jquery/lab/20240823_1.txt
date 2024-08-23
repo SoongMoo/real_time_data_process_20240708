@@ -50,7 +50,7 @@
     </script>
 </head>
 <body>
-    <form action="#" method="get" name="frm" onsubmit="valCk();">
+    <form action="#" method="get" name="frm" onsubmit="return valCk();">
 		<table border = 1>
 			<tr><th>*이름</th>
 				<td><input type="text" id="userName" name="userName" /></td>
