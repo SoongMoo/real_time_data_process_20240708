@@ -56,9 +56,21 @@
             });
             //11. id="list3"인 3번째 li요소 다음에 새요소를 중간 추가합니다.insert
             $("#btn11").click(function(){
-                $("<li>이전에 요소추가</li>").insertAfter($("#list3 li").eq(2));
-            });        
-
+                $("<li>다음에 요소추가</li>").insertAfter($("#list3 li").eq(2));
+            });     
+            //12. id="list3"인 3번째 li요소 이전에 새요소를 중간 추가합니다.insert
+            $("#btn12").click(function(){
+                $("<li>이전에 요소추가</li>").insertBefore($("#list3 li").eq(2));
+            });
+            //13. id="list3"인 2번째 요소에 class속성 추가하기
+            $("#btn13").click(function(){
+                $("#list3 li").eq(1).addClass("obj5");
+            });
+            //14.첫번째 요소의 class명을 obj2 변경하자., class를 obj4 추가  
+            $("#btn14").click(function(){
+                $("#list3 li").eq(0).attr("class","obj2");
+                $("#list3 li:first").addClass("obj4");
+            });
         });
     </script>
 </head>
@@ -78,7 +90,9 @@
         <button type="button" id="btn10">버튼10</button>
     </div>
     <button type="button" id="btn11">버튼11</button>
-
+    <button type="button" id="btn12">버튼12</button>
+    <button type="button" id="btn13">버튼13</button>
+    <button type="button" id="btn14">버튼14</button>
     <h2 class="theTitle">html 조작</h2>
     <ul  id="list3">
       <li class="obj1">list_2</li>
