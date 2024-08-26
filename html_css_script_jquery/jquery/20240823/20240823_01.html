@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!---
+    <script src="js/jquery-3.6.1.min.js"></script>
+    --->
+    <!--CDN-->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            document.getElementById("txt").value="10";
+        });
+        $(function(){
+            //document.getElementById("txt2").value=10;
+            document.querySelector("#txt2").value=10;
+        });
+        $(function(){
+            $("#txt3").val(100);
+            //document.querySelector(".txt3").value=1000;
+            $(".txt3").val(200);
+        });
+    </script>
+</head>
+<body>
+    <input type="text" id="txt" />
+	<input type="text" id="txt1" />
+	<input type="text" id="txt2" />
+	<input type="text" id="txt3" />
+	<input type="text" class="txt3" />
+</body>
+<script>
+	document.getElementById("txt").value=10;
+</script>
+</html>
