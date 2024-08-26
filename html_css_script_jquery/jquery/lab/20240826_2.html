@@ -5,21 +5,7 @@
   <title>링크 이미지 롤링</title>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
   <script>
-	$(function(){
-		interval = setInterval(up_content, 1000); 
-		$("#right_content").mouseover(function(){
-			clearInterval(interval);
-		});
-        	$("#right_content").mouseleave(function(){
-			interval = setInterval(up_content, 1000); 
-        	});
-	});
-	function up_content(){
-		$("#right_content li:last").after($("#right_content li:first"));
-	}
-	function down_content(){
-		$("#right_content li:first").before($("#right_content li:last"));
-	}
+	
   </script>
   <style>
     *{margin:0; padding:0}
