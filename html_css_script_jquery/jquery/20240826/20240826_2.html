@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문서 객체 조작 메서드</title>
+    <script type="text/javascript"
+            src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+        $(function(){
+            // 1.theTitle에 있는 값을 출력
+            $("#btn1").click(function(){
+                alert($(".theTitle").text());
+            });
+            // 2.theTitle에 있는 값을 변경
+            $("#btn2").click(function(){
+                $(".theTitle").text("이숭무");
+            });
+            // 3. 내용을 태그로 변경
+            $("#btn3").click(function(){
+                $(".theTitle").html("<a href='#' >링크</a>");
+            });
+            // 3_1. .theTitle값을 html로 불러 오기
+            $("#btn3_1").click(function(){
+                alert($(".theTitle").html());
+            });
+            // 4.  list_2 ==> 리스트2
+            $("#btn4").click(function(){
+                //$(".obj1").text("리스트2");
+                $(".obj1").html("리스트2");
+            });
+            //5. id="list3"인 요소의 마지막 위치에 새요소를 추가합니다.
+            $("#btn5").click(function(){
+                $("#list3").append("<li>list_6</li>");
+            });
+            //6. id="list3"인 요소에 처음 위치에 새요소를 추가합니다.
+            $("#btn6").click(function(){
+                $("#list3").prepend("<li>list_1</li>");
+            });
+            //7. id="list3"인 요소에 마지막 위치 다음에 첫번째 요소를 가져오기.
+            $("#btn7").click(function(){
+                $("#list3 li:last").after($("#list3 li:first"));
+            });
+            //8. id="list3"인 요소에 첫번째 위치에 마지막번째 요소를 추가합니다.
+            $("#btn8").click(function(){
+                $("#list3 li:first").before($("#list3 li:last"));
+            });
+            //9. id="list3"인 요소에 하위 <li>요소중 첫번째 요소 삭제
+            $("#btn9").click(function(){
+                //$("#list3 li:first").remove();
+                $("#list3 li").eq(0).remove();
+            });
+            // 10.
+            $("#btn10").click(function(){
+                $(this).parent().remove();
+            });
+            //11. id="list3"인 3번째 li요소 다음에 새요소를 중간 추가합니다.insert
+            $("#btn11").click(function(){
+                $("<li>이전에 요소추가</li>").insertAfter($("#list3 li").eq(2));
+            });        
+
+        });
+    </script>
+</head>
+<body>
+    <button type="button" id="btn1">버튼1</button>
+    <button type="button" id="btn2">버튼2</button>
+    <button type="button" id="btn3">버튼3</button>
+    <button type="button" id="btn3_1">버튼3_1</button>
+    <button type="button" id="btn4">버튼4</button>
+    <button type="button" id="btn5">버튼5</button>
+    <button type="button" id="btn6">버튼6</button>
+    <button type="button" id="btn7">버튼7</button>
+    <button type="button" id="btn8">버튼8</button>
+    <button type="button" id="btn9">버튼9</button>
+    <div>
+        <input type="text" />
+        <button type="button" id="btn10">버튼10</button>
+    </div>
+    <button type="button" id="btn11">버튼11</button>
+
+    <h2 class="theTitle">html 조작</h2>
+    <ul  id="list3">
+      <li class="obj1">list_2</li>
+      <li>list_3</li>
+      <li>list_4</li>
+      <li>list_5</li>
+    </ul>  
+    <h2 class="theTitle1">obj5</h2>
+</body>
+</html>

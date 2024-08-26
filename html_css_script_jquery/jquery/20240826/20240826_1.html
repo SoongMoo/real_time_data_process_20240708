@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+        function btn1(){
+            document.querySelector("#firstTitle").style.color="red";
+        }
+        // $().clic(); $().css()
+        /* 콜백함수 안에 함수를 넣을 수 없다.
+        $(function(){
+            function btn1(){
+                document.querySelector("#firstTitle").style.color="red";
+            }
+        });
+        */
+        $(function(){
+            $("#btn1").click(function(){
+                   $("#secondTitle").css("color","red");
+            });
+        });
+        $(function(){
+            $("#btn2").click(function(){
+                $(".nextTitle").css("font-size","25px");
+            });
+            $("#btn3").click(function(){
+                // 자식 선택자
+                $(".obj3 > li").css("font-weight","bold");
+            });
+            $("#btn4").click(function(){
+                $(".obj3 > .theObj1").css("color","purple");
+            });
+            $("#btn5").click(function(){
+                $(".obj3").children(".theObj2").css("color","aqua");
+            });
+            $("#btn6").click(function(){
+                $(".obj5").parent().css("border","2px solid #f00");
+            });
+            $("#btn7").click(function(){
+                $(".obj4").next().css("color","orange");
+            });
+            $("#btn8").click(function(){
+                $(".obj4").prev().css("text-align","center");
+            });
+            $("#btn9").click(function(){
+                $(".obj6").siblings("li").css("text-align","center");
+            });
+            $("#btn10").click(function(){
+                $("input:text").css("background","red");
+            });
+            $("#btn11").click(function(){
+                $("a[target='_blank']").css("border","2px solid aqua");
+            });
+            $("#btn12").click(function(){
+                $("input:checkbox[value='농구']").prop("checked",true);
+            });
+            $("#btn13").click(function(){
+                if($("input:checkbox[value='농구']").is(":checked")){
+                    $("input:checkbox[value='농구']").prop("checked",false);
+                }else{
+                    $("input:checkbox[value='농구']").prop("checked",true);
+                }
+            });
+            $("#btn14").click(function(){
+                if(!$("input:checkbox[name='send']").is(":checked")){
+                    alert("하나 이상 선택하여주세요.");
+                }
+            });
+            $("#btn15").click(function(){
+                if(!$("input:radio[name='gender']").is(":checked")){
+                    alert("성별을 선택해주세요.");
+                    $(":radio[name='gender']:input[value='F']").prop("checked",true);
+                }
+            });
+        });
+    </script>
+
+</head><!-- jquery :   DOM을 편리하게 사용하기 위해서 만든 자바스크립트 
+                       라이브러리 -->
+<body>
+    <span id="firstTitle">선택자1</span>
+    <button type="button" onclick="btn1();" >버튼1</button> <br />
+
+    <span id="secondTitle">선택자2</span>
+    <button type="button" id="btn1">버튼2</button> <br />
+
+    <span class="nextTitle">선택자3</span>
+    <button type="button" id="btn2">버튼3</button> <br />
+
+    <ul class="obj3">
+        <li class="theObj1">리스트1</li>
+        <li class="theObj2">리스트2</li>
+        <li>리스트3</li>
+    </ul>
+    <button type="button" id="btn3">버튼4</button> <br />
+    <button type="button" id="btn4">버튼5</button> <br />
+    <button type="button" id="btn5">버튼6</button> <br />
+    <ul>
+        <li>리스트7</li>
+        <li class="obj5">리스트8</li>
+        <li>리스트9</li>
+    </ul>
+    <button type="button" id="btn6">버튼7</button> <br />
+    <ul>
+        <li>리스트4</li>
+        <li>리스트4_1</li>
+        <li class="obj4">리스트5</li>
+        <li>리스트6</li>
+    </ul>
+    <button type="button" id="btn7">버튼8</button><br />
+    <button type="button" id="btn8">버튼9</button><br />
+    <ul>
+        <li>리스트10</li>
+        <li class="obj6">리스트11</li>
+        <li>리스트12</li>
+    </ul>
+    <button type="button" id="btn9">버튼10</button><br />
+
+    <input type="text" id = "userName" name="userName" />
+    <button type="button" id="btn10">버튼11</button><br />
+
+    <a href="#" target="_blank">링크</a>
+    <button type="button" id="btn11">버튼12</button><br />
+                                                  <!--- true -->
+    <input type="checkbox"  name="chk" value="농구" />농구<br />
+    <input type="checkbox"  name="chk" value="야구"/>야구<br />
+    <button type="button" id="btn12">버튼13</button><br />
+    <button type="button" id="btn13">버튼14</button><br />
+
+    <input type="checkbox"  name="send" value="이메일" />이메일<br />
+    <input type="checkbox"  name="send" value="sms"/>sms<br />
+    <button type="button" id="btn14">버튼15</button><br />
+    <input type="radio" name="gender" value="F">여자
+    <input type="radio" name="gender" value="M">남자
+    <button type="button" id="btn15">버튼16</button><br />
+</body>
+
+</html>
