@@ -1,3 +1,4 @@
+	/* jquery 로 유효성 검사 */
 	function valCk(){
 		if($("#userName").val() == ""){
 			alert("이름을 입력해주세요.");
