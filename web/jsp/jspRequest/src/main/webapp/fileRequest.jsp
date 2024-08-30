@@ -31,15 +31,17 @@ String upFile1 = request.getParameter("upFile1");
 시스템 파일명 : <%= fileName1 %><br />
 원본 파일명 : <%= orgFileName1 %><br />
 파일크기 : <%= fileSize %><br />
+<img src = "upload/<%=fileName1 %>" />
 <hr />
-시스템 파일명 : <%= multi.getFilesystemName("upFile2") %>
-원본 파일명 : <%= multi.getOriginalFileName("upFile2") %>
-파일크기 : <% file = multi.getFile("upFile2"); %>
+시스템 파일명 : <%= multi.getFilesystemName("upFile2") %><br />
+원본 파일명 : <%= multi.getOriginalFileName("upFile2") %><br />
+파일크기 : <% file = multi.getFile("upFile2"); %><br />
 		 <%= file.length() %>
+
 <hr />
-시스템 파일명 : <%= multi.getFilesystemName("upFile3") %>
-원본 파일명 : <%= multi.getOriginalFileName("upFile3") %>
-파일크기 : <% file = multi.getFile("upFile3"); %>
+시스템 파일명 : <%= multi.getFilesystemName("upFile3") %><br />
+원본 파일명 : <%= multi.getOriginalFileName("upFile3") %><br />
+파일크기 : <% file = multi.getFile("upFile3"); %><br />
 		 <%= file.length() %>
 
 
