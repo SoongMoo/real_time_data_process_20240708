@@ -20,8 +20,8 @@
 		</tr>
 		<c:forEach items="${dtos }" var="dto">
 			<tr>
-				<td>${dto.boardNum }</td>
-				<td>${dto.boardWriter }</td>
+				<td><a href="boardDetail.nhn?boardNum=${dto.boardNum }"> ${dto.boardNum }</a></td>
+				<td><a href="boardDetail.nhn?boardNum=${dto.boardNum }">${dto.boardWriter }</a></td>
 				<td>${dto.boardSubject }</td>
 			</tr>
 		</c:forEach>
