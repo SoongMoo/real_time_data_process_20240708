@@ -14,8 +14,8 @@
 <table border=1 width="600">
 	<tr><td>번호</td><td>이름</td><td>아이디</td><td>등록일</td></tr>
 	<c:forEach items="${list }" var="dto">
-	<tr><td>${dto.memberNum }</td>
-		<td>${dto.memberName }</td>
+	<tr><td><a href="memberDetail.mem?memberNum=${dto.memberNum }">${dto.memberNum }</a></td>
+		<td><a href="memberDetail.mem?memberNum=${dto.memberNum }">${dto.memberName }</a></td>
 		<td>${dto.memberId }</td>
 		<td>${dto.memberRegist }</td></tr>
 	</c:forEach>

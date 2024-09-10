@@ -36,7 +36,40 @@ public class MemberDAO {
 		if(pstmt != null) try {pstmt.close();}catch(Exception e) {}
 		if(con != null) try {con.close();}catch(Exception e) {}
 	}
-	
+	public MemberDTO memberSelectOne(String memberNum) {
+		MemberDTO dto = null;
+		con = getConnection();
+		sql = " select MEMBER_NUM, MEMBER_NAME, MEMBER_ID,MEMBER_PW"
+				+ "   ,MEMBER_ADDR, MEMBER_ADDR_DETAIL,MEMBER_POST"
+				+ "   ,MEMBER_REGIST, GENDER, MEMBER_PHONE1,MEMBER_PHONE2"
+				+ "   ,MEMBER_EMAIL,MEMBER_BIRTH,MEMBER_POINT,MEMBER_EMAIL_CONF"
+			+ " from members "
+			+ " where MEMBER_NUM = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, memberNum);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto = new MemberDTO();
+				dto.setMemberAddr(rs.getString("MEMBER_ADDR"));
+				dto.setMemberAddrDetail(rs.getString("MEMBER_ADDR_DETAIL"));
+				dto.setMemberEmail(rs.getString("MEMBER_EMAIL"));
+				dto.setGender(rs.getString("GENDER"));
+				dto.setMemberId(rs.getString("MEMBER_ID"));
+				dto.setMemberName(rs.getString("MEMBER_NAME"));
+				dto.setMemberNum(rs.getString("MEMBER_NUM"));
+				dto.setMemberPhone1(rs.getString("MEMBER_PHONE1"));
+				dto.setMemberPhone2(rs.getString("MEMBER_PHONE2"));
+				dto.setMemberPost(rs.getString("MEMBER_post"));
+				dto.setMemberPw(rs.getString("MEMBER_PW"));
+				dto.setMemberBirth(rs.getDate("MEMBER_BIRTH"));
+				dto.setMemberRegist(rs.getDate("MEMBER_REGIST"));
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {close();}
+		return dto;
+	}
 	public String memberAutoNum() {
 		con = getConnection();
 		sql = " select concat('mem_' ,nvl(substr(max(member_num),5),100000) + 1) from members"; 
@@ -70,7 +103,7 @@ public class MemberDAO {
 			pstmt.setString(5, dto.getMemberAddr());
 			pstmt.setString(6, dto.getMemberAddrDetail());
 			pstmt.setString(7, dto.getMemberPost());
-			pstmt.setString(8, dto.getMemberGender());
+			pstmt.setString(8, dto.getGender());
 			pstmt.setString(9, dto.getMemberPhone1());
 			pstmt.setString(10, dto.getMemberPhone2());
 			pstmt.setString(11, dto.getMemberEmail());
@@ -102,7 +135,7 @@ public class MemberDAO {
 				dto.setMemberAddrDetail(rs.getString("MEMBER_ADDR_DETAIL"));
 				dto.setMemberBirth(rs.getDate("MEMBER_BIRTH"));
 				dto.setMemberEmail(rs.getString("MEMBER_EMAIL"));
-				dto.setMemberGender(rs.getString("GENDER"));
+				dto.setGender(rs.getString("GENDER"));
 				dto.setMemberId(rs.getString("MEMBER_ID"));
 				dto.setMemberName(rs.getString("MEMBER_NAME"));
 				dto.setMemberNum(rs.getString("MEMBER_NUM"));

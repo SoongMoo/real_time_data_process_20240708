@@ -19,7 +19,7 @@ public class MemberWriteService {
 		dto.setMemberAddr(request.getParameter("memberAddr"));
 		dto.setMemberAddrDetail(request.getParameter("memberAddrDetail"));
 		dto.setMemberEmail(request.getParameter("memberEmail"));
-		dto.setMemberGender(request.getParameter("gender"));
+		dto.setGender(request.getParameter("gender"));
 		dto.setMemberId(request.getParameter("memberId"));
 		dto.setMemberName(request.getParameter("memberName"));
 		dto.setMemberNum(request.getParameter("memberNum"));

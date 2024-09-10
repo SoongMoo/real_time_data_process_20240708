@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jspMVCMisoShopping.service.member.MemberAutoNumService;
+import jspMVCMisoShopping.service.member.MemberDetailService;
 import jspMVCMisoShopping.service.member.MemberListService;
 import jspMVCMisoShopping.service.member.MemberWriteService;
 
@@ -34,6 +35,18 @@ public class MemberFrontController extends HttpServlet {
 			MemberWriteService action = new MemberWriteService();
 			action.execute(request);
 			response.sendRedirect("memberList.mem");
+		}else if(command.equals("/memberDetail.mem")) {
+			MemberDetailService action = new MemberDetailService();
+			action.execute(request);
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("member/memberInfo.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/memberUpdate.mem")) {
+			MemberDetailService action = new MemberDetailService();
+			action.execute(request);
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("member/memberModify.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 	@Override
