@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import jspMVCMisoShopping.service.member.MemberAutoNumService;
 import jspMVCMisoShopping.service.member.MemberDetailService;
 import jspMVCMisoShopping.service.member.MemberListService;
+import jspMVCMisoShopping.service.member.MemberUpdateService;
 import jspMVCMisoShopping.service.member.MemberWriteService;
 
 public class MemberFrontController extends HttpServlet {
@@ -47,6 +48,11 @@ public class MemberFrontController extends HttpServlet {
 			RequestDispatcher dispatcher = 
 					request.getRequestDispatcher("member/memberModify.jsp");
 			dispatcher.forward(request, response);
+		}else if(command.equals("/memberModify.mem")) {
+			MemberUpdateService action = new MemberUpdateService();
+			action.execute(request);
+			response.sendRedirect("memberDetail.mem?memberNum="
+						+request.getParameter("memberNum"));
 		}
 	}
 	@Override
