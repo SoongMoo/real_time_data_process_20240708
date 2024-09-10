@@ -37,6 +37,20 @@ public class MemberDAO {
 		if(pstmt != null) try {pstmt.close();}catch(Exception e) {}
 		if(con != null) try {con.close();}catch(Exception e) {}
 	}
+	public void memberDelete(String memberNum) {
+		con = getConnection();
+		sql = " delete from members "
+			+ " where member_num = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, memberNum);
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "개행이(가) 삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+		
+	}
 	public void memberUpdate(MemberDTO dto) {
 		con = getConnection();
 		sql = " update members "

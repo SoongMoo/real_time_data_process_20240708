@@ -23,7 +23,7 @@
 생년월일 : ${dto.memberBirth }<br />
 이메일 : ${dto.memberEmail }<br />
 <a href="memberUpdate.mem?memberNum=${dto.memberNum }">회원 수정</a> | 
-회원 강제 탈퇴 |
+<a href="memberDelete.mem?memberNum=${dto.memberNum }">회원 강제 탈퇴</a> |
 <a href="memberList.mem">회원목록</a>
 </body>
 </html>

@@ -17,4 +17,16 @@
   	<servlet-name>mem</servlet-name>
   	<url-pattern>*.mem</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>employee</servlet-name>
+  	<servlet-class>jspMVCMisoShopping.controller.EmployeeFrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>employee</servlet-name>
+  	<url-pattern>*.emp</url-pattern>
+  </servlet-mapping>  
+  
+  
+  
 </web-app>

@@ -26,6 +26,7 @@
 생년월일 : <input type="date" name="memberBirth" value="${dto.memberBirth }"/><br />
 이메일 : <input type="email" name="memberEmail" value="${dto.memberEmail }"/><br />
 <input type="submit" value="회원수정 완료" /> 
+<input type="button" value="회원목록" onclick="javascript:location.href='memberList.mem'">
 </form>
 </body>
 </html>
