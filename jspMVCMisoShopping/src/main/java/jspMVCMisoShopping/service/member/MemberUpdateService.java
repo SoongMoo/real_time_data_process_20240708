@@ -1,5 +1,6 @@
 package jspMVCMisoShopping.service.member;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,6 +12,10 @@ import jspMVCMisoShopping.model.dto.MemberDTO;
 
 public class MemberUpdateService {
 	public void execute(HttpServletRequest request) {
+		try {
+			// 한글 깨짐 방지
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e) {}
 		MemberDTO dto = new MemberDTO();
 		dto.setMemberAddr(request.getParameter("memberAddr"));
 		dto.setMemberAddrDetail(request.getParameter("memberAddrDetail"));
