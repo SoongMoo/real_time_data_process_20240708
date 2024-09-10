@@ -10,7 +10,7 @@
 회원등록 페이지입니다.<br />
 <form action="memberRegist.mem" method="post">
 회원번호 : <input type="text" name="memberNum" value="${memberNum }" readonly="readonly"/>자동부여<br />
-회원아이디 : <input type="text" name="memberId" /><br />
+회원아이디 : <input type="text" name="memberId" id="memberId"/><br />
 회원비밀번호 : <input type="password" name="memberPw" /><br />
 회원비밀번호확인 : <input type="password" name="memberPwCon" /><br />
 회원명 : <input type="text" name="memberName" /><br />
@@ -20,7 +20,7 @@
 회원연락처1 : <input type="tel" name="memberPhone1" /><br />
 회원연락처2 : <input type="tel" name="memberPhone2" /><br />
 회원성별 : <input type="radio" name="gender" value="M" checked="checked"/>남자
-		<input type="radio" name="memberGender" value="F"/>여자<br />
+		<input type="radio" name="gender" value="F"/>여자<br />
 회원생년월일 : <input type="date" name="memberBirth" /><br />
 회원이메일 : <input type="email" name="memberEmail" /><br />
 <input type="submit" value="회원등록" />

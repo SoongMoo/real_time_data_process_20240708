@@ -165,28 +165,5 @@ public class EmployeeDAO extends DataBaseInfo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	public String getEmpNum(String empId) {
-		String empNum = "";
-		con = getConnection();
-		sql = " select emp_num from employees "
-			+ " where emp_id = ?";
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, empId);
-			rs = pstmt.executeQuery();
-			rs.next();
-			empNum = rs.getString(1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close();
-		}
-		return empNum;
-	}
-	
-	
-	
-	
-	
+	}	
 }
