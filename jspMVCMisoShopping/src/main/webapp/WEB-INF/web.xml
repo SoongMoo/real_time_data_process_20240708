@@ -36,4 +36,21 @@
   	<url-pattern>*.nhn</url-pattern>
   </servlet-mapping>
   
+  
+  <servlet>
+  	<servlet-name>help</servlet-name>
+ 	<servlet-class>jspMVCMisoShopping.controller.HelpFrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>help</servlet-name>
+  	<url-pattern>*.help</url-pattern>
+  </servlet-mapping>  
+  
+  
+  
+  
+  
+  
+  
+  
 </web-app>

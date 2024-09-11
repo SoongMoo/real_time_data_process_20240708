@@ -9,8 +9,8 @@
 <body>
 이제 쇼핑몰을 시작하겠습니다.<br />
 <ul >
-	<li><a href="memberList.mem">회원 목록</a></li>
-	<li><a href="employeeList.emp">직원 목록</a></li>
+	<li><a href="memberList.mem">회원관리</a></li>
+	<li><a href="employeeList.emp">직원관리</a></li>
 </ul>
 
 <table border="1" align="center">
@@ -25,7 +25,8 @@
 			<input type="password" name="userPw" placeholder="비밀번호"/>
 		</td></tr>
 	<tr><td colspan="2">
-			아이디 / 비밀번호 찾기 | 
+			<a href="idInquiry.help">아이디</a> / 
+			<a href="pwInquiry.help">비밀번호 찾기</a> | 
 			<a href="userAgree.nhn">회원가입</a>
 		</td></tr>
 </table>
