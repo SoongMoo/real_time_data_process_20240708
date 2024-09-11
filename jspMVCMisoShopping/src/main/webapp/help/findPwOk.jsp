@@ -9,7 +9,7 @@
 </head>
 <body>
 <c:if test="${!empty userPw }">
-${userId }님의 임시비밀번호는 ${userPw }입니다.
+${userId }님의 비밀번호는 ${userPw }입니다.
 </c:if>
 
 <c:if test="${empty userPw }">
