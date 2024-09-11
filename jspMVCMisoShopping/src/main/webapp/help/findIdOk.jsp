@@ -9,6 +9,6 @@
 <title>findIdOk.jsp</title>
 </head>
 <body>
-
+당신의 아이디는 ${userId }
 </body>
 </html>
