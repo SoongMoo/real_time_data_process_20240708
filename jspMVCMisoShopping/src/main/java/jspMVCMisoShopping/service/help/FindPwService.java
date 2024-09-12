@@ -17,7 +17,6 @@ public class FindPwService {
 			dao.userPwUpdate(userId,newPw, grade);
 			request.setAttribute("userId", userId);
 			request.setAttribute("userPw", newPw);
-			
 		}
 	}
 }

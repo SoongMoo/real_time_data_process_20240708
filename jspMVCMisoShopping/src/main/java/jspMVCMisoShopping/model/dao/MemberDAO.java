@@ -37,6 +37,23 @@ public class MemberDAO {
 		if(pstmt != null) try {pstmt.close();}catch(Exception e) {}
 		if(con != null) try {con.close();}catch(Exception e) {}
 	}
+	public void memberPwUpdate(String userPw, String userId) {
+		con = getConnection();
+		sql = " update members "
+			+ " set member_pw = ? "
+			+ " where member_id = ?";
+		System.out.println(userPw);
+		System.out.println(userId);
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userPw);
+			pstmt.setString(2, userId);
+			int i = pstmt.executeUpdate();
+			System.out.println("비밀번호가 변경되었습니다.");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {close();}		
+	}
 	public String memberNumSelect(String memberId) {
 		String memberNum = null;
 		con = getConnection();

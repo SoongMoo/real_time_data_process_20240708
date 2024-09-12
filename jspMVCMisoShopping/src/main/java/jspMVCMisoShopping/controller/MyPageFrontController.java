@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import jspMVCMisoShopping.model.dto.AuthInfoDTO;
 import jspMVCMisoShopping.service.member.MemberDetailService;
 import jspMVCMisoShopping.service.member.MemberUpdateService;
+import jspMVCMisoShopping.service.user.MemberDropService;
+import jspMVCMisoShopping.service.user.MemberPasswordService;
 
 public class MyPageFrontController extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, 
@@ -62,9 +64,35 @@ public class MyPageFrontController extends HttpServlet {
 			dispatcher.forward(request, response);
 			
 		}else if(command.equals("/memberPwPro.my")) {
+			MemberPasswordService action = new MemberPasswordService();
+			int i = action.execute(request);
+			if(i == 1) {
+				response.sendRedirect("memberMyPage.my");
+			}else {
+				RequestDispatcher dispatcher = 
+						request.getRequestDispatcher("myPage/myPwCon.jsp");
+				dispatcher.forward(request, response);
+			}
+		}else if(command.equals("/memberDrop.my")) {
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("myPage/memberDrop.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/memberDropOk.my")) {
+			MemberDropService action = new MemberDropService();
+			int i = action.execute(request);
+			if(i == 1) response.sendRedirect("logout.login");
+			else {
+				RequestDispatcher dispatcher =
+						request.getRequestDispatcher("myPage/memberDrop.jsp");
+				dispatcher.forward(request, response);
 			
-			response.sendRedirect("memberMyPage.my");
+			}
 		}
+		/*  브라우저가 종료되기 전 까지  
+		 * 	session.setAttribute(이름, 값); 
+		 *  session.getAttribute(이름);
+		 *  session.invalidate();
+		 */ 
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

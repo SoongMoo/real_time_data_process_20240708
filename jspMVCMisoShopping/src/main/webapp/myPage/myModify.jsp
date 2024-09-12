@@ -13,8 +13,8 @@ myModify.jsp
 		<li><a href="<c:url value='/' />">홈</a></li>
 		<li><a href="memberMyPage.my">내정보 보기</a></li>
 		<li><a href="memberUpdate.my">내정보 수정</a></li>
-		<li>비밀번호변경</li>
-		<li>회원탈퇴</li>
+		<li><a href="userPwModify.my">비밀번호변경</a></li>
+		<li><a href="memberDrop.my">회원탈퇴</a></li>
 	</ul>
 <form action="memberModify.my" method="post" name="frm">
 이름 : <input type="text" name="memberName" value="${dto.memberName }"/><br />
