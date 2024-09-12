@@ -7,7 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import jspMVCMisoShopping.model.dto.AuthInfoDTO;
 import jspMVCMisoShopping.service.member.MemberDetailService;
 import jspMVCMisoShopping.service.member.MemberUpdateService;
 
@@ -41,6 +43,27 @@ public class MyPageFrontController extends HttpServlet {
 						request.getRequestDispatcher("/myPage/myModify.jsp");
 				dispatcher.forward(request, response);
 			}
+		}else if(command.equals("/userPwModify.my")) {
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("myPage/myPwCon.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/memberPwModify.my")) {
+			HttpSession session = request.getSession();
+			AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
+			String path = null;
+			if(request.getParameter("memberPw").equals(auth.getUserPw())) {
+				path = "myPage/myNewPw.jsp";
+			}else {
+				request.setAttribute("errPw", "비밀번호가 틀렸습니다.");
+				path = "myPage/myPwCon.jsp";
+			}
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher(path);
+			dispatcher.forward(request, response);
+			
+		}else if(command.equals("/memberPwPro.my")) {
+			
+			response.sendRedirect("memberMyPage.my");
 		}
 	}
 	@Override

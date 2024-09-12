@@ -15,7 +15,7 @@ import jspMVCMisoShopping.model.dto.MemberDTO;
 public class MemberUpdateService {
 	public int execute(HttpServletRequest request) {
 		String memberNum = request.getParameter("memberNum");
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(); 
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		MemberDAO dao = new MemberDAO();
 		if(memberNum == null) {
