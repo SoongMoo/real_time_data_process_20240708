@@ -8,6 +8,7 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src ="js/daumAddressScript.js"></script>
+<script type="text/javascript" src="js/checkScript.js"></script>
 <script type="text/javascript" >
 $(function(){
 	$("#frm").submit(function(){
@@ -19,10 +20,7 @@ $(function(){
 			return false;
 		}
 	});
-	$("#userId").bind("click", function(){
-		$("#userId").val("");
-		window.open("idCheck.nhn","아이디검색","width=400, height=200, left=130, top=150");
-	});
+	
 });
 </script>
 </head>

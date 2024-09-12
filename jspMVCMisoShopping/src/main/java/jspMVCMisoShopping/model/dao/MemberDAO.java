@@ -37,6 +37,22 @@ public class MemberDAO {
 		if(pstmt != null) try {pstmt.close();}catch(Exception e) {}
 		if(con != null) try {con.close();}catch(Exception e) {}
 	}
+	public String memberNumSelect(String memberId) {
+		String memberNum = null;
+		con = getConnection();
+		sql = " select member_num from members "
+			+ " where member_id = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			rs = pstmt.executeQuery();
+			rs.next();
+			memberNum = rs.getString(1);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {close();}
+		return memberNum;
+	}
 	public void memberDelete(String memberNum) {
 		con = getConnection();
 		sql = " delete from members "
