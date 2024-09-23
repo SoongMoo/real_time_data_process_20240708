@@ -15,8 +15,6 @@
 		<td><input type="text" name="goodsName"/></td></tr>
 	<tr><th>상품가격</th>
 		<td><input type="number" name="goodsPrice"/></td></tr>
-	<tr><th>배송비</th>
-		<td><input type="number" name="deliveryCost"/></td></tr>
 	<tr><th>상품설명</th>
 		<td><textarea rows="10" cols="50" name="goodsContent"></textarea></td></tr>
 	<tr><th colspan="2"><input type="submit" value="상품등록" /></th></tr>
