@@ -22,6 +22,22 @@ public class EmployeeDAO extends DataBaseInfo {
 		}
 		return empNum;
 	}
+	public String empNumSelect(String empId) {
+		String empNum = null;
+		con = getConnection();
+		sql = " select emp_num from employees "
+			+ " where emp_id = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, empId);
+			rs = pstmt.executeQuery();
+			rs.next();
+			empNum = rs.getString(1);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {close();}
+		return empNum;
+	}
 	public void employeeInsert(EmployeeDTO dto) {
 		con = getConnection();
 		sql = "insert into employees("

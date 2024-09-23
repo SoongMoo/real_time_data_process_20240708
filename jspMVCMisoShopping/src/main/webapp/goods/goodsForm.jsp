@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="goodsRegist.goods" method="POST" enctype="multipart/form-data" >
+<form action="goodsRegist.goods" method="POST" >
 <table border = "1" width ="600" align="center">
 	<tr><th width="100">상품번호</th>
 		<td><input type="text" name="goodsNum" readonly="readonly" />번호자동부여</td></tr>

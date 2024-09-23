@@ -37,11 +37,17 @@ public class MemberDAO {
 		if(pstmt != null) try {pstmt.close();}catch(Exception e) {}
 		if(con != null) try {con.close();}catch(Exception e) {}
 	}
-	public void memberPwUpdate(String userPw, String userId) {
+	public void memberPwUpdate(String userPw, String userId, String grade) {
 		con = getConnection();
-		sql = " update members "
-			+ " set member_pw = ? "
-			+ " where member_id = ?";
+		if(grade.equals("mem")) {
+			sql = " update members "
+				+ " set member_pw = ? "
+				+ " where member_id = ?";
+		}else {
+			sql = " update employees "
+				+ " set emp_pw = ? "
+				+ " where emp_id = ?";
+		}
 		System.out.println(userPw);
 		System.out.println(userId);
 		try {

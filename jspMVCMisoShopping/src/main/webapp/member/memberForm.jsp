@@ -9,6 +9,20 @@
 <script type="text/javascript" src="js/checkScript.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src ="js/daumAddressScript.js"></script>
+<script type="text/javascript" >
+$(function(){
+	$("#frm").submit(function(){
+		if($("#memberPw").val() != $("#memberPwCon").val()){
+			alert("비밀번호와 비밀번호확인이 다릅니다.");
+			$("#memberPw").val("");
+			$("#memberPwCon").val("");
+			$("#memberPw").focus();
+			return false;
+		}
+	});
+	
+});
+</script>
 </head>
 <body>
 회원등록 페이지입니다.<br />

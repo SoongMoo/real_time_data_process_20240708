@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jspMVCMisoShopping.model.dto.AuthInfoDTO;
+import jspMVCMisoShopping.service.employee.EmployeeDetailService;
+import jspMVCMisoShopping.service.employee.EmployeeModifyService;
 import jspMVCMisoShopping.service.member.MemberDetailService;
 import jspMVCMisoShopping.service.member.MemberUpdateService;
 import jspMVCMisoShopping.service.user.MemberDropService;
-import jspMVCMisoShopping.service.user.MemberPasswordService;
+import jspMVCMisoShopping.service.user.UserPasswordService;
 
 public class MyPageFrontController extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, 
@@ -49,7 +51,7 @@ public class MyPageFrontController extends HttpServlet {
 			RequestDispatcher dispatcher = 
 					request.getRequestDispatcher("myPage/myPwCon.jsp");
 			dispatcher.forward(request, response);
-		}else if(command.equals("/memberPwModify.my")) {
+		}else if(command.equals("/userPwUpdate.my")) {
 			HttpSession session = request.getSession();
 			AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 			String path = null;
@@ -63,11 +65,15 @@ public class MyPageFrontController extends HttpServlet {
 					request.getRequestDispatcher(path);
 			dispatcher.forward(request, response);
 			
-		}else if(command.equals("/memberPwPro.my")) {
-			MemberPasswordService action = new MemberPasswordService();
-			int i = action.execute(request);
-			if(i == 1) {
-				response.sendRedirect("memberMyPage.my");
+		}else if(command.equals("/userPwPro.my")) {
+			UserPasswordService action = new UserPasswordService();
+			String i = action.execute(request);
+			if(i != null) {
+				if(i.equals("mem")) {
+					response.sendRedirect("memberMyPage.my");
+				}else {
+					response.sendRedirect("empMyPage.my");
+				}
 			}else {
 				RequestDispatcher dispatcher = 
 						request.getRequestDispatcher("myPage/myPwCon.jsp");
@@ -93,6 +99,32 @@ public class MyPageFrontController extends HttpServlet {
 		 *  session.getAttribute(이름);
 		 *  session.invalidate();
 		 */ 
+		else if(command.equals("/empMyPage.my")) {
+			EmployeeDetailService action = 
+					new EmployeeDetailService();
+			action.execute(request);
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("myPage/employeeMyPage.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/empUpdate.my")) {
+			EmployeeDetailService action = 
+					new EmployeeDetailService();
+			action.execute(request);
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("myPage/empModify.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/empModify.my")) {
+			EmployeeModifyService action = new EmployeeModifyService();
+			int i = action.execute(request);
+			if(i == 1) response.sendRedirect("empMyPage.my");
+			else {
+				EmployeeDetailService action1 = new EmployeeDetailService();
+				action1.execute(request);
+				RequestDispatcher dispatcher =
+						request.getRequestDispatcher("/myPage/empModify.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
