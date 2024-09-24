@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jspMVCMisoShopping.service.goods.GoodsAutoNumService;
+import jspMVCMisoShopping.service.goods.GoodsDeleteService;
+import jspMVCMisoShopping.service.goods.GoodsDetailService;
+import jspMVCMisoShopping.service.goods.GoodsListService;
+import jspMVCMisoShopping.service.goods.GoodsUpdateService;
+import jspMVCMisoShopping.service.goods.GoodsWriteService;
 
 public class GoodsFrontController extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) 
@@ -17,6 +22,8 @@ public class GoodsFrontController extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String command =  requestURI.substring(contextPath.length());
 		if(command.equals("/goodsList.goods")) {
+			GoodsListService action = new GoodsListService();
+			action.execute(request);
 			RequestDispatcher dispatcher = 
 					request.getRequestDispatcher("/goods/goodsList.jsp");
 			dispatcher.forward(request, response);
@@ -26,6 +33,30 @@ public class GoodsFrontController extends HttpServlet {
 			RequestDispatcher dispatcher = 
 					request.getRequestDispatcher("/goods/goodsForm.jsp");
 			dispatcher.forward(request, response);
+		}else if(command.equals("/goodsRegist.goods")) {
+			GoodsWriteService action = new GoodsWriteService();
+			action.execute(request);
+			response.sendRedirect("goodsList.goods");
+		}else if(command.equals("/goodsDetail.goods")) {
+			GoodsDetailService action = new GoodsDetailService();
+			action.execute(request);
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("/goods/goodsInfo.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/goodsUpdate.goods")) {
+			GoodsDetailService action = new GoodsDetailService();
+			action.execute(request);
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("/goods/goodsModify.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/goodsModify.goods")) {
+			GoodsUpdateService action = new GoodsUpdateService();
+			action.execute(request);
+			response.sendRedirect("goodsDetail.goods?goodsNum="+request.getParameter("goodsNum"));
+		}else if(command.equals("/goodsDelete.goods")) {
+			GoodsDeleteService action = new GoodsDeleteService();
+			action.execute(request);
+			response.sendRedirect("goodsList.goods");
 		}
 	}
 	@Override

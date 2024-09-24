@@ -11,19 +11,18 @@
 <body>
 <table border=1 align="center" width="600">
 	<caption>${dto.goodsName } 상품 상세보기</caption>
-	<tr><th width="150" >상품번호</th><td>상품번호</td></tr>
-	<tr><th width="150" >상품명</th><td>상품명</td></tr>
-	<tr><th>상품가격</th><td>상품가격</td></tr>
-	<tr><th>배송비</th><td>배송비</td></tr>
-	<tr><th>상품설명</th><td>상품설명</td></tr>
-	<tr><th>조회수</th><td>조회수</td></tr>
-	<tr><th>등록한 사원</th><td>등록한 사원</td></tr>
-	<tr><th>등록일</th><td>등록일</td></tr>
-	<tr><th>마지막 수정 사원</th><td>마지막 수정 사원</td></tr>
-	<tr><th>마지막 수정일</th><td>마지막 수정일</td></tr>
+	<tr><th width="150" >상품번호</th><td>${dto.goodsNum }</td></tr>
+	<tr><th width="150" >상품명</th><td>${dto.goodsName }</td></tr>
+	<tr><th>상품가격</th><td>${dto.goodsPrice }</td></tr>
+	<tr><th>상품설명</th><td>${dto.goodsContent }</td></tr>
+	<tr><th>조회수</th><td>${dto.visitCount }</td></tr>
+	<tr><th>등록한 사원</th><td>${dto.empNum }</td></tr>
+	<tr><th>등록일</th><td>${dto.goodsRegist }</td></tr>
+	<tr><th>마지막 수정 사원</th><td>${dto.updateEmpNum }</td></tr>
+	<tr><th>마지막 수정일</th><td>${dto.goodsUpdateDate }</td></tr>
 	<tr><th colspan="2">
-		<a href="goodsUpdate.goods">상품수정</a> | 
-		<a href="goodsDelete.goods">상품 삭제</a> | 
+		<a href="goodsUpdate.goods?goodsNum=${dto.goodsNum }">상품수정</a> | 
+		<a href="goodsDelete.goods?goodsNum=${dto.goodsNum }">상품 삭제</a> | 
 		<a href="goodsList.goods">상품목록</a></th></tr>
 </table>
 </body>
