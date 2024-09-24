@@ -28,9 +28,9 @@ $(function(){
  상품입고 <br />
  <form action="ipgoRegist.ipgo" method="get ">
  입고번호 :  <input type="text" name= "goodsIpgoNum" /><br />
- 상품번호 :  <input type="text" name= "goodsNum" id="goodsNum"/>
+ 상품번호 :  <input type="text" name= "goodsNum" id="goodsNum" readonly="readonly"/>
  			 <button type="button" id="btn" >상품 검색</button><br />
- 상품명 :  <input type="text"  id="goodsName"/><br />
+ 상품명 :  <input type="text"  id="goodsName" readonly="readonly"/><br />
  입고일 : <input type="date" name= "ipgoDate" /><br />
  입고 수량 : <input type="number" name= "ipgoQty" /><br />
  제조일 : <input type="datetime-local" name= "madeDate" /><br />
