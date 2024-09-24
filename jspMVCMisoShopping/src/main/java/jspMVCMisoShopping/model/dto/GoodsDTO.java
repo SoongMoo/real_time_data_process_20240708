@@ -15,6 +15,12 @@ public class GoodsDTO {
 	Date goodsRegist;
 	String updateEmpNum;
 	Date goodsUpdateDate;
+	
+	String goodsMainImage;
+	String goodsMainStoreImage;
+	
+	String goodsDetailImage;
+	String goodsDetailStoreImage;
 }
 
 

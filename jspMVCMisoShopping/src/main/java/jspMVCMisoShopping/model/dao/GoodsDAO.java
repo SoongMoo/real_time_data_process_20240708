@@ -7,17 +7,19 @@ import java.util.List;
 import jspMVCMisoShopping.model.dto.GoodsDTO;
 
 public class GoodsDAO extends DataBaseInfo{
-	public void goodsDelete(String goodsNum) {
+	public int goodsDelete(String goodsNum) {
 		con = getConnection();
 		sql = " delete from goods where goods_num = ? ";
+		int i = 0;
 		try {
 			pstmt= con.prepareStatement(sql);
 			pstmt.setString(1, goodsNum);
-			int i = pstmt.executeUpdate();
+			i = pstmt.executeUpdate();
 			System.out.println(i + "개 행이(가) 수정되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {close();}
+		return i;
 	}
 	public void goodsUpdate(GoodsDTO dto) {
 		con = getConnection();
@@ -63,6 +65,10 @@ public class GoodsDAO extends DataBaseInfo{
 				dto.setGoodsRegist(rs.getDate(7));
 				dto.setUpdateEmpNum(rs.getString(8));
 				dto.setGoodsUpdateDate(rs.getDate(9));
+				dto.setGoodsMainImage(rs.getString("GOODS_MAIN_IMAGE"));
+				dto.setGoodsMainStoreImage(rs.getString("GOODS_MAIN_STORE_IMAGE"));
+				dto.setGoodsDetailImage(rs.getString("GOODS_DETAIL_IMAGE"));
+				dto.setGoodsDetailStoreImage(rs.getString("GOODS_DETAIL_STORE_IMAGE"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -92,6 +98,10 @@ public class GoodsDAO extends DataBaseInfo{
 				dto.setGoodsRegist(rs.getDate(7));
 				dto.setUpdateEmpNum(rs.getString(8));
 				dto.setGoodsUpdateDate(rs.getDate(9));
+				dto.setGoodsMainImage(rs.getString("GOODS_MAIN_IMAGE"));
+				dto.setGoodsMainStoreImage(rs.getString("GOODS_MAIN_STORE_IMAGE"));
+				dto.setGoodsDetailImage(rs.getString("GOODS_DETAIL_IMAGE"));
+				dto.setGoodsDetailStoreImage(rs.getString("GOODS_DETAIL_STORE_IMAGE"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -106,7 +116,7 @@ public class GoodsDAO extends DataBaseInfo{
 				+ "                 EMP_NUM, GOODS_REGIST,UPDATE_EMP_NUM,  GOODS_UPDATE_DATE,"
 				+ "                 GOODS_MAIN_IMAGE, GOODS_MAIN_STORE_IMAGE, "
 				+ "                 GOODS_DETAIL_IMAGE ,GOODS_DETAIL_STORE_IMAGE ) "
-			+ " values( ?, ?, ?, ?, 0, ?, sysdate, null, null, null, null, null, null )";
+			+ " values( ?, ?, ?, ?, 0, ?, sysdate, null, null, ?, ?, ?, ? )";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, dto.getGoodsNum());
@@ -114,6 +124,10 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setInt(3, dto.getGoodsPrice());
 			pstmt.setString(4, dto.getGoodsContent());
 			pstmt.setString(5, dto.getEmpNum());
+			pstmt.setString(6, dto.getGoodsMainImage());
+			pstmt.setString(7, dto.getGoodsMainStoreImage());
+			pstmt.setString(8, dto.getGoodsDetailImage());
+			pstmt.setString(9, dto.getGoodsDetailStoreImage());
 			int i = pstmt.executeUpdate();
 			System.out.println(i + "개행이(가) 삽입되었습니다.");
 		} catch (SQLException e) {

@@ -16,8 +16,8 @@
 <table border=1 width="600" align="center">
 	<caption>상품 목록</caption>
 	<tr><th>번호</th><th>상품번호</th><th>상품명</th><th>상품가격</th></tr>
-	<c:forEach items="${list }" var="dto"> 
-	<tr><th>번호</th>
+	<c:forEach items="${list }" var="dto" varStatus="idx"> 
+	<tr><th>${idx.count }</th>
 		<th><a href="goodsDetail.goods?goodsNum=${dto.goodsNum }">${dto.goodsNum }</a></th>
 		<th>${dto.goodsName }</th>
 		<th>${dto.goodsPrice }</th></tr>
