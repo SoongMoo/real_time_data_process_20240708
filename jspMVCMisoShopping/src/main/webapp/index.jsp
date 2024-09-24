@@ -17,7 +17,7 @@
 				<li><a href="memberList.mem">회원관리</a></li>
 				<li><a href="employeeList.emp">직원관리</a></li>
 				<li><a href="empMyPage.my">직원 내정보 보기</a></li>
-				<li><a href="goodsList.goods">상품리스트</a></li>
+				<li><a href="goodsList.goods">상품관리</a></li>
 				<li><a href="memPurchaseList.deli">회원구매정보</a></li>
 				<li><a href="inquire.inq">상품문의</a></li>
 			</c:if>

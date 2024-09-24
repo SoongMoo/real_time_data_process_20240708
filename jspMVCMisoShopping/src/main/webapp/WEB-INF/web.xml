@@ -64,6 +64,28 @@
   	<url-pattern>*.my</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>goods</servlet-name>
+  	<servlet-class>jspMVCMisoShopping.controller.GoodsFrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>goods</servlet-name>
+    <url-pattern>*.goods</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   

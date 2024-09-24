@@ -10,7 +10,7 @@
 <form action="goodsRegist.goods" method="POST" >
 <table border = "1" width ="600" align="center">
 	<tr><th width="100">상품번호</th>
-		<td><input type="text" name="goodsNum" readonly="readonly" />번호자동부여</td></tr>
+		<td><input type="text" name="goodsNum" value="${goodsNum }" readonly="readonly" />번호자동부여</td></tr>
 	<tr><th>상품명</th>
 		<td><input type="text" name="goodsName"/></td></tr>
 	<tr><th>상품가격</th>
