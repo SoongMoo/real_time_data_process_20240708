@@ -20,12 +20,12 @@
 	</c:forEach>
 	<!-- 추가 -->
 	<tr><td colspan="6" align="right">
-			상품수 : <span id="prodCnt"></span>개<br />
-			총수량 : <span id="totQty"></span>개<br />
-			전체 합계 : <span id="totalPrice"></span>원
+			상품수 : <span id="prodCnt">0</span>개<br />
+			총수량 : <span id="totQty">0</span>개<br />
+			전체 합계 : <span id="totalPrice">0</span>원
 		</td>
 	</tr>
-	<tr><td colspan="6" align="right"><input type="submit" value="구매하기"/></td></tr>
+	<tr><td colspan="6" align="right">구매하기</td></tr>
 </table>
 </body>
 </html>
