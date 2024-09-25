@@ -1,6 +1,7 @@
 package jspMVCMisoShopping.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,6 +32,26 @@ public class LoginFrontController extends HttpServlet{
 			HttpSession session = request.getSession();
 			session.invalidate(); // 모든 session을 삭제
 			response.sendRedirect(contextPath);
+		}else if(command.equals("/loginCk.login")) {
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("login.jsp");
+			dispatcher.forward(request, response);	
+		}else if(command.equals("/login1.login")) {
+			UserLoginService action = new UserLoginService();
+			int i = action.execute(request);
+			if(i == 1) {
+				PrintWriter out = response.getWriter();
+				response.setContentType("text/html; charset=utf-8");
+				out.print("<script type='text/javascript'>");
+				out.print("opener.document.location.reload();");
+				out.print("window.self.close();");
+				out.print("</script>");
+				out.close();
+			}else {
+				RequestDispatcher dispatcher =
+						request.getRequestDispatcher("login.jsp");
+				dispatcher.forward(request, response);
+			}
 		}
 	}
 	@Override
