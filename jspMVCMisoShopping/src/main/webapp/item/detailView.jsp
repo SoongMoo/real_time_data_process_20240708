@@ -9,6 +9,13 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript">
 	$(function(){
+		$("#cartBtn").click(function(){
+			if(${!empty auth}){
+				
+			}else{
+				window.open("loginCk.login","loginck","width=400,height=400");
+			}
+		});
 		$("#wish").click(function(){
 			//json으로 값을 전달
 			$.ajax({
