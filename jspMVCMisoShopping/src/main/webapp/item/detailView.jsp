@@ -6,19 +6,41 @@
 <head>
 <meta charset="UTF-8">
 <title>detailView.jsp</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#wish").click(function(){
+			//json으로 값을 전달
+			$.ajax({
+				type : "post", 
+				url : "wishItem.item",
+				data : {"goodsNum":"${dto.goodsNum }"},
+				success:function(){
+					if($("#wish").attr("src") == "images/hart1.jpg"){
+						$("#wish").attr("src","images/hart.jpg");
+					}else{
+						$("#wish").attr("src","images/hart1.jpg");
+					}
+				},
+				error:function(){
+					alert("서버오류입니다.");
+				}
+			}); 
+		});
+	});
+</script>
 </head>
 <body>
 <table width="800" align="center">
-<caption>청바지 상품정보입니다.</caption>
-<tr><td rowspan="5"><img src="" height="200" /></td>
-					<td></td></tr>
-<tr>                <td></td></tr>
-<tr>                <td>무료배송	1000원</td></tr>
+<caption>${dto.goodsName } 상품정보입니다.</caption>
+<tr><td rowspan="5"><img src="goods/upload/${dto.goodsMainImage }" height="200" /></td>
+					<td>${dto.goodsName }</td></tr>
+<tr>                <td>${dto.goodsPrice }</td></tr>
+<tr>                <td>들여다본 수 : ${dto.visitCount }</td>
 <tr>                <td>수량 : <input type="number" min="1" step="1" value="1" id="cartQty"/> </td></tr>
 <tr>                <td><button type="button" id="cartBtn">장바구니</button> | 
  						<button type="button" id="buyItem">바로구매 </button> | 
 						<img src="images/hart1.jpg" width="20" id="wish"/>
-						<img src="images/hart.jpg" width="20" id="wish"/>
 					찜</td></tr>
 <tr><td colspan="2">
 		<span id="descript">제품 상세 설명</span> | 

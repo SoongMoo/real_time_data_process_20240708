@@ -7,6 +7,20 @@ import java.util.List;
 import jspMVCMisoShopping.model.dto.GoodsDTO;
 
 public class GoodsDAO extends DataBaseInfo{
+	public void visitCount(String goodsNum) {
+		con = getConnection();
+		sql = " update goods "
+			+ " set VISIT_COUNT = VISIT_COUNT + 1 "
+			+ " where goods_num = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, goodsNum);
+			pstmt.executeUpdate();
+			System.out.println("조회수가 1증가했습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {close();}
+	}
 	public int goodsDelete(String goodsNum) {
 		con = getConnection();
 		sql = " delete from goods where goods_num = ? ";

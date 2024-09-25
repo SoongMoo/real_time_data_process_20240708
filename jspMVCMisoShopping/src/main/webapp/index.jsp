@@ -55,7 +55,19 @@
 			</table>
 		</form>
 	</c:if>
-
+<table width="800" align="center">
+	<tr>
+		<c:forEach items="${list }" var="dto" varStatus="idx"> 
+		<td><a href="detailView.item?goodsNum=${dto.goodsNum }">
+			<img src="goods/upload/${dto.goodsMainImage }"  width="300" height="150" /><br />
+			${dto.goodsName }<br /> 
+			${dto.goodsPrice } <br />
+			</a>	
+		</td>
+		<c:if test="${idx.count % 3 == 0 }"></tr><tr></c:if>
+		</c:forEach>
+	</tr>
+</table>
 </body>
 </html>
 
