@@ -23,7 +23,10 @@
 					}
 				},
 				error:function(){
-					alert("서버오류입니다.");
+					alert('로그인 아웃 되었습니다.\n다시 로그인 해 주세요.');
+					location.href="<c:url value='/' />";
+					// /jspMVCMisoShopping/
+					return false;
 				}
 			}); 
 		});
@@ -40,7 +43,12 @@
 <tr>                <td>수량 : <input type="number" min="1" step="1" value="1" id="cartQty"/> </td></tr>
 <tr>                <td><button type="button" id="cartBtn">장바구니</button> | 
  						<button type="button" id="buyItem">바로구매 </button> | 
-						<img src="images/hart1.jpg" width="20" id="wish"/>
+ 						<c:if test="${ empty isTrue }">
+							<img src="images/hart1.jpg" width="20" id="wish"/>
+						</c:if>
+						<c:if test="${!empty isTrue }">
+							<img src="images/hart.jpg" width="20" id="wish"/>
+						</c:if>
 					찜</td></tr>
 <tr><td colspan="2">
 		<span id="descript">제품 상세 설명</span> | 

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import jspMVCMisoShopping.service.goods.GoodsDetailService;
 import jspMVCMisoShopping.service.item.GoodsVisitCountService;
+import jspMVCMisoShopping.service.item.GoodsWishItemService;
 
 public class ItemFrontController extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, 
@@ -26,6 +27,9 @@ public class ItemFrontController extends HttpServlet {
 			RequestDispatcher dispatcher =
 					request.getRequestDispatcher("item/detailView.jsp");
 			dispatcher.forward(request, response);
+		}else if(command.equals("/wishItem.item")) {
+			GoodsWishItemService action  = new GoodsWishItemService();
+			action.execute(request);
 		}
 	}
 	@Override
