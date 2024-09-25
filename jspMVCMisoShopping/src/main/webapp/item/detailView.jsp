@@ -11,7 +11,24 @@
 	$(function(){
 		$("#cartBtn").click(function(){
 			if(${!empty auth}){
-				
+				$.ajax({
+					type:"post",
+					//url:"cart.item?goodsNum=${dto.goodsNum}&cartQty="+$("#cartQty").val(),
+					url : "cart.item",
+					data : {"goodsNum":"${dto.goodsNum}","cartQty":$("#cartQty").val()},
+					success:function(){
+						con = confirm("장바구니로 이동하시겠습니까?"); 
+						if(con){
+							location.href="cartList.item";
+						}else{
+							document.location.reload();
+						}
+					},
+					error : function(){
+						alert("로그 아웃되었습니다. 다시로그인 해주세요.");
+						window.open("loginCk.login","loginck","width=400,height=400");
+					}
+				});
 			}else{
 				window.open("loginCk.login","loginck","width=400,height=400");
 			}

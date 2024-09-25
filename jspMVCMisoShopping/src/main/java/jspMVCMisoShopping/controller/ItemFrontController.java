@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jspMVCMisoShopping.service.goods.GoodsDetailService;
+import jspMVCMisoShopping.service.item.CartMergeService;
 import jspMVCMisoShopping.service.item.GoodsVisitCountService;
 import jspMVCMisoShopping.service.item.GoodsWishItemService;
 
@@ -30,6 +31,13 @@ public class ItemFrontController extends HttpServlet {
 		}else if(command.equals("/wishItem.item")) {
 			GoodsWishItemService action  = new GoodsWishItemService();
 			action.execute(request);
+		}else if(command.equals("/cart.item")) {
+			CartMergeService action = new CartMergeService();
+			action.execute(request);
+		}else if(command.equals("/cartList.item")) {
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("item/cartList.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 	@Override
