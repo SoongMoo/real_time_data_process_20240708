@@ -13,6 +13,7 @@ import jspMVCMisoShopping.service.item.CartItemsDeleteService;
 import jspMVCMisoShopping.service.item.CartListService;
 import jspMVCMisoShopping.service.item.CartMergeService;
 import jspMVCMisoShopping.service.item.CartQtyDownService;
+import jspMVCMisoShopping.service.item.GoodsItemService;
 import jspMVCMisoShopping.service.item.GoodsVisitCountService;
 import jspMVCMisoShopping.service.item.GoodsWishItemService;
 
@@ -50,6 +51,13 @@ public class ItemFrontController extends HttpServlet {
 			CartItemsDeleteService action = new CartItemsDeleteService(request);
 			action.execute(request);
 			response.sendRedirect("cartList.item");
+		}else if(command.equals("/itemBuy.item")) {
+			GoodsItemService action = new GoodsItemService(request);
+			action.execute(request);
+			
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("item/goodsOrder.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 	@Override

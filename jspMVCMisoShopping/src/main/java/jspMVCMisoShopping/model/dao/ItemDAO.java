@@ -8,6 +8,35 @@ import jspMVCMisoShopping.model.dto.CartDTO;
 import jspMVCMisoShopping.model.dto.CartListDTO;
 
 public class ItemDAO extends DataBaseInfo{
+	public CartListDTO itemSelectOne(String memberNum , String goodsNum) {
+		CartListDTO dto = new CartListDTO();
+		con = getConnection();
+		sql = " select g.goods_Num, goods_Name, goods_Price, goods_main_store_image "
+			+ "       ,MEMBER_NUM, CART_QTY, CART_DATE  "
+			+ "       ,goods_Price * CART_QTY as total_price "
+			+ " from goods g join cart c "
+			+ " on g.goods_num = c.goods_num "
+			+ " where MEMBER_NUM = ? and g.goods_num = ? "
+			+ " order by g.goods_Num desc ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, memberNum);
+			pstmt.setString(2, goodsNum);
+			rs = pstmt.executeQuery();
+			rs.next();
+			dto.setCartDate(rs.getDate("CART_DATE"));
+			dto.setCartQty(rs.getInt("CART_QTY"));
+			dto.setGoodsName(rs.getString("goods_name"));
+			dto.setGoodsNum(rs.getString("GOODS_NUM"));
+			dto.setMemberNum(rs.getString("MEMBER_NUM"));
+			dto.setTotalPrice(rs.getInt("total_price"));
+			dto.setGoodsImage(rs.getString("goods_main_store_image"));
+			dto.setGoodsPrice(rs.getInt("goods_price"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}		
+		return dto;
+	}
 	public void itemDelete(String goodsNum, String memberNum) {
 		con = getConnection();
 		sql = " delete from cart where goods_num = ? and member_num = ? ";

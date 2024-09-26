@@ -102,10 +102,16 @@ function itemsDel(){
 		}
 	}
 }
+function goodsCheck(){
+	if( $(":checkbox[name=prodCk]:checked").length <= 0 ){
+		alert("주문하실 상품은 1개 이상 선택하셔야 합니다.");
+		return false;
+	}
+}
 </script>
 </head>
 <body>
-<form action="itemBuy.item" method="post">
+<form action="itemBuy.item" method="post" onsubmit="return goodsCheck();">
 <table width="600" align = "center">
 	<tr><td><input type="checkbox" id="checkBoxs"  /></td>
 		<td>이미지</td><td>제품이름</td><td>수량</td><td>합계금액</td>

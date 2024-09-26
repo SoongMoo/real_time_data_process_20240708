@@ -13,10 +13,17 @@
 <body>
 <table width="700" align="center">
 	<tr><td>상품 대표 이미지</td><td>주문 상품 정보</td><td>수량/상품금액</td><td>금액</td></tr>
-				
+	
+	<c:forEach items="${list }" var="dto">
+	<tr><td><img src="goods/upload/${dto.goodsImage }" width ="30" /></td>
+		<td>${dto.goodsName }</td><td>${dto.cartQty }개/
+		    <fmt:formatNumber value="${dto.goodsPrice }" type="currency" /> 원</td>
+		 <td><fmt:formatNumber value="${dto.totalPrice }" type="currency" />원</td>
+	</tr>
+	</c:forEach>
 </table>
-<form action="goodsOrder.item" method="post">
-<input type="hidden" name="purchaseName" value="개"/>
+<form action="goodsOrder.item" method="post"> 
+<input type="hidden" name="purchaseName" value="${list[0].goodsName }외 ${list.size() -1} 개"/>
 <input type="hidden" name="goodsNums" value=""/>
 <input type="hidden" name="totalPaymentPrice" value="" />
 <table width="700"  align="center">
