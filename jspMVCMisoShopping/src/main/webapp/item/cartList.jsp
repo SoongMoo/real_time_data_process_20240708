@@ -105,6 +105,7 @@ function itemsDel(){
 </script>
 </head>
 <body>
+<form action="itemBuy.item" method="post">
 <table width="600" align = "center">
 	<tr><td><input type="checkbox" id="checkBoxs"  /></td>
 		<td>이미지</td><td>제품이름</td><td>수량</td><td>합계금액</td>
@@ -128,7 +129,8 @@ function itemsDel(){
 			전체 합계 : <span id="totalPrice">0</span>원
 		</td>
 	</tr>
-	<tr><td colspan="6" align="right">구매하기</td></tr>
+	<tr><td colspan="6" align="right"><input type="submit" value="구매하기"/></td></tr>
 </table>
+</form>
 </body>
 </html>
