@@ -63,17 +63,38 @@ function err(){
 	alert("로그 아웃되었습니다. 다시로그인 해주세요.");
 	window.open("loginCk.login","loginck","width=400,height=400");
 }
+function checkQty(idx, goodsNum, goodsPrice){
+	var val = $(".cartQty:eq("+idx+")").text( );
+	if(val <= 1) alert("최소 수량은 1개 이상이어야 합니다.");
+	else{
+		$.ajax({
+			type: "post",
+			url: "cartQtyDown.item",
+			data: {"goodsNum":goodsNum},
+			success : function(){
+				$(".cartQty:eq("+idx+")").text( 
+						Number($(".cartQty:eq("+idx+")").text()) - 1 
+				);
+				$(".cartPrice:eq("+idx+")").text( 
+						Number($(".cartPrice:eq("+idx+")").text()) - goodsPrice 
+				);
+			},
+			error :err,
+			complete:prodChk
+		});
+	}
+}
 </script>
 </head>
 <body>
 <table width="600" align = "center">
 	<tr><td><input type="checkbox" id="checkBoxs"  /></td>
 		<td>이미지</td><td>제품이름</td><td>수량</td><td>합계금액</td></tr>
-	<c:forEach items="${list }" var="dto" varStatus="idx">
+	<c:forEach items="${list }" var="dto" varStatus="idx"><!-- 0,1,2,3 -->
 		<tr><td><input type="checkbox" name="prodCk"  value="${dto.goodsNum }" /></td>
 			<td><img src="goods/upload/${dto.goodsImage }" width="30"/></td>
 			<td>${dto.goodsName }</td>
-			<td><a href="javascript:">[ - ]</a> 
+			<td><a href="javascript:checkQty(${idx.index }, '${dto.goodsNum }', ${dto.goodsPrice })">[ - ]</a> 
 				<span class="cartQty">${dto.cartQty }</span>
 				<a href="javascript:goodsCartAdd('${dto.goodsNum }',${idx.index },${dto.goodsPrice })">[ + ]</a></td>
 			<td><span class="cartPrice">${dto.totalPrice }</span></td></tr>

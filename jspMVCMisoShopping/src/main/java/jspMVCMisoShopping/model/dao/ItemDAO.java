@@ -8,6 +8,22 @@ import jspMVCMisoShopping.model.dto.CartDTO;
 import jspMVCMisoShopping.model.dto.CartListDTO;
 
 public class ItemDAO extends DataBaseInfo{
+	public void itemQtyDownUpdate(String goodsNum, String memberNum) {
+		con = getConnection();
+		sql = " update cart "
+			+ " set CART_QTY = CART_QTY - 1 "
+			+ " where MEMBER_NUM = ? and goods_num = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, memberNum);
+			pstmt.setString(2, goodsNum);
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "개가 수정되었습니다.");	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+	}
+	
 	public List<CartListDTO> cartSelectList(String memberNum) {
 		List<CartListDTO> list = new ArrayList<CartListDTO>();
 		con = getConnection();

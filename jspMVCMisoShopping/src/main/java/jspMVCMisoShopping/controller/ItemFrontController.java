@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import jspMVCMisoShopping.service.goods.GoodsDetailService;
 import jspMVCMisoShopping.service.item.CartListService;
 import jspMVCMisoShopping.service.item.CartMergeService;
+import jspMVCMisoShopping.service.item.CartQtyDownService;
 import jspMVCMisoShopping.service.item.GoodsVisitCountService;
 import jspMVCMisoShopping.service.item.GoodsWishItemService;
 
@@ -41,6 +42,9 @@ public class ItemFrontController extends HttpServlet {
 			RequestDispatcher dispatcher =
 					request.getRequestDispatcher("item/cartList.jsp");
 			dispatcher.forward(request, response);
+		}else if(command.equals("/cartQtyDown.item")) {
+			CartQtyDownService action = new CartQtyDownService(request);
+			action.execute(request);
 		}
 	}
 	@Override
