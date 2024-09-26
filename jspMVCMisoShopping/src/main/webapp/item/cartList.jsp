@@ -84,12 +84,18 @@ function checkQty(idx, goodsNum, goodsPrice){
 		});
 	}
 }
+function itemDel(goodsNum){
+	con = confirm ("정말 삭제하시겠나?");
+	if(con) location.href="cartItemsDel.item?goodsNums="+goodsNum;
+}
 </script>
 </head>
 <body>
 <table width="600" align = "center">
 	<tr><td><input type="checkbox" id="checkBoxs"  /></td>
-		<td>이미지</td><td>제품이름</td><td>수량</td><td>합계금액</td></tr>
+		<td>이미지</td><td>제품이름</td><td>수량</td><td>합계금액</td>
+		<td><button type="button" >선택삭제</button></td>
+	</tr>
 	<c:forEach items="${list }" var="dto" varStatus="idx"><!-- 0,1,2,3 -->
 		<tr><td><input type="checkbox" name="prodCk"  value="${dto.goodsNum }" /></td>
 			<td><img src="goods/upload/${dto.goodsImage }" width="30"/></td>
@@ -97,10 +103,12 @@ function checkQty(idx, goodsNum, goodsPrice){
 			<td><a href="javascript:checkQty(${idx.index }, '${dto.goodsNum }', ${dto.goodsPrice })">[ - ]</a> 
 				<span class="cartQty">${dto.cartQty }</span>
 				<a href="javascript:goodsCartAdd('${dto.goodsNum }',${idx.index },${dto.goodsPrice })">[ + ]</a></td>
-			<td><span class="cartPrice">${dto.totalPrice }</span></td></tr>
+			<td><span class="cartPrice">${dto.totalPrice }</span></td>
+			<td><button type="button" onclick="itemDel('${dto.goodsNum}')">삭제</button></td>	
+		</tr>
 	</c:forEach>
 	<!-- 추가 -->
-	<tr><td colspan="5" align="right">
+	<tr><td colspan="6" align="right">
 			상품수 : <span id="prodCnt">0</span>개<br />
 			총수량 : <span id="totQty">0</span>개<br />
 			전체 합계 : <span id="totalPrice">0</span>원

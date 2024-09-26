@@ -8,6 +8,21 @@ import jspMVCMisoShopping.model.dto.CartDTO;
 import jspMVCMisoShopping.model.dto.CartListDTO;
 
 public class ItemDAO extends DataBaseInfo{
+	public void itemDelete(String goodsNum, String memberNum) {
+		con = getConnection();
+		sql = " delete from cart where goods_num = ? and member_num = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, goodsNum);
+			pstmt.setString(2, memberNum);
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+	}
+	
+	
 	public void itemQtyDownUpdate(String goodsNum, String memberNum) {
 		con = getConnection();
 		sql = " update cart "
