@@ -41,6 +41,28 @@ function prodChk(){
 	$("#totQty").text(totalQty);
 	$("#totalPrice").text(totalPrice);
 }
+function goodsCartAdd(goodsNum , idx, goodsPrice){
+	option = {
+		type: "post",
+		url: "cart.item",
+		data:{"goodsNum": goodsNum , "cartQty" : 1},
+		success :  function(){
+			$(".cartQty:eq("+idx+")").text( 
+					Number($(".cartQty:eq("+idx+")").text()) + 1 
+			);
+			$(".cartPrice:eq("+idx+")").text( 
+					Number($(".cartPrice:eq("+idx+")").text()) + goodsPrice 
+			);
+		},
+		error : err ,
+		complete : prodChk
+	};
+	$.ajax(option);
+}
+function err(){
+	alert("로그 아웃되었습니다. 다시로그인 해주세요.");
+	window.open("loginCk.login","loginck","width=400,height=400");
+}
 </script>
 </head>
 <body>
@@ -51,9 +73,9 @@ function prodChk(){
 		<tr><td><input type="checkbox" name="prodCk"  value="${dto.goodsNum }" /></td>
 			<td><img src="goods/upload/${dto.goodsImage }" width="30"/></td>
 			<td>${dto.goodsName }</td>
-			<td><a href="#">[ - ]</a> 
+			<td><a href="javascript:">[ - ]</a> 
 				<span class="cartQty">${dto.cartQty }</span>
-				<a href="#">[ + ]</a></td>
+				<a href="javascript:goodsCartAdd('${dto.goodsNum }',${idx.index },${dto.goodsPrice })">[ + ]</a></td>
 			<td><span class="cartPrice">${dto.totalPrice }</span></td></tr>
 	</c:forEach>
 	<!-- 추가 -->
