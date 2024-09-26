@@ -11,7 +11,9 @@ public class CartItemsDeleteService extends MemberAuthService{
 	}
 	public void execute(HttpServletRequest request) {
 		String goodsNums = request.getParameter("goodsNums");
+		String goodsNumbers [] = goodsNums.split("-");
 		ItemDAO dao = new ItemDAO();
-		dao.itemDelete(goodsNums, memberNum);
+		for(String goodNum : goodsNumbers)
+			dao.itemDelete(goodNum, memberNum);
 	}
 }

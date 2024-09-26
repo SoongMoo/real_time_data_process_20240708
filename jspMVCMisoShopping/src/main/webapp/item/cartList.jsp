@@ -88,13 +88,27 @@ function itemDel(goodsNum){
 	con = confirm ("정말 삭제하시겠나?");
 	if(con) location.href="cartItemsDel.item?goodsNums="+goodsNum;
 }
+function itemsDel(){
+	if($(":checkbox[name=prodCk]:checked").length <= 0)
+		alert("적어도 하나이상 체크되어 있어야합니다.");
+	else{
+		con = confirm("삭제한 상품은 복구가 불가능합니다. \n그래도 삭제하시겠습니까?");
+		var goodsNums = "";
+		if(con){
+			$(":checkbox[name=prodCk]:checked").each(function(){
+				goodsNums +=  $(this).val() + "-"
+			});
+			location.href="cartItemsDel.item?goodsNums="+goodsNums;
+		}
+	}
+}
 </script>
 </head>
 <body>
 <table width="600" align = "center">
 	<tr><td><input type="checkbox" id="checkBoxs"  /></td>
 		<td>이미지</td><td>제품이름</td><td>수량</td><td>합계금액</td>
-		<td><button type="button" >선택삭제</button></td>
+		<td><button type="button" onclick="itemsDel();">선택삭제</button></td>
 	</tr>
 	<c:forEach items="${list }" var="dto" varStatus="idx"><!-- 0,1,2,3 -->
 		<tr><td><input type="checkbox" name="prodCk"  value="${dto.goodsNum }" /></td>
