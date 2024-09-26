@@ -6,20 +6,58 @@
 <head>
 <meta charset="UTF-8">
 <title>cartList.jsp</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#checkBoxs").click(function(){
+		if($("#checkBoxs").prop("checked")){
+			$(":checkbox[name='prodCk']").prop("checked",true);
+		}else{
+			$(":checkbox[name='prodCk']").prop("checked",false);
+		}
+		prodChk();
+	});
+	$("input:checkbox[name='prodCk']").click(function(){
+		var checkCnt = $("input:checkbox[name='prodCk']").length;
+		var checked = $("input:checkbox[name='prodCk']:checked").length;
+		
+		if(checkCnt == checked) $("#checkBoxs").prop("checked",true);
+		else $("#checkBoxs").prop("checked",false);
+		prodChk();
+	});
+});
+function prodChk(){
+	var cnt = $(":checkbox[name='prodCk']:checked").length;
+	var totalQty = 0; // 총 상품 수량
+	var totalPrice = 0; // 총 상품 금액
+	var checkboxCnt = $(":checkbox[name='prodCk']").length;
+	for(var idx = 0; idx < checkboxCnt ; idx++ ){
+		if($(":checkbox[name='prodCk']")[idx].checked0){
+			totalPrice += Number($(".cartPrice:eq("+idx+")").text());
+			totalQty += Number($(".cartQty:eq("+idx+")").text());
+		}
+	}
+	$("#prodCnt").text(cnt);
+	$("#totQty").text(totalQty);
+	$("#totalPrice").text(totalPrice);
+}
+</script>
 </head>
 <body>
 <table width="600" align = "center">
-	<tr><td>이미지</td><td>제품이름</td><td>수량</td><td>합계금액</td></tr>
+	<tr><td><input type="checkbox" id="checkBoxs"  /></td>
+		<td>이미지</td><td>제품이름</td><td>수량</td><td>합계금액</td></tr>
 	<c:forEach items="${list }" var="dto" varStatus="idx">
-		<tr><td><img src="goods/upload/${dto.goodsImage }" width="30"/></td>
-		<td>${dto.goodsName }</td>
-		<td><a href="#">[ - ]</a> 
-			${dto.cartQty } 
-			<a href="#">[ + ]</a></td>
-		<td>${dto.totalPrice }</td></tr>
+		<tr><td><input type="checkbox" name="prodCk"  value="${dto.goodsNum }" /></td>
+			<td><img src="goods/upload/${dto.goodsImage }" width="30"/></td>
+			<td>${dto.goodsName }</td>
+			<td><a href="#">[ - ]</a> 
+				<span class="cartQty">${dto.cartQty }</span>
+				<a href="#">[ + ]</a></td>
+			<td><span class="cartPrice">${dto.totalPrice }</span></td></tr>
 	</c:forEach>
 	<!-- 추가 -->
-	<tr><td colspan="6" align="right">
+	<tr><td colspan="5" align="right">
 			상품수 : <span id="prodCnt">0</span>개<br />
 			총수량 : <span id="totQty">0</span>개<br />
 			전체 합계 : <span id="totalPrice">0</span>원
