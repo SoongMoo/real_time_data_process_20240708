@@ -17,11 +17,17 @@ public class GoodsItemService extends MemberAuthService{
 		String goodsNums [] = request.getParameterValues("prodCk");
 		List<CartListDTO> list = new ArrayList<CartListDTO>();
 		ItemDAO dao = new ItemDAO();
+		Integer goodsTotalPrice = 0;
+		String nums = "";
 		for(String goodsNum : goodsNums) {
 			CartListDTO dto = dao.itemSelectOne(memberNum, goodsNum);
 			list.add(dto);
+			goodsTotalPrice += dto.getTotalPrice();
+			nums += goodsNum + "-";
 		}
 		request.setAttribute("list", list);
+		request.setAttribute("goodsTotalPrice", goodsTotalPrice);
+		request.setAttribute("goodsNums",nums);
 	}
 }
 

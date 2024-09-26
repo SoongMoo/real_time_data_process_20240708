@@ -24,8 +24,8 @@
 </table>
 <form action="goodsOrder.item" method="post"> 
 <input type="hidden" name="purchaseName" value="${list[0].goodsName }외 ${list.size() -1} 개"/>
-<input type="hidden" name="goodsNums" value=""/>
-<input type="hidden" name="totalPaymentPrice" value="" />
+<input type="hidden" name="goodsNums" value="${goodsNums }"/>
+<input type="hidden" name="totalPaymentPrice" value="${goodsTotalPrice }" />
 <table width="700"  align="center">
 	<tr><td>
 			<table width="350">
@@ -48,13 +48,11 @@
 		</td>
 		<td>
 			<table width="350">
-			
 				<tr><td colspan=2 align="center">3. 결제정보</td></tr>
-				<tr><td> 총 금액 </td><td align="right">원</td></tr>
-				<tr><td> 총 배송비</td><td align="right">원</td></tr>
 				<tr><td> 총 결제 금액 </td>
-					<td align="right">원 </td></tr>
-				<tr><td align="center"  colspan=2><input type="submit" value="구매하기"/></td></tr>
+					<td align="right">
+					<fmt:formatNumber value="${goodsTotalPrice }" type="currency" />원 </td></tr>
+				<tr><td align="center"  colspan=2><input type="submit" value="결제하기"/></td></tr>
 			</table>
 		</td>
 	</tr>

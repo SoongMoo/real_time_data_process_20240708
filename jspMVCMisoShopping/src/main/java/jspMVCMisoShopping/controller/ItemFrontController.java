@@ -14,8 +14,10 @@ import jspMVCMisoShopping.service.item.CartListService;
 import jspMVCMisoShopping.service.item.CartMergeService;
 import jspMVCMisoShopping.service.item.CartQtyDownService;
 import jspMVCMisoShopping.service.item.GoodsItemService;
+import jspMVCMisoShopping.service.item.GoodsOrderService;
 import jspMVCMisoShopping.service.item.GoodsVisitCountService;
 import jspMVCMisoShopping.service.item.GoodsWishItemService;
+import jspMVCMisoShopping.service.item.IniPayReqService;
 
 public class ItemFrontController extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, 
@@ -58,6 +60,20 @@ public class ItemFrontController extends HttpServlet {
 			RequestDispatcher dispatcher =
 					request.getRequestDispatcher("item/goodsOrder.jsp");
 			dispatcher.forward(request, response);
+		}else if(command.equals("/goodsOrder.item")) {
+			GoodsOrderService action = new GoodsOrderService(request);
+			String purchaseNum = action.execute(request);
+			response.sendRedirect("paymentOk.item?purchaseNum="+purchaseNum);
+		}else if(command.equals("/paymentOk.item")) {
+			IniPayReqService action1 = new IniPayReqService();
+			try {
+				action1.execute(request);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("item/payment.jsp");
+			dispatcher.forward(request, response);	
 		}
 	}
 	@Override
