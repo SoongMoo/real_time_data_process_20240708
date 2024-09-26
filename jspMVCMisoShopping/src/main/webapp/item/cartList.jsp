@@ -32,7 +32,7 @@ function prodChk(){
 	var totalPrice = 0; // 총 상품 금액
 	var checkboxCnt = $(":checkbox[name='prodCk']").length;
 	for(var idx = 0; idx < checkboxCnt ; idx++ ){
-		if($(":checkbox[name='prodCk']")[idx].checked0){
+		if($(":checkbox[name='prodCk']")[idx].checked){
 			totalPrice += Number($(".cartPrice:eq("+idx+")").text());
 			totalQty += Number($(".cartQty:eq("+idx+")").text());
 		}
