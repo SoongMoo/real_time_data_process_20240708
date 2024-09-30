@@ -18,6 +18,7 @@ import jspMVCMisoShopping.service.item.GoodsOrderService;
 import jspMVCMisoShopping.service.item.GoodsVisitCountService;
 import jspMVCMisoShopping.service.item.GoodsWishItemService;
 import jspMVCMisoShopping.service.item.IniPayReqService;
+import jspMVCMisoShopping.service.item.PurchaseListService;
 
 public class ItemFrontController extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, 
@@ -74,6 +75,12 @@ public class ItemFrontController extends HttpServlet {
 			RequestDispatcher dispatcher =
 					request.getRequestDispatcher("item/payment.jsp");
 			dispatcher.forward(request, response);	
+		}else if(command.equals("/purchaseList.item")) {
+			PurchaseListService action = new PurchaseListService(request);
+			action.execute(request);
+			RequestDispatcher dispatcher 
+					= request.getRequestDispatcher("item/purchaseList.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 	@Override
