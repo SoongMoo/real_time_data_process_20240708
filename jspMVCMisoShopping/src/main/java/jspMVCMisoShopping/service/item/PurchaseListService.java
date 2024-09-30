@@ -15,6 +15,7 @@ public class PurchaseListService extends MemberAuthService{
 	public void execute(HttpServletRequest request) {
 		ItemDAO dao = new ItemDAO();
 		List<PurchaseInfoDTO> list = dao.purchaseItemSelect(memberNum);
+		System.out.println(list.size());
 		request.setAttribute("list", list);
 	}
 }

@@ -17,4 +17,11 @@ public class PurchaseInfoDTO {
 	// payment
 	String confirmNum;
 	String applDate;
+	
+	Long purchasePrice ;
+	Long deliveryNum;
+	String deliveryStatus;
 }
+
+
+

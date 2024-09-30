@@ -73,19 +73,26 @@ public class ItemDAO extends DataBaseInfo{
 	public List<PurchaseInfoDTO> purchaseItemSelect(String memberNum){
 		List<PurchaseInfoDTO> list = new ArrayList<PurchaseInfoDTO>();
 		con = getConnection();
-		sql = " select g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE "
-			+ "       ,p.purchase_num , purchase_Status , purchase_Price, member_Num"
-			+ "       ,CONFIRMNUMBER, APPLDATE"
-			+ " from goods g join purchase_list pl"
-			+ " on g.goods_num = pl.goods_num join purchase p"
-			+ " on pl.purchase_num = p.purchase_num left outer join payment pm"
-			+ " on pm.purchase_num = p.purchase_num "
-			+ " where member_Num = ? "
-			+ " order by p.purchase_num desc ";
+		sql = " select g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE ";
+	    sql += "       ,p.purchase_num , purchase_Status , purchase_Price, member_Num";
+	    sql += "       ,CONFIRMNUMBER, APPLDATE ";
+	    sql += "	  , DELIVERY_NUM , DELIVERY_STATUS";
+	    sql += " from goods g join purchase_list pl";
+	    sql += " on g.goods_num = pl.goods_num join purchase p";
+	    sql += " on pl.purchase_num = p.purchase_num left outer join payment pm";
+	    sql += " on pm.purchase_num = p.purchase_num left outer join delivery d";
+	    sql += " on d.purchase_num = p.purchase_num ";
+	    
+		if(memberNum != null)
+			sql += " where member_Num = ? ";
+		
+		sql += " order by p.purchase_num desc ";
 		System.out.println(sql);
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, memberNum);
+			
+			if(memberNum != null) pstmt.setString(1, memberNum);
+			
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				PurchaseInfoDTO dto = new PurchaseInfoDTO();
@@ -97,6 +104,11 @@ public class ItemDAO extends DataBaseInfo{
 				dto.setMemberNum(rs.getString("member_num"));
 				dto.setConfirmNum(rs.getString("confirmNumber"));
 				dto.setApplDate(rs.getString("applDate"));
+				dto.setPurchasePrice(rs.getLong("purchase_Price"));
+				
+				dto.setDeliveryNum(rs.getLong("DELIVERY_NUM"));
+				dto.setDeliveryStatus(rs.getString("DELIVERY_STATUS"));
+				
 				list.add(dto);
 			}
 		}catch (Exception e) {

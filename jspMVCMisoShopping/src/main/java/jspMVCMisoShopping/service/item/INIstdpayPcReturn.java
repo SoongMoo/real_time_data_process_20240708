@@ -3,7 +3,7 @@ package jspMVCMisoShopping.service.item;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
+import java.util.Map;  
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -117,6 +117,8 @@ public class INIstdpayPcReturn {
 					dto.setPurchaseName(resultMap.get("goodsName"));
 					ItemDAO dao = new ItemDAO();
 					dao.paymentInsert(dto);
+					
+					
 				} catch (Exception ex) {
 					
 					//####################################
