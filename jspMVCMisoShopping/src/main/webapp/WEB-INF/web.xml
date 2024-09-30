@@ -101,7 +101,14 @@
   </servlet-mapping>
   
   
-  
+  <servlet>
+  	<servlet-name>ipgo</servlet-name>
+  	<servlet-class>jspMVCMisoShopping.controller.GoodsIpgoFrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ipgo</servlet-name>
+  	<url-pattern>*.ipgo</url-pattern>
+  </servlet-mapping>  
   
   
   
