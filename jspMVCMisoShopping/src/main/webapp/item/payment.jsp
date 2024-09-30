@@ -114,7 +114,7 @@
                             </label>
 				    		
 				    		<input type="hidden" name="returnUrl" value="http://localhost:8080/jspMVCMisoShopping/INIstdpay_pc_return.item">
-                            <input type="hidden" name="closeUrl" value="https://localhost:8080/jspMVCMisoShopping/close.item">
+                            <input type="hidden" name="closeUrl" value="http://localhost:8080/jspMVCMisoShopping/close.item">
                             
 				    		<label class="col-10 col-sm-2 input param" style="border:none;">acceptmethod</label>
                             <label class="col-10 col-sm-9 input">

@@ -19,6 +19,7 @@ import jspMVCMisoShopping.service.item.GoodsVisitCountService;
 import jspMVCMisoShopping.service.item.GoodsWishItemService;
 import jspMVCMisoShopping.service.item.INIstdpayPcReturn;
 import jspMVCMisoShopping.service.item.IniPayReqService;
+import jspMVCMisoShopping.service.item.PaymentDeleteService;
 import jspMVCMisoShopping.service.item.PurchaseListService;
 
 public class ItemFrontController extends HttpServlet {
@@ -85,6 +86,18 @@ public class ItemFrontController extends HttpServlet {
 		}else if(command.equals("/INIstdpay_pc_return.item")) {
 			INIstdpayPcReturn action = new INIstdpayPcReturn();
 			action.execute(request);
+			
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("item/buyfinished.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/close.item")) {
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("item/close.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/paymentDelete.item")) {
+			PaymentDeleteService action = new PaymentDeleteService();
+			action.execute(request);
+			response.sendRedirect("purchaseList.item");
 		}
 	}
 	@Override

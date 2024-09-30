@@ -105,9 +105,18 @@ public class INIstdpayPcReturn {
 
 				  //throw new Exception("강제 Exception");
 					PaymentDTO dto = new PaymentDTO();
-					
+					dto.setApplDate(resultMap.get("applDate"));
+					dto.setApplTime(resultMap.get("applTime"));
+					dto.setCardNum(resultMap.get("CARD_Num"));
+					dto.setConfirmNumber(resultMap.get("applNum"));
+					dto.setPayMethod(resultMap.get("payMethod"));
+					dto.setPurchaseNum(resultMap.get("MOID"));
+					dto.setResultMessage(resultMap.get("resultMsg"));
+					dto.setTid(resultMap.get("tid"));
+					dto.setTotalPrice(resultMap.get("TotPrice"));
+					dto.setPurchaseName(resultMap.get("goodsName"));
 					ItemDAO dao = new ItemDAO();
-					//dao.paymentInsert(dto);
+					dao.paymentInsert(dto);
 				} catch (Exception ex) {
 					
 					//####################################

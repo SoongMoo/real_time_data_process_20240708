@@ -17,7 +17,7 @@
 	    		<a href="paymentOk.item?purchaseNum=${dto.purchaseNum }">결제하기</a>
 	    	</c:if>
 	    	<c:if test="${!empty dto.applDate }">
-	    		결제취소
+	    		<a href="paymentDelete.item?purchaseNum=${dto.purchaseNum }">결제취소</a>
 	    	</c:if> 
 	    </td></tr>
 	</c:forEach>

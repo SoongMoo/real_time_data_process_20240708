@@ -6,15 +6,51 @@ import java.util.List;
 
 import jspMVCMisoShopping.model.dto.CartDTO;
 import jspMVCMisoShopping.model.dto.CartListDTO;
+import jspMVCMisoShopping.model.dto.PaymentDTO;
 import jspMVCMisoShopping.model.dto.PurchaseDTO;
 import jspMVCMisoShopping.model.dto.PurchaseInfoDTO;
 
 public class ItemDAO extends DataBaseInfo{
+	public void paymentDelete(String purchaseNum) {
+		con = getConnection();
+		sql = " delete from payment where purchase_Num = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, purchaseNum);
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "개가 삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+	}
+	public void paymentInsert(PaymentDTO dto) {
+		con = getConnection();
+		sql = " insert into payment(purchase_Num,confirmNumber,cardNum,TID"
+			+ "                ,totalPrice,RESULTMASSAGE,PAYMATHOD,applDate"
+			+ "                ,appTime )"
+			+ " values(?,?,?,?,?,?,?,?,?)";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getPurchaseNum());
+			pstmt.setString(2, dto.getConfirmNumber());
+			pstmt.setString(3, dto.getCardNum());
+			pstmt.setString(4, dto.getTid());
+			pstmt.setString(5, dto.getTotalPrice());
+			pstmt.setString(6, dto.getResultMessage());
+			pstmt.setString(7, dto.getPayMethod());
+			pstmt.setString(8, dto.getApplDate());
+			pstmt.setString(9, dto.getApplTime());
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "개가 삽입되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+	}
 	public PurchaseDTO purchaseSelectOne(String purchaseNum) {
 		PurchaseDTO dto = null;
 		con = getConnection();
-		sql = "  purchase_price,delivery_name,delivery_Phone, purchase_Name ,member_num "
-			+ "  from purchse "
+		sql = "  select purchase_price,delivery_name,delivery_Phone, purchase_Name ,member_num "
+			+ "  from purchase "
 			+ "  where purchase_num = ? ";
 		try {
 			pstmt = con.prepareStatement(sql);
