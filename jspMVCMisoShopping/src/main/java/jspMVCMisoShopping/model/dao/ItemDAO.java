@@ -10,16 +10,43 @@ import jspMVCMisoShopping.model.dto.PurchaseDTO;
 import jspMVCMisoShopping.model.dto.PurchaseInfoDTO;
 
 public class ItemDAO extends DataBaseInfo{
+	public PurchaseDTO purchaseSelectOne(String purchaseNum) {
+		PurchaseDTO dto = null;
+		con = getConnection();
+		sql = "  purchase_price,delivery_name,delivery_Phone, purchase_Name ,member_num "
+			+ "  from purchse "
+			+ "  where purchase_num = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, purchaseNum);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto = new PurchaseDTO();
+				dto.setDeliveryName(rs.getString("delivery_name"));
+				dto.setPurchasePrice(rs.getLong("purchase_price"));
+				dto.setDeliveryPhone(rs.getString("delivery_Phone"));
+				dto.setPurchaseName(rs.getString("purchase_Name"));
+				dto.setMemberNum(rs.getString("member_num"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+		
+		return dto;
+	}
 	public List<PurchaseInfoDTO> purchaseItemSelect(String memberNum){
 		List<PurchaseInfoDTO> list = new ArrayList<PurchaseInfoDTO>();
 		con = getConnection();
 		sql = " select g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE "
 			+ "       ,p.purchase_num , purchase_Status , purchase_Price, member_Num"
+			+ "       ,CONFIRMNUMBER, APPLDATE"
 			+ " from goods g join purchase_list pl"
 			+ " on g.goods_num = pl.goods_num join purchase p"
-			+ " on pl.purchase_num = p.purchase_num "
+			+ " on pl.purchase_num = p.purchase_num left outer join payment pm"
+			+ " on pm.purchase_num = p.purchase_num "
 			+ " where member_Num = ? "
-			+ " order by p.purchase_num desc";
+			+ " order by p.purchase_num desc ";
+		System.out.println(sql);
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, memberNum);
@@ -32,6 +59,8 @@ public class ItemDAO extends DataBaseInfo{
 				dto.setGoodsName(rs.getString("goods_name"));
 				dto.setGoodsNum(rs.getString("goods_num"));
 				dto.setMemberNum(rs.getString("member_num"));
+				dto.setConfirmNum(rs.getString("confirmNumber"));
+				dto.setApplDate(rs.getString("applDate"));
 				list.add(dto);
 			}
 		}catch (Exception e) {

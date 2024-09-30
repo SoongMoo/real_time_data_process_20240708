@@ -69,52 +69,52 @@
 				    		
 				    		<label class="col-10 col-sm-2 input param" style="border:none;">mid</label>
                             <label class="col-10 col-sm-9 input">
-                                <input type="text" name="mid" value="<%=mid%>">
+                                <input type="text" name="mid" value="${mid }">
                             </label>
 				    
                             <label class="col-10 col-sm-2 input param" style="border:none;">oid</label>
                             <label class="col-10 col-sm-9 input">
-                                <input type="text" name="oid" value="<%=orderNumber%>">
+                                <input type="text" name="oid" value="${orderNumber}">
                             </label>
 				    		
 				    		<label class="col-10 col-sm-2 input param" style="border:none;">price</label>
                             <label class="col-10 col-sm-9 input">
-                                <input type="text" name="price" value="<%=price%>">
+                                <input type="text" name="price" value="${price}">
                             </label>
 				    		
 				    		<label class="col-10 col-sm-2 input param" style="border:none;">timestamp</label>
                             <label class="col-10 col-sm-9 input">
-                                <input type="text" name="timestamp" value="<%=timestamp%>">
+                                <input type="text" name="timestamp" value="${timestamp}">
                             </label>
 				    
 				    
-                            <input type="hidden" name="signature" value="<%=signature%>">
-				    		<input type="hidden" name="mKey" value="<%=mKey%>">
+                            <input type="hidden" name="signature" value="${signature}">
+				    		<input type="hidden" name="mKey" value="${mKey}">
                             <input type="hidden" name="currency" value="WON">
 				    		
 				    		
 				    		<label class="col-10 col-sm-2 input param" style="border:none;">goodname</label>
                             <label class="col-10 col-sm-9 input">
-                                <input type="text" name="goodname" value="테스트상품">
+                                <input type="text" name="goodname" value="${purchaseName }">
                             </label>
 				    		
 				    		<label class="col-10 col-sm-2 input param" style="border:none;">buyername</label>
                             <label class="col-10 col-sm-9 input">
-                                <input type="text" name="buyername" value="테스터">
+                                <input type="text" name="buyername" value="${deliveryName }">
                             </label>
 				    		
 				    		<label class="col-10 col-sm-2 input param" style="border:none;">buyertel</label>
                             <label class="col-10 col-sm-9 input">
-                                <input type="text" name="buyertel" value="01012345678">
+                                <input type="text" name="buyertel" value="${deliveryPhone }">
                             </label>
 				    		
 				    		<label class="col-10 col-sm-2 input param" style="border:none;">buyeremail</label>
                             <label class="col-10 col-sm-9 input">
-                                <input type="text" name="buyeremail" value="test@test.com">
+                                <input type="text" name="buyeremail" value="">
                             </label>
 				    		
-				    		<input type="hidden" name="returnUrl" value="https://[가맹점도메인]/INIstdpay_pc_return.jsp">
-                            <input type="hidden" name="closeUrl" value="https://[가맹점도메인]/close.jsp">
+				    		<input type="hidden" name="returnUrl" value="http://localhost:8080/jspMVCMisoShopping/INIstdpay_pc_return.item">
+                            <input type="hidden" name="closeUrl" value="https://localhost:8080/jspMVCMisoShopping/close.item">
                             
 				    		<label class="col-10 col-sm-2 input param" style="border:none;">acceptmethod</label>
                             <label class="col-10 col-sm-9 input">
