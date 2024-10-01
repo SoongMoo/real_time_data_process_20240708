@@ -57,10 +57,30 @@
 		$("#descript").click(function(){
 			descript();
 		});
+		
+		$("#review").click(function(){
+			//location.href = "reviewList.review?goodsNum=${dto.goodsNum}";
+			$.ajax({
+				type:"post",
+				url : "reviewList.review",
+				data : {"goodsNum":"${dto.goodsNum}"},
+				dataType : "html",
+				success : function(result){
+					$("#content").html(result);
+				},
+				error : function(){
+					alert('에러가 나왔다 홀홀홀~');
+					return;
+				}
+			});
+		});
 	});
+	
 	$(function(){
 		descript();
 	});
+	
+	
 	function descript(){
 		//location.href="descript.item?goodsNum=${dto.goodsNum}";
 		$.ajax({
@@ -76,6 +96,9 @@
 				return;
 			}
 		});
+	}
+	function inquire(){
+		location.href= "inquireList.inq?goodsNum=${dto.goodsNum}";
 	}
 </script>
 </head>
@@ -99,7 +122,7 @@
 <tr><td colspan="2">
 		<span id="descript">제품 상세 설명</span> | 
 		<span id="review">리뷰</span> | 
-		<span id="inquire" onclick="">상품문의</span>
+		<span id="inquire" onclick="inquire();">상품문의</span>
 	</td></tr>
 <tr><td colspan="2"><div id="content"></div></td></tr>
 </table>

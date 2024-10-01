@@ -119,7 +119,14 @@
   	<url-pattern>*.review</url-pattern>
   </servlet-mapping>   
   
-  
+  <servlet>
+  	<servlet-name>inq</servlet-name>
+  	<servlet-class>jspMVCMisoShopping.controller.InquireFrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>inq</servlet-name>
+  	<url-pattern>*.inq</url-pattern>
+  </servlet-mapping>  
   
   
   

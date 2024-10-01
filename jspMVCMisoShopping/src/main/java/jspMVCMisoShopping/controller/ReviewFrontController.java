@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import jspMVCMisoShopping.service.review.ReviewDeleteService;
 import jspMVCMisoShopping.service.review.ReviewDetailService;
+import jspMVCMisoShopping.service.review.ReviewListService;
 import jspMVCMisoShopping.service.review.ReviewWriteService;
 
 public class ReviewFrontController extends HttpServlet{
@@ -38,6 +39,13 @@ public class ReviewFrontController extends HttpServlet{
 			action.execute(request);
 			
 			response.sendRedirect("purchaseList.item");
+		}else if(command.equals("/reviewList.review")) {
+			ReviewListService action = new ReviewListService();
+			action.execute(request);
+			
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("review/reviewList.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 	@Override

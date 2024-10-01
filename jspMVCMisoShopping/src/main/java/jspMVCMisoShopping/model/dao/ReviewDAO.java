@@ -1,11 +1,35 @@
 package jspMVCMisoShopping.model.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import jspMVCMisoShopping.model.dto.ReviewDTO;
 
 public class ReviewDAO extends DataBaseInfo{
-	
+	public List<ReviewDTO> reviewSelectAll(String goodsNum){
+		List<ReviewDTO> list = new ArrayList<ReviewDTO>();
+		con = getConnection();
+		sql = " select REVIEW_NUM, REVIEW_CONTENTS , review_date,member_id"
+			+ " from reviews"
+			+ " where goods_num = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, goodsNum);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				ReviewDTO dto = new ReviewDTO();
+				dto.setReviewNum(rs.getInt("REVIEW_NUM"));
+				dto.setReviewContent(rs.getString("REVIEW_CONTENTS"));
+				dto.setMemberId(rs.getString("member_id"));
+				dto.setReviewDate(rs.getDate("review_date"));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+		return list;
+	}
 	public void reviewDelete(String reviewNum) {
 		con = getConnection();
 		sql = " delete from reviews where review_num = ? ";
