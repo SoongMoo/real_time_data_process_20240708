@@ -21,6 +21,8 @@ public class PurchaseInfoDTO {
 	Long purchasePrice ;
 	Long deliveryNum;
 	String deliveryStatus;
+	
+	int reviewNum;
 }
 
 

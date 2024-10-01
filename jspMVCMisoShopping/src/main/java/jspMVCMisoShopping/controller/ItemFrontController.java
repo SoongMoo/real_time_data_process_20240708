@@ -21,6 +21,7 @@ import jspMVCMisoShopping.service.item.INIstdpayPcReturn;
 import jspMVCMisoShopping.service.item.IniPayReqService;
 import jspMVCMisoShopping.service.item.PaymentDeleteService;
 import jspMVCMisoShopping.service.item.PurchaseListService;
+import jspMVCMisoShopping.service.item.PurchasedService;
 
 public class ItemFrontController extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, 
@@ -98,6 +99,18 @@ public class ItemFrontController extends HttpServlet {
 			PaymentDeleteService action = new PaymentDeleteService();
 			action.execute(request);
 			response.sendRedirect("purchaseList.item");
+		}else if(command.equals("/purchased.item")) {
+			PurchasedService action = new PurchasedService();
+			action.execute(request);
+			response.sendRedirect("purchaseList.item");
+		}else if(command.equals("/descript.item")) {
+			GoodsDetailService action= new GoodsDetailService();
+			action.execute(request);
+			request.setAttribute("newLine", "\n");
+			
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("item/descript.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 	@Override

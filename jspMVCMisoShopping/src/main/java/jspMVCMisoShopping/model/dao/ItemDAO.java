@@ -11,6 +11,20 @@ import jspMVCMisoShopping.model.dto.PurchaseDTO;
 import jspMVCMisoShopping.model.dto.PurchaseInfoDTO;
 
 public class ItemDAO extends DataBaseInfo{
+	public void purchaseStatusUpdate(String purchaseNum) {
+		con = getConnection();
+		sql =  " update purchase ";
+		sql += " set purchase_status = '구매확정'";
+		sql += " where purchase_Num = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, purchaseNum);
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "개가 수정되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+	}
 	public void paymentDelete(String purchaseNum) {
 		con = getConnection();
 		sql = " delete from payment where purchase_Num = ? ";
@@ -76,12 +90,14 @@ public class ItemDAO extends DataBaseInfo{
 		sql = " select g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE ";
 	    sql += "       ,p.purchase_num , purchase_Status , purchase_Price, member_Num";
 	    sql += "       ,CONFIRMNUMBER, APPLDATE ";
-	    sql += "	  , DELIVERY_NUM , DELIVERY_STATUS";
+	    sql += "	  , DELIVERY_NUM , DELIVERY_STATUS ";
+	    sql += "      , review_num";
 	    sql += " from goods g join purchase_list pl";
 	    sql += " on g.goods_num = pl.goods_num join purchase p";
 	    sql += " on pl.purchase_num = p.purchase_num left outer join payment pm";
 	    sql += " on pm.purchase_num = p.purchase_num left outer join delivery d";
-	    sql += " on d.purchase_num = p.purchase_num ";
+	    sql += " on d.purchase_num = p.purchase_num left outer join reviews r";
+	    sql += " on r.purchase_num = pl.purchase_num and r.goods_num = pl.goods_num";
 	    
 		if(memberNum != null)
 			sql += " where member_Num = ? ";
@@ -108,7 +124,7 @@ public class ItemDAO extends DataBaseInfo{
 				
 				dto.setDeliveryNum(rs.getLong("DELIVERY_NUM"));
 				dto.setDeliveryStatus(rs.getString("DELIVERY_STATUS"));
-				
+				dto.setReviewNum(rs.getInt("review_num"));
 				list.add(dto);
 			}
 		}catch (Exception e) {

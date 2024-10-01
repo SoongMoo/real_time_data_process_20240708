@@ -54,7 +54,29 @@
 				}
 			}); 
 		});
+		$("#descript").click(function(){
+			descript();
+		});
 	});
+	$(function(){
+		descript();
+	});
+	function descript(){
+		//location.href="descript.item?goodsNum=${dto.goodsNum}";
+		$.ajax({
+			type:"post",
+			url:"descript.item",
+			data : {"goodsNum":"${dto.goodsNum}"},
+			dataType : "html",
+			success : function(result){
+				$("#content").html(result);
+			},
+			error : function(){
+				alert('에러가 나왔다 홀홀홀~');
+				return;
+			}
+		});
+	}
 </script>
 </head>
 <body>

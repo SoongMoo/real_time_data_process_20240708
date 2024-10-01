@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<table width="600" align="center">
+<table width="800" align="center">
 	<caption>회원구매정보</caption>
 	<tr><td>주문번호 / 결제번호</td><td> 상품명 </td><td>회원번호</td><td>결제금액</td><td> 주문상태 </td></tr>
 	<c:forEach items="${list }" var="dto">

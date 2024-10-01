@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"  %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -17,7 +17,21 @@
 	    		<a href="paymentOk.item?purchaseNum=${dto.purchaseNum }">결제하기</a>
 	    	</c:if>
 	    	<c:if test="${!empty dto.applDate }">
-	    		<a href="paymentDelete.item?purchaseNum=${dto.purchaseNum }">결제취소</a>
+	    		<c:if test="${dto.deliveryNum == 0}">
+	    			<a href="paymentDelete.item?purchaseNum=${dto.purchaseNum }">결제취소</a>
+	    		</c:if>
+	    		<c:if test="${dto.deliveryNum > 0}">
+	    			${dto.deliveryStatus.trim()}${dto.purchaseStatus.trim() }
+	    			<c:if test="${dto.deliveryStatus.trim() eq '배송완료' && dto.purchaseStatus.trim() ne '구매확정'} ">
+	    				| <a href="purchased.item?purchaseNum=${dto.purchaseNum }">구매확정</a>
+	    			</c:if>
+	    			<c:if test="${dto.deliveryStatus.trim() eq '배송완료' && dto.purchaseStatus.trim() eq '구매확정'} ">
+	    			    | <a href="reviewRegist.review?purchaseNum=${dto.purchaseNum }&goodsNum=${dto.goodsNum}">리뷰등록/수정</a>
+	    			    <c:if test="${dto.reviewNum != 0}"> 
+	    			    | <a href="reviewDelete.review?reviewNum=${dto.reviewNum}">리뷰삭제</a>
+	    				</c:if>
+	    			</c:if>
+	    		</c:if>
 	    	</c:if> 
 	    </td></tr>
 	</c:forEach>

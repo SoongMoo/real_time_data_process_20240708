@@ -110,7 +110,14 @@
   	<url-pattern>*.ipgo</url-pattern>
   </servlet-mapping>  
   
-  
+  <servlet>
+  	<servlet-name>review</servlet-name>
+  	<servlet-class>jspMVCMisoShopping.controller.ReviewFrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>review</servlet-name>
+  	<url-pattern>*.review</url-pattern>
+  </servlet-mapping>   
   
   
   
