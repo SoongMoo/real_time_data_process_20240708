@@ -17,16 +17,14 @@ public class InquireDAO extends DataBaseInfo {
 		sql += " where goods_num = ?  ";
 		try {
 			pstmt = con.prepareStatement(sql);
-			if(goodsNum != null) {
-				pstmt.setString(1, goodsNum);
-			}
+			pstmt.setString(1, goodsNum);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				InquireDTO dto = new InquireDTO();
 				dto.setEmpNum(rs.getString("emp_num"));
 				dto.setGoodsNum(rs.getString("GOODS_NUM"));
 				dto.setInquireAnswer(rs.getString("inquire_answer"));
-				dto.setInquireContent(rs.getString("INQUIRE_CONTENT"));
+				dto.setInquireContent(rs.getString("INQUIRE_CONTENTS"));
 				dto.setInquireDate(rs.getDate("inquire_date"));
 				dto.setInquireKind(rs.getString("inquire_kind"));
 				dto.setInquireNum(rs.getLong("INQUIRE_NUM"));

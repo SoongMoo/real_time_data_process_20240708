@@ -38,7 +38,8 @@ public class InquireFrontController extends HttpServlet {
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			String str = "<script type='text/javascript'>"
-					   + "   window.self.close();"
+					   + " 	opener.parent.inquire();"
+					   + "  window.self.close();"
 					   + "</script>";
 			out.print(str);
 			out.close();
