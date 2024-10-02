@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form method="post" action="inquireWritePro.inq" onsubmit="">
+<form method="post" action="inquireWritePro.inq" >
 <input type="hidden" name="goodsNum" value="${goodsNum }"/>
 <table width="600" align="center" border=1>
 	<tr><td ><select name="queryType">

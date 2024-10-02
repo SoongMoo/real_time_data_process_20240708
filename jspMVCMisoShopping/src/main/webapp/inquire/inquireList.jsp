@@ -22,6 +22,20 @@ function inquireUpdate(inquireNum){
 	window.open("inquireUpdate.inq?inquireNum="+inquireNum,"문의수정"
 			,"width=700, height=650, top=100, left=100");
 }
+function inquireDelete(inquireNum){
+	$.ajax({
+		type:"post",
+		url:"inquireDelete.inq",
+		data:{"inquireNum":inquireNum},
+		success: function(){
+			inquire();
+		},
+		error : function(){
+			alert('에러가 나왔다 홀홀홀~');
+			return;
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -35,7 +49,7 @@ function inquireUpdate(inquireNum){
 		<c:if test="${memberNum == dto.memberNum }">
 			<span style="float:right;">
 				<button onclick="inquireUpdate('${dto.inquireNum}');">수정</button> 
-				<button>삭제</button>
+				<button onclick="inquireDelete('${dto.inquireNum}')">삭제</button>
 			</span>
 		</c:if>
 		</td></tr>

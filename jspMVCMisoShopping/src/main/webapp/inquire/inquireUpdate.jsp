@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form method="post" action="inquireWritePro.inq" onsubmit="">
+<form method="post" action="inquireModify.inq" >
 <input type="hidden" name="inquireNum" value="${dto.inquireNum}"/>
 <table width="600" align="center" border=1>
 	<tr><td ><select name="queryType">

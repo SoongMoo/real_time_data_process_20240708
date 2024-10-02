@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jspMVCMisoShopping.model.dao.InquireDAO;
 import jspMVCMisoShopping.service.inquire.InquireDetailService;
 import jspMVCMisoShopping.service.inquire.InquireListService;
+import jspMVCMisoShopping.service.inquire.InquireUpdateService;
 import jspMVCMisoShopping.service.inquire.InquireWriteProService;
 
 public class InquireFrontController extends HttpServlet {
@@ -50,6 +52,27 @@ public class InquireFrontController extends HttpServlet {
 			
 			RequestDispatcher dispatcher = 
 					request.getRequestDispatcher("inquire/inquireUpdate.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/inquireModify.inq")) {
+			InquireUpdateService action = new InquireUpdateService();
+			action.execute(request);
+			
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter out = response.getWriter();
+			String str = "<script type='text/javascript'>"
+					   + " 	opener.parent.inquire();"
+					   + "  window.self.close();"
+					   + "</script>";
+			out.print(str);
+			out.close();
+		}else if(command.equals("/inquireDelete.inq")) {
+			String inquireNum = request.getParameter("inquireNum");
+			InquireDAO dao = new InquireDAO();
+			dao.inquireDelete(inquireNum);
+		}else if(command.equals("/inquire.inq")) {
+			
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("inquire/inquireListEmp.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
