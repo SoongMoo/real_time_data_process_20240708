@@ -9,6 +9,10 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript">
 	$(function(){
+		$("#buyItem").click(function(){
+			location.href
+				="buyItem.item?goodsNum=${dto.goodsNum}&cartQty="+$("#cartQty").val();
+		});
 		$("#cartBtn").click(function(){
 			if(${!empty auth}){
 				$.ajax({

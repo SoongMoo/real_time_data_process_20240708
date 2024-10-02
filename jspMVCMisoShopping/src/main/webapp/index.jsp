@@ -36,10 +36,13 @@
 		<form action="login.login" method="post">
 			<table border="1" align="center">
 				<tr>
-					<td colspan="2">로그인유지 | 아이디저장</td>
+					<td colspan="2">
+					<input type="checkbox" name="keepLogin" value="on"/> 로그인유지 | 
+					<input type="checkbox" name="storeId" value="store" 
+						<c:if test="${!empty sid }">checked</c:if> />아이디저장</td>
 				</tr>
 				<tr>
-					<td><input type="text" name="userId" placeholder="아이디" />
+					<td><input type="text" name="userId" placeholder="아이디" value="${sid }" />
 						<div style="color: red">${errId }</div></td>
 					<td rowspan="2"><input type="submit" value="로그인" /></td>
 				</tr>

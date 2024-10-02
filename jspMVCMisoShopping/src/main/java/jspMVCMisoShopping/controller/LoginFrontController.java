@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ public class LoginFrontController extends HttpServlet{
 		if(command.equals("/login.login")) {
 			System.out.println("login.login");
 			UserLoginService action = new UserLoginService();
-			int i = action.execute(request);
+			int i = action.execute(request, response);
 			if(i == 1) response.sendRedirect(contextPath);
 			else {
 				RequestDispatcher dispatcher = 
@@ -29,6 +30,11 @@ public class LoginFrontController extends HttpServlet{
 				dispatcher.forward(request, response);
 			}
 		}else if(command.equals("/logout.login")) {
+			Cookie cookie = new Cookie("keepLogin", "");
+			cookie.setPath("/");
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+			
 			HttpSession session = request.getSession();
 			session.invalidate(); // 모든 session을 삭제
 			response.sendRedirect(contextPath);
@@ -38,7 +44,7 @@ public class LoginFrontController extends HttpServlet{
 			dispatcher.forward(request, response);	
 		}else if(command.equals("/login1.login")) {
 			UserLoginService action = new UserLoginService();
-			int i = action.execute(request);
+			int i = action.execute(request, response);
 			if(i == 1) {
 				PrintWriter out = response.getWriter();
 				response.setContentType("text/html; charset=utf-8");
