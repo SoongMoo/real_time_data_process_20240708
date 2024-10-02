@@ -36,6 +36,15 @@ function inquireDelete(inquireNum){
 		}
 	});
 }
+function answerOpen(inquireNum){
+	if($("#inq_"+inquireNum).text()=='답변열기'){
+		$("#inq_"+inquireNum).text("답변닫기");
+		$("#inq"+inquireNum).css("display","");
+	}else{
+		$("#inq_"+inquireNum).text("답변열기");
+		$("#inq"+inquireNum).css("display","none");
+	}
+}
 </script>
 </head>
 <body>
@@ -44,7 +53,14 @@ function inquireDelete(inquireNum){
 			<button type="button" id="inquire1" >문의 하기</button></td></tr>
 	<tr><th width="15%">답변 상태</th><th>작성자</th><th>질문일자</th></tr>
 <c:forEach items="${list }" var="dto">		
-	<tr><th width="15%">검토중|답변 완료</th><th>${dto.memberNum }</th><th>${dto.inquireDate }</th></tr>
+	<tr><th width="15%">
+		<c:if test="${empty dto.inquireAnswer }">
+		검토중
+		</c:if>
+		<c:if test="${! empty dto.inquireAnswer }">
+		답변 완료
+		</c:if>
+		</th><th>${dto.memberNum }</th><th>${dto.inquireDate }</th></tr>
 	<tr><td colspan="3">${dto.inquireKind } : ${dto.inquireSubject } 
 		<c:if test="${memberNum == dto.memberNum }">
 			<span style="float:right;">
@@ -53,9 +69,17 @@ function inquireDelete(inquireNum){
 			</span>
 		</c:if>
 		</td></tr>
-	<tr><td colspan="3">${fn:replace( dto.inquireContent, newLine, "<br />") }</td></tr>
-	
-	<tr><td>답변</td><td colspan="2">답변 내용</td></tr>
+	<tr><td colspan="3">${fn:replace( dto.inquireContent, newLine, "<br />") }
+		
+		<c:if test="${! empty dto.inquireAnswer }">
+			<button type="button" style="float:right;" id="inq_${dto.inquireNum}"
+				onclick="answerOpen('${dto.inquireNum}')">답변열기</button>
+		</c:if>
+		
+		</td></tr>
+	<c:if test="${! empty dto.inquireAnswer }">
+		<tr style="display:none;" id="inq${dto.inquireNum}"><td>답변</td><td colspan="2">${dto.inquireAnswer }</td></tr>
+	</c:if>
 </c:forEach>
 </table>
 </body>
