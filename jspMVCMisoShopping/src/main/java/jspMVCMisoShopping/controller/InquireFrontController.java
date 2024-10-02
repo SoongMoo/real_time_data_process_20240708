@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jspMVCMisoShopping.model.dao.InquireDAO;
+import jspMVCMisoShopping.service.inquire.InquireAnswerService;
 import jspMVCMisoShopping.service.inquire.InquireDetailService;
 import jspMVCMisoShopping.service.inquire.InquireListService;
 import jspMVCMisoShopping.service.inquire.InquireUpdateService;
@@ -70,10 +71,24 @@ public class InquireFrontController extends HttpServlet {
 			InquireDAO dao = new InquireDAO();
 			dao.inquireDelete(inquireNum);
 		}else if(command.equals("/inquire.inq")) {
+			InquireListService action = new InquireListService(request);
+			action.execute(request);
 			
 			RequestDispatcher dispatcher = 
 					request.getRequestDispatcher("inquire/inquireListEmp.jsp");
 			dispatcher.forward(request, response);
+		}else if(command.equals("/inquireAnswer.inq")) {
+			InquireDetailService action = new InquireDetailService();
+			action.execute(request);
+			request.setAttribute("newLine", "\n");
+			
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("inquire/inquireAnswer.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/inquireRepleUpdate.inq")) {
+			InquireAnswerService action = new InquireAnswerService();
+			action.execute(request);
+			response.sendRedirect("inquire.inq");
 		}
 	}
 	@Override

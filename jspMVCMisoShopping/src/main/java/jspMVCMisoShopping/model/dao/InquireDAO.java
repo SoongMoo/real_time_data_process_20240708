@@ -7,7 +7,24 @@ import java.util.List;
 import jspMVCMisoShopping.model.dto.InquireDTO;
 
 public class InquireDAO extends DataBaseInfo {
-	
+	public void inquireReplyUpdate(InquireDTO dto) {
+		con = getConnection();
+		sql = " update Inquire "
+			+ " set  inquire_answer = ? "
+			+ "     ,emp_num = ? "
+			+ "     ,inquire_answer_date = sysdate "	
+			+ " where inquire_Num = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getInquireAnswer());
+			pstmt.setString(2, dto.getEmpNum());
+			pstmt.setLong(3, dto.getInquireNum());
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "개가 수정되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+	}
 	public void inquireDelete(String inquireNum) {
 		con = getConnection();
 		sql = " delete from inquire  where  inquire_Num = ?";
@@ -74,10 +91,10 @@ public class InquireDAO extends DataBaseInfo {
 			+ "       ,INQUIRE_CONTENTS, inquire_kind, inquire_date "
 			+ "       ,inquire_answer, inquire_answer_date,emp_num" 
 			+ " from inquire ";
-		sql += " where goods_num = ?  ";
+		if(goodsNum != null) sql += " where goods_num = ?  ";
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, goodsNum);
+			if(goodsNum != null) pstmt.setString(1, goodsNum);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				InquireDTO dto = new InquireDTO();
