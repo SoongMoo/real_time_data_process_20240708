@@ -70,10 +70,9 @@
 	</dependency>
 	<!-- oracle -->
 	<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>12.1.0.2</version>
-		<!--11.2.0.4-->
+		    <groupId>com.oracle</groupId>
+		    <artifactId>ojdbc7</artifactId>
+		    <version>12.1.0.2</version>
 	</dependency>
   </dependencies>
 
