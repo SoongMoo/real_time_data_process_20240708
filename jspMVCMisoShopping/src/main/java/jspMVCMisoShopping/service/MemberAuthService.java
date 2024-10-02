@@ -15,6 +15,8 @@ public class MemberAuthService {
 		session = request.getSession();
 		auth = (AuthInfoDTO)session.getAttribute("auth");
 		memDao = new MemberDAO();
-		memberNum = memDao.memberNumSelect(auth.getUserId());
+		try {
+			memberNum = memDao.memberNumSelect(auth.getUserId());
+		}catch (Exception e) {}
 	}
 }

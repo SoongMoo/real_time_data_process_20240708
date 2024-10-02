@@ -99,19 +99,19 @@
 	}
 	function inquire(){
 		//location.href= "inquireList.inq?goodsNum=${dto.goodsNum}";
-		$.ajax({
-			type:"post",
-			url : "inquireList.inq",
-			data : {"goodsNum":"${dto.goodsNum}"},
-			dataType : "html",
-			success : function(result){
-				$("#content").html(result);
-			},
-			error : function(){
-				alert('에러가 나왔다 홀홀홀~');
-				return;
-			}
-		});
+			$.ajax({
+				type:"post",
+				url : "inquireList.inq",
+				data : {"goodsNum":"${dto.goodsNum}"},
+				dataType : "html",
+				success : function(result){
+					$("#content").html(result);
+				},
+				error : function(){
+					alert('에러가 나왔다 홀홀홀~');
+					return;
+				}
+			});
 	}
 </script>
 </head>

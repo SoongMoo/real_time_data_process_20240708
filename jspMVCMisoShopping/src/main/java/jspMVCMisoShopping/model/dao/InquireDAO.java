@@ -7,6 +7,33 @@ import java.util.List;
 import jspMVCMisoShopping.model.dto.InquireDTO;
 
 public class InquireDAO extends DataBaseInfo {
+	public void inquireSelectOne(InquireDTO dto) {
+		con = getConnection();
+		sql = " select INQUIRE_NUM, MEMBER_NUM, GOODS_NUM, INQUIRE_SUBJECT"
+			+ "       ,INQUIRE_CONTENTS, inquire_kind, inquire_date "
+			+ "       ,inquire_answer, inquire_answer_date,emp_num" 
+			+ " from inquire ";
+		sql += " where INQUIRE_NUM = ?  ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, dto.getInquireNum());
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setEmpNum(rs.getString("emp_num"));
+				dto.setGoodsNum(rs.getString("GOODS_NUM"));
+				dto.setInquireAnswer(rs.getString("inquire_answer"));
+				dto.setInquireContent(rs.getString("INQUIRE_CONTENTS"));
+				dto.setInquireDate(rs.getDate("inquire_date"));
+				dto.setInquireKind(rs.getString("inquire_kind"));
+				dto.setInquireNum(rs.getLong("INQUIRE_NUM"));
+				dto.setInquireSubject(rs.getString("INQUIRE_SUBJECT"));
+				dto.setMemberNum(rs.getString("MEMBER_NUM"));
+				dto.setInquireAnswerDate(rs.getDate("inquire_answer_date"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {close();}
+	}
 	public List<InquireDTO> inquireSelectAll(String goodsNum) {
 		List<InquireDTO> list = new ArrayList<InquireDTO>();
 		con = getConnection();

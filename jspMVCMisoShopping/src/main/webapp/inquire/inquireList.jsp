@@ -10,10 +10,18 @@
 <script type="text/javascript">
 $(function(){
 	$("#inquire1").click(function(){
+		if(${! empty auth}){
 		window.open("inquireWrite.inq?goodsNum=${goodsNum}","문의하기"
 				,"width=700, height=650, top=100, left=100");
+		}else{
+			window.open("loginCk.login","loginck","width=400,height=400");
+		}	
 	});
 });
+function inquireUpdate(inquireNum){
+	window.open("inquireUpdate.inq?inquireNum="+inquireNum,"문의수정"
+			,"width=700, height=650, top=100, left=100");
+}
 </script>
 </head>
 <body>
@@ -23,7 +31,14 @@ $(function(){
 	<tr><th width="15%">답변 상태</th><th>작성자</th><th>질문일자</th></tr>
 <c:forEach items="${list }" var="dto">		
 	<tr><th width="15%">검토중|답변 완료</th><th>${dto.memberNum }</th><th>${dto.inquireDate }</th></tr>
-	<tr><td colspan="3">${dto.inquireKind } : ${dto.inquireSubject } </td></tr>
+	<tr><td colspan="3">${dto.inquireKind } : ${dto.inquireSubject } 
+		<c:if test="${memberNum == dto.memberNum }">
+			<span style="float:right;">
+				<button onclick="inquireUpdate('${dto.inquireNum}');">수정</button> 
+				<button>삭제</button>
+			</span>
+		</c:if>
+		</td></tr>
 	<tr><td colspan="3">${fn:replace( dto.inquireContent, newLine, "<br />") }</td></tr>
 	
 	<tr><td>답변</td><td colspan="2">답변 내용</td></tr>

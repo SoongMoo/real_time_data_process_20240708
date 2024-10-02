@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jspMVCMisoShopping.service.inquire.InquireDetailService;
 import jspMVCMisoShopping.service.inquire.InquireListService;
 import jspMVCMisoShopping.service.inquire.InquireWriteProService;
 
@@ -19,7 +20,7 @@ public class InquireFrontController extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length());
 		if(command.equals("/inquireList.inq")) {
-			InquireListService action = new InquireListService();
+			InquireListService action = new InquireListService(request);
 			action.execute(request);
 			
 			request.setAttribute("goodsNum", request.getParameter("goodsNum"));
@@ -43,6 +44,13 @@ public class InquireFrontController extends HttpServlet {
 					   + "</script>";
 			out.print(str);
 			out.close();
+		}else if(command.equals("/inquireUpdate.inq")) {
+			InquireDetailService action = new InquireDetailService();
+			action.execute(request);
+			
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("inquire/inquireUpdate.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 	@Override
