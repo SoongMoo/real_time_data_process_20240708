@@ -1,8 +1,0 @@
-board\service\BoardWriteService.class
-board\controller\BoardFrontController.class
-board\service\BoardDeleteService.class
-board\model\BoardDTO.class
-board\service\BoardDetailService.class
-board\service\BoardUpdateService.class
-board\model\BoardDAO.class
-board\service\BoardListService.class
