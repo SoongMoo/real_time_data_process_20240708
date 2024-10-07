@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			"
+>
+	<!--  BoardFrontController boardFrontController = 
+			 new BoardFrontController() ;-->	
+	<bean class="board.controller.BoardFrontController" id="boardFrontController"/>
+	<!--  BoardListService boardListService = new BoardListService(); -->
+	<bean class="board.service.BoardListService" id="boardListService"/>
+	<bean class="board.service.BoardDetailService" />
+	<bean class="board.service.BoardDeleteService" />
+	<bean class="board.service.BoardWriteService" />
+	<bean class="board.service.BoardUpdateService" />
+	<bean class="board.model.BoardDAO" id="boardDAO"/>
+</beans>
