@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import board.command.BoardCommand;
+import board.service.BoardDeleteService;
 import board.service.BoardDetailService;
 import board.service.BoardListService;
+import board.service.BoardUpdateService;
 import board.service.BoardWriteService;
 
 @Controller
@@ -22,6 +24,11 @@ public class BoardContoller {
 	BoardListService boardListService;
 	@Autowired
 	BoardDetailService boardDetailService;
+	@Autowired
+	BoardUpdateService boardUpdateService;
+	@Autowired
+	BoardDeleteService boardDeleteService;
+	
 	@RequestMapping("boardList")
 	public String boardList(BoardCommand boardCommand, Model model) {
 		boardListService.execute(boardCommand, model);
@@ -54,8 +61,14 @@ public class BoardContoller {
 	// PostMapping("boardModify")
 	@RequestMapping(value = "boardModify" , method = RequestMethod.POST)
 	public String boardModify(BoardCommand boardCommand) {
-		
+		boardUpdateService.execute(boardCommand);
 		return "redirect:boardDetail?boardNum="+boardCommand.getBoardNum();
+	}
+	
+	@GetMapping("boardDelete")
+	public String boardDelete(@RequestParam("boardNum") Integer boardNum) {
+		boardDeleteService.execute(boardNum);
+		return "redirect:boardList";
 	}
 	
 }

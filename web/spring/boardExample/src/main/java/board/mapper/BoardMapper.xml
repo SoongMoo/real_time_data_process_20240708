@@ -23,6 +23,16 @@ select board_num as boardNum, board_writer as boardWriter
 from board
 where board_num = #{boardNum}
 </select>
+<update id="boardUpdate" parameterType="dto">
+	update board 
+	set board_writer = #{boardWriter},
+	    board_subject = #{boardSubject},
+	    board_content = #{boardContent}
+	where board_num = #{boardNum}
+</update>
+<delete id="boardDelete" parameterType="integer"> 
+	delete from board where board_num = #{boardNum}
+</delete>
 </mapper>
 
 
