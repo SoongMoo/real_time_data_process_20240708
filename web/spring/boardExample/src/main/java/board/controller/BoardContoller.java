@@ -32,11 +32,13 @@ public class BoardContoller {
 	@RequestMapping("boardList")
 	public String boardList(BoardCommand boardCommand, Model model) {
 		boardListService.execute(boardCommand, model);
-		return "thymeleaf/board/boardList";
+		//return "thymeleaf/board/boardList";
+		return "boardList";
 	}
 	@GetMapping("boardWrite")  // doGet
 	public String boarWrite() {
-		return "thymeleaf/board/boardForm";
+		//return "thymeleaf/board/boardForm";
+		return "boardForm";
 	}
 	@PostMapping("boardWrite") //doPost
 	public String boardWrite(BoardCommand boardCommand) {
@@ -50,13 +52,15 @@ public class BoardContoller {
 			,Model model) {
 		//String boardNum = request.getParameter("boardNum")
 		boardDetailService.execute(boardNum, model);
-		return "thymeleaf/board/boardDetail";
+		//return "thymeleaf/board/boardDetail";
+		return "boardDetail";
 	}
 	@GetMapping("boardModify")
 	public String boardModify(@RequestParam("boardNum") String boardNum
 			,Model model) {
 		boardDetailService.execute(boardNum, model);
-		return "thymeleaf/board/boardUpdate";
+		//return "thymeleaf/board/boardUpdate";
+		return "boardUpdate";
 	}
 	// PostMapping("boardModify")
 	@RequestMapping(value = "boardModify" , method = RequestMethod.POST)

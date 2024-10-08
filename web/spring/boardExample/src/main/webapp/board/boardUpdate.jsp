@@ -7,7 +7,7 @@
 <title>boardUpdate.jsp</title>
 </head>
 <body>
-<form action="boardModify.miso" method="post">
+<form action="boardModify" method="post">
 번호 : <input type="text" name = "boardNum" value="${dto.boardNum }" readonly="readonly"/><br />
 이름 : <input type="text" name = "boardWriter" value="${dto.boardWriter }"/><br />
 제목 : <input type="text" name = "boardSubject" value="${dto.boardSubject }"/><br />

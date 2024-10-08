@@ -8,7 +8,7 @@
 </head>
 <body>
 게시글 쓰기<br />
-<form action="boardWrite.miso" method="post">
+<form action="boardWrite" method="post">
 <table border=1>
 	<tr><td>글쓴이</td>
 		<td><input type="text" name="boardWriter" /></td></tr>
