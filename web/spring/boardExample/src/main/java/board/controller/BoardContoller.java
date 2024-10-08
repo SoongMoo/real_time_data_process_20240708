@@ -70,7 +70,7 @@ public class BoardContoller {
 	}
 	
 	@GetMapping("boardDelete")
-	public String boardDelete(@RequestParam("boardNum") Integer boardNum) {
+	public String boardDelete(Integer boardNum) {
 		boardDeleteService.execute(boardNum);
 		return "redirect:boardList";
 	}
