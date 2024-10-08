@@ -14,7 +14,7 @@ import board.mapper.BoardMapper;
 public class BoardListService {
 	@Autowired
 	BoardMapper boardMapper;
-	public void execute(BoardCommand boardCommand, Model model) {
+	public void execute(Model model) {
 		List<BoardDTO> list = boardMapper.boardSelectAll();
 		model.addAttribute("list", list);
 	}
