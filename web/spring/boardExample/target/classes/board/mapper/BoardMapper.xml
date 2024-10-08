@@ -12,5 +12,26 @@ select nvl(max(board_num),0) + 1 from board
 insert into board(BOARD_NUM , BOARD_WRITER,BOARD_SUBJECT, BOARD_CONTENT)
 values(  ( <include refid="boardNum"/> ) , #{boardWriter},#{boardSubject}, #{boardContent})
 </insert>
-
+<select id="boardSelectAll" resultType="dto">
+select board_num as boardNum, board_writer as boardWriter
+	 , board_subject as boardSubject, board_content as boardContent
+from board
+</select>
+<select id="boardSelectOne" parameterType="string" resultType="dto">
+select board_num as boardNum, board_writer as boardWriter
+	 , board_subject as boardSubject, board_content as boardContent
+from board
+where board_num = #{boardNum}
+</select>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+

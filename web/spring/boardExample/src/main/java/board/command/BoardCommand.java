@@ -4,6 +4,13 @@ public class BoardCommand {
 	String boardWriter;
 	String boardSubject;
 	String boardContent;
+	int boardNum;
+	public int getBoardNum() {
+		return boardNum;
+	}
+	public void setBoardNum(int boardNum) {
+		this.boardNum = boardNum;
+	}
 	public String getBoardWriter() {
 		return boardWriter;
 	}
