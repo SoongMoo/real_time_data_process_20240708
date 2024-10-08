@@ -30,8 +30,8 @@ public class BoardContoller {
 	BoardDeleteService boardDeleteService;
 	
 	@RequestMapping("boardList")
-	public String boardList(BoardCommand boardCommand, Model model) {
-		boardListService.execute(boardCommand, model);
+	public String boardList( Model model) {
+		boardListService.execute( model);
 		//return "thymeleaf/board/boardList";
 		return "boardList";
 	}
