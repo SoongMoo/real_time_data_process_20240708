@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCShopping.mapper.AutoNumMapper">
+<select id="AutoNumSelect" resultType="string">
+	select 
+		concat(#{sep},nvl(max(substr(${columnName},#{len})),100000) + 1) 
+	from ${tableName}
+</select>
+</mapper>
