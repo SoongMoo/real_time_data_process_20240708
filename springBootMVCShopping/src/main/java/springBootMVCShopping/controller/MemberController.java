@@ -27,7 +27,10 @@ public class MemberController {
 	}
 	@GetMapping("memberWrite")
 	public String write(Model model) {
-		autoNumService.execute(model, "mem_", "member_num", 5, "members");
+		String autoNum = autoNumService.execute("mem_", "member_num", 5, "members");
+		MemberCommand  memberCommand = new MemberCommand();
+		memberCommand.setMemberNum(autoNum);
+		model.addAttribute("memberCommand", memberCommand);
 		return "thymeleaf/member/memberForm";
 		//return "member/memberForm";
 	}

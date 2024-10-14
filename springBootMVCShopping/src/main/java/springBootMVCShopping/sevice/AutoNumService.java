@@ -11,11 +11,9 @@ import springBootMVCShopping.mapper.AutoNumMapper;
 public class AutoNumService {
 	@Autowired
 	AutoNumMapper autoNumMapper;
-	public void execute(Model model, String sep, String columnName, Integer len
+	public String execute(String sep, String columnName, Integer len
 			,String tableName ) {
 		String autoNum = autoNumMapper.AutoNumSelect(sep, columnName, len,tableName);
-		MemberCommand memberCommand = new MemberCommand();
-		memberCommand.setMemberNum(autoNum);
-		model.addAttribute("memberCommand", memberCommand);
+		return autoNum;
 	}
 }
