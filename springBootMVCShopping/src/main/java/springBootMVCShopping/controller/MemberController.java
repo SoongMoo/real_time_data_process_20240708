@@ -3,6 +3,7 @@ package springBootMVCShopping.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class MemberController {
 		//return "member/memberForm";
 	}
 	@PostMapping("memberRegist")
-	public String write(MemberCommand memberCommand, Model model) {
+	public String write(@Validated MemberCommand memberCommand, Model model) {
 		if(!memberCommand.isMemberPwEqualMemberPwCon()) {
 			model.addAttribute("errPw","비밀번호가 일치하지 않아요. ");
 			return "thymeleaf/member/memberForm";
