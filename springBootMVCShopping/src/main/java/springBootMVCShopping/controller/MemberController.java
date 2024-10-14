@@ -26,7 +26,7 @@ public class MemberController {
 		//return "member/memberList";
 	}
 	@GetMapping("memberWrite")
-	public String write(MemberCommand memberCommand, Model model) {
+	public String write(Model model) {
 		autoNumService.execute(model, "mem_", "member_num", 5, "members");
 		return "thymeleaf/member/memberForm";
 		//return "member/memberForm";
@@ -41,9 +41,10 @@ public class MemberController {
 		}
 		if(!memberCommand.isMemberPwEqualMemberPwCon()) {
 			//model.addAttribute("errPw","비밀번호가 일치하지 않아요. ");
+			result.rejectValue("memberPwCon", "memberCommand.memberPwCon"
+					, "비밀번호가 일치 하지 않습니다.");
 			return "thymeleaf/member/memberForm";
 		}
-		System.out.println("fuwfw");
 		memberWriteService.execute(memberCommand);
 		return "redirect:memberList";
 	}
