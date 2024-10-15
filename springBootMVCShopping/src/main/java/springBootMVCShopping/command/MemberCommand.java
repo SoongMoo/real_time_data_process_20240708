@@ -32,7 +32,7 @@ public class MemberCommand {
 	@NotBlank(message = "연락처을 입력하여 주세요.")
 	@Size(min = 11, max = 23)
 	String memberPhone1;
-	@Size(min = 11, max = 23)
+	
 	String memberPhone2;
 	String gender;
 	@NotNull(message="생년월일을 입력해주세요.")	

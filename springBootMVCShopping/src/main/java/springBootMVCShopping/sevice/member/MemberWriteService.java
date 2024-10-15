@@ -21,11 +21,17 @@ public class MemberWriteService {
 		dto.setMemberAddrDetail(memberCommand.getMemberAddrDetail());
 		dto.setMemberBirth(memberCommand.getMemberBirth());
 		dto.setMemberEmail(memberCommand.getMemberEmail());
-		dto.setMemberId(memberCommand.getMemberId());
-		dto.setMemberName(memberCommand.getMemberName());
+		dto.setMemberId(memberCommand.getMemberId().trim());
+		dto.setMemberName(memberCommand.getMemberName().trim());
 		dto.setMemberNum(memberCommand.getMemberNum());
-		dto.setMemberPhone1(memberCommand.getMemberPhone1());
-		dto.setMemberPhone2(memberCommand.getMemberPhone2());
+		dto.setMemberPhone1(memberCommand.getMemberPhone1().trim());
+		/*
+		String test = "    이숭무   ".trim();
+		String test1 = null.trim();  // String null  500
+		*/
+		if(memberCommand.getMemberPhone2() != null) {
+			dto.setMemberPhone2(memberCommand.getMemberPhone2().trim());
+		}
 		String encodePw = passwordEncoder.encode(memberCommand.getMemberPw());
 		dto.setMemberPw(encodePw);
 		

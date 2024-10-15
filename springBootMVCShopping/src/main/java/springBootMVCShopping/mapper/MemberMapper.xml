@@ -6,11 +6,35 @@
 <insert id="memberInsert" parameterType="memberDTO">
 	insert into members(MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW
 	                   , MEMBER_ADDR, MEMBER_ADDR_DETAIL, MEMBER_POST
-	                   , MEMBER_REGIST, GENDER,MEMBER_PHONE1, MEMBER_PHONE2
+	                   , MEMBER_REGIST, GENDER,MEMBER_PHONE1
+	                   <if test="memberPhone2 != null">
+	                   , MEMBER_PHONE2
+	                   </if>
 	                   , MEMBER_EMAIL, MEMBER_BIRTH, MEMBER_POINT)
 	values(#{memberNum}, #{memberName}, #{memberId}, #{memberPw}
 	      ,#{memberAddr},#{memberAddrDetail},#{memberPost} 
-	      ,sysdate, #{gender}, #{memberPhone1},#{memberPhone2}
+	      ,sysdate, #{gender}, #{memberPhone1}
+	      <if test="memberPhone2 != null">
+	      ,#{memberPhone2}
+	      </if>
 	      ,#{memberEmail},#{memberBirth},0)
 </insert>
+<select id="memberSelectList" resultType="memberDTO">
+select MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW
+	  , MEMBER_ADDR, MEMBER_ADDR_DETAIL, MEMBER_POST
+	  , MEMBER_REGIST, GENDER,MEMBER_PHONE1, MEMBER_PHONE2
+	  , MEMBER_EMAIL, MEMBER_BIRTH, MEMBER_POINT, MEMBER_EMAIL_CONF 
+from members
+</select>
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

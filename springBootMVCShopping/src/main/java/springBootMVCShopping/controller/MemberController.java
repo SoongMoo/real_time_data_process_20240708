@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import springBootMVCShopping.command.MemberCommand;
 import springBootMVCShopping.sevice.AutoNumService;
+import springBootMVCShopping.sevice.member.MemberListService;
 import springBootMVCShopping.sevice.member.MemberWriteService;
 
 @Controller
@@ -20,8 +21,11 @@ public class MemberController {
 	MemberWriteService memberWriteService;
 	@Autowired
 	AutoNumService autoNumService;
+	@Autowired
+	MemberListService memberListService;
 	@GetMapping("memberList")
-	public String list() {
+	public String list(Model model) {
+		memberListService.execute(model);
 		return "thymeleaf/member/memberList";
 		//return "member/memberList";
 	}
@@ -38,7 +42,6 @@ public class MemberController {
 	public String write(@Validated MemberCommand memberCommand
 			,BindingResult result
 			/*, Model model*/) {
-		System.out.println("fuwfw");
 		if(result.hasErrors()) {
 			return "thymeleaf/member/memberForm";
 		}

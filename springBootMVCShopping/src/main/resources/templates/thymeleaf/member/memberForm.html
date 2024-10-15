@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src ="/static/js/daumAddressScript.js"></script>
 </head>
 <body>
 회원등록 페이지입니다.<br />
@@ -16,10 +18,11 @@
 			   	<span style="color:red" th:if="${#fields.hasErrors('memberPwCon')}" th:errors="*{memberPwCon}"></span><br />
 회원명 :         	<input type="text" name="memberName"  th:value="${memberCommand.memberName}" />
 				<span style="color:red" th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}"></span><br />
-회원주소 : 		<input type="text" name="memberAddr" id="sample4_roadAddress"  th:value="${memberCommand.memberAddr}" /><button type="button" >우편번호검색</button><br />
+회원주소 : 		<input type="text" name="memberAddr" id="sample4_roadAddress"  th:value="${memberCommand.memberAddr}" readonly="readonly" />
+				<button type="button" onclick="execDaumPostcode();">우편번호검색</button><br />
 				<span style="color:red" th:if="${#fields.hasErrors('memberAddr')}" th:errors="*{memberAddr}"></span><br />
 상세주소 : 		<input type="text" name="memberAddrDetail" th:value="${memberCommand.memberAddrDetail}"/><br />
-우편번호 : 		<input type="text" name="memberPost" id="sample4_postcode" th:value="${memberCommand.memberPost}" /><br />
+우편번호 : 		<input type="text" name="memberPost" id="sample4_postcode" th:value="${memberCommand.memberPost}" readonly="readonly"/><br />
 회원연락처1 : 		<input type="tel" name="memberPhone1" th:value="${memberCommand.memberPhone1}"/>
 				<span style="color:red" th:if="${#fields.hasErrors('memberPhone1')}" th:errors="*{memberPhone1}"></span><br />
 회원연락처2 : 		<input type="tel" name="memberPhone2" th:value="${memberCommand.memberPhone2}"/>
