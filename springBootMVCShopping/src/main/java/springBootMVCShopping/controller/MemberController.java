@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import springBootMVCShopping.command.MemberCommand;
 import springBootMVCShopping.sevice.AutoNumService;
@@ -24,8 +25,11 @@ public class MemberController {
 	@Autowired
 	MemberListService memberListService;
 	@GetMapping("memberList")
-	public String list(Model model) {
-		memberListService.execute(model);
+	public String list(
+			 @RequestParam(value="page" , required = false , defaultValue = "1") Integer page
+			,@RequestParam(value="searchWord", required = false ) String searchWord
+			,Model model) {
+		memberListService.execute(searchWord,page, model);
 		return "thymeleaf/member/memberList";
 		//return "member/memberList";
 	}

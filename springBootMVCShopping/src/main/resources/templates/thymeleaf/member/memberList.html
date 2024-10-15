@@ -6,9 +6,23 @@
 </head>
 <body>
 <a href="memberWrite">회원등록</a><br />
-회원수 : <br />
+회원수 : [[${list.size()}]]<br />
 <table border=1 width="600">
+	<form action="memberList" method="get">
+	<tr>
+		<td colspan="4">회원 검색:
+			<input type="search" name="searchWord" size=60 th:value="${searchWord}">
+			<input type="submit" value="검색">
+		</td>
+	</tr>
+	</form>
 	<tr><td>번호</td><td>이름</td><td>아이디</td><td>등록일</td></tr>
+	<tr th:each=" dto : ${list}">
+		<td>[[${dto.memberNum}]]</td>
+		<td>[[${dto.memberName}]]</td>
+		<td>[[${dto.memberId}]]</td>
+		<td>[[${#dates.format(dto.memberRegist,'yyyy-MM-dd')}]]</td>
+	</tr>
 </table>
 </body>
 </html>

@@ -19,12 +19,30 @@
 	      </if>
 	      ,#{memberEmail},#{memberBirth},0)
 </insert>
-<select id="memberSelectList" resultType="memberDTO">
-select MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW
+<sql id="memberBaseColumns">
+		MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW
 	  , MEMBER_ADDR, MEMBER_ADDR_DETAIL, MEMBER_POST
 	  , MEMBER_REGIST, GENDER,MEMBER_PHONE1, MEMBER_PHONE2
 	  , MEMBER_EMAIL, MEMBER_BIRTH, MEMBER_POINT, MEMBER_EMAIL_CONF 
-from members
+</sql>
+
+<select id="memberSelectList" resultType="memberDTO" parameterType="startEndPageDTO">
+select *
+from (select ROW_NUMBER() over (order by member_num ) as rn  
+	        ,<include refid="memberBaseColumns"/>
+	  from members
+<where> 
+	<if test="searchWord != null">
+		MEMBER_NAME like '%'||#{searchWord}||'%'
+		or MEMBER_ID like '%'||#{searchWord}||'%'
+		or MEMBER_NUM like '%'||#{searchWord}||'%'
+	</if>
+</where>
+)
+where rn BETWEEN #{startRow} and #{endRow}
+</select>
+<select id="memberCount" resultType="integer">
+	select count() from members
 </select>
 
 
