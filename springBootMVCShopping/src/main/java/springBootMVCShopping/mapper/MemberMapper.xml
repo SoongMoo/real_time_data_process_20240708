@@ -42,7 +42,7 @@ from (select ROW_NUMBER() over (order by member_num ) as rn
 where rn BETWEEN #{startRow} and #{endRow}
 </select>
 <select id="memberCount" resultType="integer">
-	select count() from members
+	select count(*) from members
 </select>
 
 
