@@ -8,12 +8,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import springBootMVCShopping.command.MemberCommand;
 import springBootMVCShopping.sevice.AutoNumService;
 import springBootMVCShopping.sevice.member.MemberListService;
 import springBootMVCShopping.sevice.member.MemberWriteService;
+import springBootMVCShopping.sevice.member.MembersDeleteService;
 
 @Controller
 @RequestMapping("member") //공통주소 처리
@@ -24,6 +26,8 @@ public class MemberController {
 	AutoNumService autoNumService;
 	@Autowired
 	MemberListService memberListService;
+	@Autowired
+	MembersDeleteService membersDeleteService;
 	@GetMapping("memberList")
 	public String list(
 			 @RequestParam(value="page" , required = false , defaultValue = "1") Integer page
@@ -56,6 +60,11 @@ public class MemberController {
 			return "thymeleaf/member/memberForm";
 		}
 		memberWriteService.execute(memberCommand);
+		return "redirect:memberList";
+	}
+	@RequestMapping(value = "membersDelete")
+	public String membersDelete(@RequestParam("nums")String memberNums []) {
+		membersDeleteService.execute(memberNums);
 		return "redirect:memberList";
 	}
 }

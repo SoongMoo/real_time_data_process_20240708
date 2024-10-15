@@ -8,4 +8,12 @@
 		concat(#{sep},nvl(max(substr(${columnName},#{len})),100000) + 1) 
 	from ${tableName}
 </select>
+<delete id="numsDelete" >
+	delete from ${tableName}
+	where ${columnName} in 
+		<foreach collection="nums" item="num" open="(" close=")" index="index"
+			separator=",">
+			#{num}
+		</foreach> 
+</delete>
 </mapper>
