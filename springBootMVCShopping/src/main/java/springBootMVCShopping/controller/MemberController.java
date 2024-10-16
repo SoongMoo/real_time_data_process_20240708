@@ -89,7 +89,11 @@ public class MemberController {
 		return "thymeleaf/member/memberModify";
 	}
 	@PostMapping("memberUpdate")
-	public String memberUpdate(MemberCommand memberCommand) {
+	public String memberUpdate(@Validated MemberCommand memberCommand,
+			BindingResult result) {
+		if(result.hasErrors()) {
+			return "thymeleaf/member/memberModify";
+		}
 		memberUpdateService.execute(memberCommand);
 		return "redirect:memberDetail/"+memberCommand.getMemberNum();
 	}

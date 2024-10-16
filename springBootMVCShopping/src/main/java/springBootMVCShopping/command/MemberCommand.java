@@ -40,6 +40,10 @@ public class MemberCommand {
 	Date memberBirth;
 	@NotBlank(message = "이메일을 입력하여 주세요.")
 	String memberEmail;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	Date memberRegist;
+	
 	public boolean isMemberPwEqualMemberPwCon() {
 		return memberPw.equals(memberPwCon);
 	}
