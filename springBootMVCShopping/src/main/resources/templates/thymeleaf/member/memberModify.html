@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="/static/js/check.js"></script>
 </head>
 <body>
 회원수정 페이지입니다.<br />
@@ -12,7 +14,7 @@
 회원번호 : <input type="text" th:field="*{memberNum}" name="memberNum"> <br />
 이름 : <input type="text" name="memberName" th:field="*{memberName}"/>
 <span th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}" ></span><br />
-아이디 : <input type="text" name="memberId" th:field="*{memberId}"/>
+아이디 : <input type="text" name="memberId" th:field="*{memberId}" readonly="readonly"/>
 <span th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}" ></span><br />
 주소 : <input type="text" name="memberAddr" th:field="*{memberAddr}" />
 <span th:if="${#fields.hasErrors('memberAddr')}" th:errors="*{memberAddr}" ></span><br />
@@ -29,7 +31,8 @@
 		th:value="${#dates.format(memberCommand.memberRegist,'yyyy-MM-dd')}" /><br />
 생년월일 : <input type="date" name="memberBirth" 
 		th:value="${#dates.format(memberCommand.memberBirth,'yyyy-MM-dd')}" /><br />
-이메일 : <input type="email" name="memberEmail" th:field="*{memberEmail}"/>
+이메일 : <input type="email" name="memberEmail" id="userEamil" th:field="*{memberEmail}"/>
+<span id="emialCheck"></span>
 <span th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}" ></span><br />
 <input type="submit" value="회원수정 완료" /> 
 <input type="button" value="회원목록" onclick="javascript:location.href='memberList.mem'">
