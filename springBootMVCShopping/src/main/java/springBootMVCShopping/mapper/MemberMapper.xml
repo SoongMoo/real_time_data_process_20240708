@@ -44,15 +44,10 @@ where rn BETWEEN #{startRow} and #{endRow}
 <select id="memberCount" resultType="integer">
 	select count(*) from members
 </select>
-
-
-
-
-
-
-
-
-
-
+<select resultType="memberDTO" id="memberSelectOne" parameterType="string" >
+	select <include refid="memberBaseColumns" />
+	from members
+	where member_num = #{memberNum}
+</select>
 
 </mapper>

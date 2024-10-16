@@ -16,7 +16,7 @@ public class LoginController {
 	// spring 방식
 	@PostMapping("userIdCheck")
 	public @ResponseBody Integer userIdCheck(String userId) {
-		// html, jsp파일경로
+		// html, jsp파일경로(x)
 		return idcheckService.execute(userId);
 		
 	}

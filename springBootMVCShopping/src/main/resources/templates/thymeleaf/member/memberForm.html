@@ -6,30 +6,7 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src ="/static/js/daumAddressScript.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
-<script type="text/javascript">
-$(function(){
-	$("#userId").on("change keyup",function(){
-		$.ajax({
-			type : "post",
-			url : "/login/userIdCheck",
-			data : {"userId" : $("#userId").val()},
-			dataType : "text",
-			success : function(result){
-				if(result == "1"){
-					$("#idCheck").text("사용중인 아이디입니다.");
-					$("#idCheck").css("color","red");
-				}else{
-					$("#idCheck").text("사용가능한 아이디입니다.");
-					$("#idCheck").css("color","blue");
-				}
-			},
-			error:function(){
-				alert("서버오류");
-			}
-		});
-	});
-});
-</script>
+<script type="text/javascript" src="/static/js/check.js"></script>
 </head>
 <body>
 회원등록 페이지입니다.<br />
@@ -57,7 +34,8 @@ $(function(){
 				<input type="radio" name="gender" value="F"/>여자<br />
 회원생년월일 : 		<input type="date" name="memberBirth"  th:value="${memberCommand.memberBirth}" />
 				<span style="color:red" th:if="${#fields.hasErrors('memberBirth')}"  th:errors="*{memberBirth}"></span><br />
-회원이메일 : 		<input type="email" name="memberEmail" th:value="${memberCommand.memberEmail}"/>
+회원이메일 : 		<input type="email" name="memberEmail" id="userEamil" th:value="${memberCommand.memberEmail}"/>
+				<span id="emialCheck"></span>
 				<span style="color:red" th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}"></span><br />
 <input type="submit" value="회원등록" />
 </form>

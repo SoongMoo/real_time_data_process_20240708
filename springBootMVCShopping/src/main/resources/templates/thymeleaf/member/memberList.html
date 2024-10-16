@@ -25,8 +25,8 @@
 	</tr>
 	<tr th:each=" dto : ${list}">
 		<td><input type="checkbox" name="nums" th:value="${dto.memberNum}"/></td>
-		<td>[[${dto.memberNum}]]</td>
-		<td>[[${dto.memberName}]]</td>
+		<td><a th:href="|memberDetail/${dto.memberNum}|">[[${dto.memberNum}]]</a></td>
+		<td><a th:href="@{memberDetail/${dto.memberNum}}">[[${dto.memberName}]]</a></td>
 		<td>[[${dto.memberId}]]</td>
 		<td>[[${#dates.format(dto.memberRegist,'yyyy-MM-dd')}]]</td>
 		<td><button type="button" th:attr="onclick=|javascript:location.href='membersDelete?nums=${dto.memberNum}'|">삭제</button></td>

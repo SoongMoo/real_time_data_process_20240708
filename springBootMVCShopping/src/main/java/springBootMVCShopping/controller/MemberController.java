@@ -6,13 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import springBootMVCShopping.command.MemberCommand;
 import springBootMVCShopping.sevice.AutoNumService;
+import springBootMVCShopping.sevice.member.MemberDetailService;
 import springBootMVCShopping.sevice.member.MemberListService;
 import springBootMVCShopping.sevice.member.MemberWriteService;
 import springBootMVCShopping.sevice.member.MembersDeleteService;
@@ -28,6 +29,8 @@ public class MemberController {
 	MemberListService memberListService;
 	@Autowired
 	MembersDeleteService membersDeleteService;
+	@Autowired
+	MemberDetailService memberDetailService;
 	@GetMapping("memberList")
 	public String list(
 			 @RequestParam(value="page" , required = false , defaultValue = "1") Integer page
@@ -67,4 +70,28 @@ public class MemberController {
 		membersDeleteService.execute(memberNums);
 		return "redirect:memberList";
 	}
+	/// PathVariable
+	@GetMapping("memberDetail/{memberNum}")
+	public String memberDetail(@PathVariable("memberNum") String memberNum
+			,Model model) {
+		memberDetailService.execute(model, memberNum);
+		return "thymeleaf/member/memberInfo";
+	}
+	@GetMapping("memberUpdate")
+	public String memberUpdate(String memberNum,Model model) {
+		memberDetailService.execute(model, memberNum);
+		return "thymeleaf/member/memberModify";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
