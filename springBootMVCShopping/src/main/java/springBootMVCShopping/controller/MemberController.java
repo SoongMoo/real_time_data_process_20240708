@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import springBootMVCShopping.command.MemberCommand;
 import springBootMVCShopping.sevice.AutoNumService;
+import springBootMVCShopping.sevice.member.MemberDeleteService;
 import springBootMVCShopping.sevice.member.MemberDetailService;
 import springBootMVCShopping.sevice.member.MemberListService;
+import springBootMVCShopping.sevice.member.MemberUpdateService;
 import springBootMVCShopping.sevice.member.MemberWriteService;
 import springBootMVCShopping.sevice.member.MembersDeleteService;
 
@@ -31,6 +33,10 @@ public class MemberController {
 	MembersDeleteService membersDeleteService;
 	@Autowired
 	MemberDetailService memberDetailService;
+	@Autowired
+	MemberUpdateService memberUpdateService;
+	@Autowired
+	MemberDeleteService memberDeleteService;
 	@GetMapping("memberList")
 	public String list(
 			 @RequestParam(value="page" , required = false , defaultValue = "1") Integer page
@@ -81,6 +87,16 @@ public class MemberController {
 	public String memberUpdate(String memberNum,Model model) {
 		memberDetailService.execute(model, memberNum);
 		return "thymeleaf/member/memberModify";
+	}
+	@PostMapping("memberUpdate")
+	public String memberUpdate(MemberCommand memberCommand) {
+		memberUpdateService.execute(memberCommand);
+		return "redirect:memberDetail/"+memberCommand.getMemberNum();
+	}
+	@GetMapping("memberDelete/{memberNum}")
+	public String memberDelete(@PathVariable("memberNum") String memberNum) {
+		memberDeleteService.execute(memberNum);
+		return "redirect:../memberList";
 	}
 	
 	

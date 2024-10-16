@@ -16,11 +16,11 @@
 연락처2 : [[${memberCommand.memberPhone2 }]]<br />
 성별 : <span th:if="${memberCommand.gender == 'M'}">남자</span>
 	  <span th:if="${memberCommand.gender == 'F'}">여자</span><br />
-등록일 : [[${memberCommand.memberRegist }]]<br />
-생년월일 : [[${memberCommand.memberBirth }]]<br />
+등록일 : [[${#dates.format(memberCommand.memberRegist ,'yyyy-MM-dd')}]]<br />
+생년월일 :[[${#dates.format(memberCommand.memberBirth,  'yyyy-MM-dd')}]]<br />
 이메일 : [[${memberCommand.memberEmail }]]<br />
 <a th:href="@{../memberUpdate(memberNum=${memberCommand.memberNum })}">회원 수정</a> | 
-<a href="">회원 강제 탈퇴</a> |
+<a th:href="|../memberDelete/*{memberNum}|">회원 강제 탈퇴</a> |
 <a href="memberList">회원목록</a>
 </body>
 </html>
