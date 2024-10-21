@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCShopping.mapper.EmployeeMapper">
+<sql id="employeeBaseColumns">
+	EMP_NUM , EMP_ID, EMP_PW, EMP_NAME, EMP_ADDR,EMP_ADDR_detail,EMP_POST,
+	EMP_HIRE_DATE,EMP_PHONE,EMP_EMAIL, EMP_jumin
+</sql>
+<resultMap type="emp" id="employeeResultMap">
+	<!-- setter : jdbcType -->
+	<!-- id는 프라이머리 컬럼인경우, result는 일반 컬럼인경우 -->
+	<id column="EMP_NUM" jdbcType="VARCHAR" property="empNum"/>
+	<result column="EMP_ID" jdbcType="VARCHAR" property="empId"/>
+	<result column="EMP_PW" jdbcType="VARCHAR" property="empPw"/>
+	<result column="EMP_NAME" jdbcType="VARCHAR" property="empName"/>
+	<result column="EMP_ADDR" jdbcType="VARCHAR" property="empAddr"/>
+	<result column="EMP_ADDR_detail" jdbcType="VARCHAR" property="empAddrDetail"/>
+	<result column="EMP_POST" jdbcType="BIGINT" property="empPost"/>
+	<result column="EMP_HIRE_DATE" jdbcType="DATE" property="empRegiDate" />
+	<result column="EMP_PHONE" jdbcType="VARCHAR" property="empPhone"/>
+	<result column="EMP_EMAIL" jdbcType="VARCHAR" property="empEmail"/>
+	<result column="EMP_jumin" jdbcType="VARCHAR" property="empJumin"/>
+</resultMap>
+<select id="autoNum"  resultType="string">
+	select concat('emp' , nvl(max(substr(emp_num,4)),100000) + 1) 
+	from employees
+	<!-- 회원번호가져오기에서 .mem대신 emp로 대신했다. -->
+</select>
+<insert id="employeeInsert" parameterType="emp" >
+	insert into employees( <include refid="employeeBaseColumns" />)
+	values( #{empNum},#{empId} ,#{empPw} ,#{empName} ,#{empAddr} 
+			,#{empAddrDetail} ,#{empPost} 
+			,sysdate ,#{empPhone} ,#{empEmail},#{empJumin})
+</insert>
+<!-- select 한 데이터를 EmployeeDTO로 받아오려면 컬럼명을 EmployeeDTO에 있는 멤버필드명으로 별칭을 줘야한다.-->
+<!-- 그런데 include를 해서 별칭을 줄 수가 없다. 다른 방법은 resultMap을 사용하는 방법이 있다. -->
+<select id="employeeAllSelect"   parameterType="startEndPageDTO" 
+	resultMap="employeeResultMap" >
+select * from (
+	select ROW_NUMBER() over (order by emp_num) as rn, 
+			<include refid="employeeBaseColumns" />
+	from employees
+	<where>
+		<!-- searchWord에 값이 없으므로 값이 있을 때만 사용하게 조건을 주자. -->
+		<if test="searchWord != null">
+		<!-- 검색 데이터가 일부만 사용할 수 있으므로 like를 사용하고 여러 컬럼을 검사하도록 한다. -->
+			emp_NAME like '%' || #{searchWord} || '%'
+			or emp_id like '%' || #{searchWord} || '%'
+			or emp_num like '%' || #{searchWord} || '%'
+		</if>
+	</where>	
+) 
+where rn between #{startRow}  and #{endRow}
+</select>
+<select id="employeeCount" parameterType="string" resultType="integer">
+	select count(*) from employees
+	<if test='searchWord != null'>
+		<where>
+			emp_NAME like '%' || #{searchWord} || '%'
+			or emp_id like '%' || #{searchWord} || '%'
+			or emp_num like '%' || #{searchWord} || '%'
+		</where>
+	</if>
+</select>
+<delete id="employeesDelete" parameterType="string">
+delete from employees where EMP_NUM in
+<foreach collection="employeesNum" item="employeeNum" close=")" open="(" separator=","
+	index="index">
+	#{employeeNum}
+</foreach>
+</delete>
+<select id="employeeOneSelect"  parameterType="string" resultMap="employeeResultMap">
+select <include refid="employeeBaseColumns" /> 
+from employees
+where EMP_NUM = #{empNum}
+</select>
+<update id="employeeUpdate" parameterType="emp">
+	update employees
+set   EMP_NAME = #{empName}
+    , EMP_ADDR =#{empAddr}
+    <if test="empAddrDetail != null">
+    , EMP_ADDR_detail = #{empAddrDetail}
+    </if>
+    , EMP_POST =#{empPost}
+    , EMP_PHONE = #{empPhone}
+    , emp_jumin = #{empJumin}
+    , EMP_HIRE_DATE = #{empRegiDate}
+where EMP_NUM = #{empNum}
+</update>
+<delete id="employeeDelete" parameterType="string">
+<![CDATA[
+	delete from employees where EMP_NUM = #{empNum}
+]]>
+</delete>
+<select id="getEmpNum" parameterType="string" resultType="string">
+select emp_num from employees
+where emp_id = #{empId}
+</select>
+</mapper>
+
+	
+	
+	
+	
+	
+	
+	
+	

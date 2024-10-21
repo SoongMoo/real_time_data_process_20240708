@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- 체크박스에 대한 자바스크립트 코드를 복사하겠습니다. -->
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="/static/js/checkbox.js"></script>
+</head>
+<body>
+<!-- 직원관리에서 직원등록을 했다면 메인페이지에서 로그인이 가능합니다. -->
+<!-- 회원관리에서 했던 검색과 페이징을 하겠습니다. memberList.html파일에 있는 소스를 복사한 후 필요한 부분을 수정합니다. -->
+직원 목록 페이지입니다.<br />
+<a href="empRegist">직원등록</a><br />
+<form  action="employeeList" method="get" >
+	<!--  --> 
+	<tr><td colspan="5">검색 : 
+			<input type="search" name="searchWord" size="60" th:value="${searchWord}"/>
+			<input type="submit" value="검색" />
+		</td></tr>
+</form>
+<!-- 직원을 선택하고 선택한 직원들을 삭제할 수 있는 코드를 memberList.html파일에 있는 소스를 복사한 후 필요한 부분을 수정합니다.-->
+<form action="empsDelete" method="post" id="frm"><!-- 선택한 직원 삭제하겠습니다. -->
+<table border=1 width=600px>
+<tr><td>직원번호</td><td>직원아이디</td><td>직원이름</td><td>등록일</td><td>연락처</td>
+	<td><input type="checkbox" id="checkBoxs"/>
+			<input type="submit" value="삭제" /> 
+	</td></tr>
+<tr th:each="dto : ${dtos}"><!-- 직원상세보기를 해보겠습니다. -->
+	<td><a th:href="|employeeDetail?empNum=${dto.empNum}|">[[${dto.empNum}]]</a></td>
+	<td><a th:href="@{employeeDetail(empNum=${dto.empNum})}|">[[${dto.empId}]]</a></td>
+	<td>[[${dto.empName}]]</td>
+	<td>[[${#dates.format(dto.empRegiDate,'yyyy-MM-dd')}]]</td>
+	<td>[[${dto.empPhone}]]</td>
+	<td><input type="checkbox" name="nums" th:value="${dto.empNum}" /></td>
+</tr>
+<tr align="center"><td colspan="6">
+	<th:block th:if="${page <= 1}">
+	[이전]
+	</th:block>
+	<th:block th:if="${page > 1}">
+	<a th:href="@{employeeList(page=${page - 1},searchWord=${searchWord})}">[이전]</a>
+	</th:block>
+	<th:block th:each=" i : ${#numbers.sequence(startPageNum, endPageNum)}">
+	<a th:href="@{employeeList(page=${i},searchWord=${searchWord})}">[[${i}]]</a>
+	</th:block>
+	<th:block th:if="${page >= maxPage}">
+	[다음]
+	</th:block>
+	<th:block th:if="${page < maxPage}">
+	<a th:href="@{employeeList(page=${page + 1},searchWord=${searchWord})}">[다음]</a>
+	</th:block>
+	</td></tr>
+</table>
+</form>
+</body>
+</html>

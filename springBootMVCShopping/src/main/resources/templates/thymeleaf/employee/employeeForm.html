@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- 회원관리와 회원가입에서 사용했던 아이디 중복과 이메일 중복 그리고 다음주소검색을 추가하겠습니다. -->
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/static/js/daumAddressScript.js"></script>
+<script src="/static/js/check.js" ></script>
+<script type="text/javascript">
+$(function(){
+	var $drop = $("#drop");
+	$drop.on("dragenter", function(e) {  
+		//드래그 요소가 들어왔을떄  
+			$(this).addClass('drag-over');
+		}).on("dragleave", function(e) {  
+			//드래그 요소가 나갔을때  
+			$(this).removeClass('drag-over');
+		}).on("dragover", function(e) {  
+			e.stopPropagation();  
+			e.preventDefault();
+		}).on('drop', function(e) {  
+			//드래그한 항목을 떨어뜨렸을때  
+			e.preventDefault();  
+			$(this).removeClass('drag-over');
+		});
+});
+</script>
+</head>
+<body>
+직원등록페이지입니다.<br />
+<!-- 오류메시지를 출력하려면 command가 필요합니다.  -->
+<!-- 오류메시지를 span에 출력하겠습니다. -->
+<!-- 오류메시지를 가져오기 위해서는 command에 정의 해 주어야 합니다. -->
+<!-- 먼저 입력한 값이 그대로 출력되었으면 좋겠습니다. -->
+<form action="empRegist" method="post" th:object="${employeeCommand}" id="frm">
+
+직원번호 : <input type="text" name="empNum"  id="empNum" readonly='readonly'  th:value="${employeeCommand.empNum}"/>
+		 <span style="color:red">자동 부여</span><br />
+아이디 : <input type="text" name="empId"  id="userId" th:value="${employeeCommand.empId}"/>
+		<span style="color:red" th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}"></span>
+		<span id='idCheck'></span><br />
+비밀번호 : <input type="password" name="empPw" id="empPw" />
+		<span style="color:red" th:if="${#fields.hasErrors('empPw')}" th:errors="*{empPw}"></span><br />
+비밀번호 확인 : <input type="password" name="empPwCon"  id="empPwCon"  />
+		<span style="color:red" th:if="${#fields.hasErrors('empPwCon')}" th:errors="*{empPwCon}"></span><br />
+이름 : <input type="text" name="empName" th:value="${employeeCommand.empName}"/>
+		<span style="color:red" th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></span><br />
+주소 : <input type="text" name="empAddr" id="sample4_roadAddress" th:value="${employeeCommand.empAddr}">
+		<button type="button" onclick="execDaumPostcode()">주소검색</button><br />
+상세주소 : <input type="text" name="empAddrDetail" th:value="${employeeCommand.empAddrDetail}"/><br />
+우편번호 : <input type="text" name="empPost" id="sample4_postcode" th:value="${employeeCommand.empPost}"/>
+		<span style="color:red" th:if="${#fields.hasErrors('empAddr')}" th:errors="*{empAddr}"></span><br />
+연락처 : <input type="text" name="empPhone" th:value="${employeeCommand.empPhone}"/>
+		<span style="color:red" th:if="${#fields.hasErrors('empPhone')}" th:errors="*{empPhone}"></span><br />
+이메일 : <input type="email" name="empEmail"  id="userEamil" th:value="${employeeCommand.empEmail}"/>
+		<span style="color:red" th:if="${#fields.hasErrors('empEmail')}" th:errors="*{empEmail}"></span>
+		<span id='emailCheck'></span><br />
+주민번호: <input type="text" name="empJumin" th:value="${employeeCommand.empJumin}"/>
+		<span style="color:red" th:if="${#fields.hasErrors('empJumin')}" th:errors="*{empJumin}"></span><br />
+<input type="submit" value="등록" />
+</form>
+</body>
+</html>

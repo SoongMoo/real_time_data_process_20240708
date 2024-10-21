@@ -25,10 +25,6 @@ public class MemberWriteService {
 		dto.setMemberName(memberCommand.getMemberName().trim());
 		dto.setMemberNum(memberCommand.getMemberNum());
 		dto.setMemberPhone1(memberCommand.getMemberPhone1().trim());
-		/*
-		String test = "    이숭무   ".trim();
-		String test1 = null.trim();  // String null  500
-		*/
 		if(memberCommand.getMemberPhone2() != null) {
 			dto.setMemberPhone2(memberCommand.getMemberPhone2().trim());
 		}
