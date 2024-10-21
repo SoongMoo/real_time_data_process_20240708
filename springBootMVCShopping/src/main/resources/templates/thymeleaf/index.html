@@ -6,22 +6,29 @@
 </head>
 <body>
 hello miso shopping<br />
+<div th:if="${session.auth != null}">
 <ul>
 	<li><a href="member/memberList">회원 관리</a></li>
 	<li><a href="employee/employeeList">직원 관리</a></li>
+	<li><a href="login/logout">로그아웃</a></li>
 </ul>
-<form action="/login/login" method="post" >
+</div>
+<div th:if="${session.auth == null}">
+<form action="/login/login" method="post" th:object="${loginCommand}" >
 <table border="1" align="center">
 	<tr><td colspan="2">자동로그인 | 아이디저장</td></tr>
-	<tr><td>아 이 디 : <input type="text" name="userId" /></td>
+	<tr><td>아 이 디 : <input type="text" name="userId" th:value="${loginCommand.userId}" /><br />
+			<span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></span></td>
 		<td rowspan="2">
-			<input type="image" src="/static/images/오케바리.gif" width="60" />
+			<input type="image" src="/static/images/오케바리.gif" width="60" /></span>
 		</td></tr>
-	<tr><td>비밀번호: <input type="password" name="userPw" /> </td></tr>
+	<tr><td>비밀번호: <input type="password" name="userPw" /><br />
+			<span th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}"> </td></tr>
 	<tr><td colspan="2">아이디 / 비밀번호 찾기 | 
 		<a href="/register/userAgree">회원가입</a></td></tr>
 </table>
 </form>
+</div>
 </body>
 </html>
 

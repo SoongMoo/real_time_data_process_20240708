@@ -22,11 +22,6 @@
 	<result column="EMP_EMAIL" jdbcType="VARCHAR" property="empEmail"/>
 	<result column="EMP_jumin" jdbcType="VARCHAR" property="empJumin"/>
 </resultMap>
-<select id="autoNum"  resultType="string">
-	select concat('emp' , nvl(max(substr(emp_num,4)),100000) + 1) 
-	from employees
-	<!-- 회원번호가져오기에서 .mem대신 emp로 대신했다. -->
-</select>
 <insert id="employeeInsert" parameterType="emp" >
 	insert into employees( <include refid="employeeBaseColumns" />)
 	values( #{empNum},#{empId} ,#{empPw} ,#{empName} ,#{empAddr} 
