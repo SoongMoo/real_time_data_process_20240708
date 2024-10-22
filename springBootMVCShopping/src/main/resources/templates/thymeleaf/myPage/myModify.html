@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<ul>
+		<li><a href="/">홈</a></li>
+		<li><a href="memberMyPage">내정보 보기</a></li>
+		<li><a href="memberUpdate">내정보 수정</a></li>
+		<li><a href="memberPwModify">비밀번호변경</a></li>
+		<li><a href="memberDrop">회원탈퇴</a></li>
+	</ul>
+<form action="memberModify" method="post" name="frm" >
+이름 : <input type="text" name="memberName" th:value="${memberCommand.memberName }" required="required"/><br />
+*아이디 : <input type="text" name="memberId" th:value="${memberCommand.memberId }" readonly="readonly"/><br />
+현재 비밀번호 : <input type="password" name="memberPw" /><br />
+주소 : <input type="text" name="memberAddr" th:value="${memberCommand.memberAddr }"  required="required" /><br />
+상세주소 : <input type="text" name="memberAddrDetail" th:value="${memberCommand.memberAddrDetail }"/><br />
+우편번호 : <input type="text" name="memberPost" th:value="${memberCommand.memberPost }"  required="required"/><br />
+연락처1 : <input type="tel" name="memberPhone1" th:value="${memberCommand.memberPhone1 }"  required="required"/><br />
+연락처2 : <input type="tel" name="memberPhone2" th:value="${memberCommand.memberPhone2 }"/><br />
+성별 : <input type="radio" name="gender" th:value="M" 
+	    th:checked="${memberCommand.gender == 'M'}" />남자
+	  <input type="radio" name="gender" th:value="F"  
+	  	 th:checked="${memberCommand.gender == 'F'}" />여자	<br />
+*등록일 : <input type="date" name="memberRegist" th:value="${#dates.format(memberCommand.memberRegist,'yyyy-MM-dd') }"  readonly="readonly"/><br />
+생년월일 : <input type="date" name="memberBirth" th:value="${#dates.format(memberCommand.memberBirth,'yyyy-MM-dd') }"  required="required"/><br />
+이메일 : <input type="email" name="memberEmail" th:value="${memberCommand.memberEmail }"  required="required"/><br />
+<input type="submit" value="회원수정 완료" /> 
+</form>
+</body>
+</html>
