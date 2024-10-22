@@ -6,6 +6,7 @@
 </head>
 <body>
 hello miso shopping<br />
+<a href="smsSend">문자보내기</a>
 <div th:if="${session.auth != null}">
 <ul>
 	<th:block th:if="${session.auth.grade == 'emp'}">

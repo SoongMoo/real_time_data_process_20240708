@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import springBootMVCShopping.command.LoginCommand;
 import springBootMVCShopping.sevice.EmailSendService;
+import springBootMVCShopping.sevice.SMSMassageService;
 
 //@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @SpringBootApplication
@@ -34,6 +35,18 @@ public class SpringBootMvcShoppingApplication {
 			,String toEmail, String subject
 			,String contents) {
 		emailSendService.mailSend(fromEmail, toEmail, subject, contents);
+		return "redirect:/";
+	}
+	@GetMapping("smsSend")
+	public String smsSend() {
+		return "thymeleaf/sms";
+	}
+	@Autowired
+	SMSMassageService sMSMassageService;
+	@PostMapping("smsSend")
+	public String smsSend(String userPhone
+			,String message) {
+		sMSMassageService.smsSend(userPhone, "010-7146-1970", message);
 		return "redirect:/";
 	}
 	

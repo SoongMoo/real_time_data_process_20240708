@@ -8,6 +8,7 @@ import springBootMVCShopping.command.UserCommand;
 import springBootMVCShopping.domain.MemberDTO;
 import springBootMVCShopping.mapper.UserMapper;
 import springBootMVCShopping.sevice.EmailSendService;
+import springBootMVCShopping.sevice.SMSMassageService;
 
 @Service
 public class MemberJoinService {
@@ -15,6 +16,8 @@ public class MemberJoinService {
 	UserMapper userMapper;
 	@Autowired
 	EmailSendService emailSendService;
+	@Autowired
+	SMSMassageService sMSMassageService;
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	public void execute(UserCommand userCommand) {
@@ -42,6 +45,11 @@ public class MemberJoinService {
 			String fromEmail = "soongmoostudent@gmail.com";
 			String toEmail = dto.getMemberEmail();
 			emailSendService.mailSend(fromEmail, toEmail, subject, contents);
+			contents =  "안녕하세요 미소쇼핑몰 관리자입니다.";
+			contents += dto.getMemberName() + "님 가입을 환영합니다.";
+			contents += "이메일에서 회원가입인증이 필요합니다.";
+			sMSMassageService.smsSend(dto.getMemberPhone1(),
+					"010-7146-1970", contents);
 		}
 		
 		
