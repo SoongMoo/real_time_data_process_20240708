@@ -23,7 +23,7 @@
 <select id="loginSelectOne" parameterType="string" resultMap="authResultMap">
 select member_id , member_pw , member_name ,member_email , 'mem' as grade
 from members
-where member_id = #{userId}
+where member_id = #{userId} and MEMBER_EMAIL_CONF is not null
 union
 select emp_id    , emp_pw    , emp_name    , emp_email   , 'emp'
 from employees

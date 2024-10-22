@@ -75,6 +75,13 @@
 			<version>3.0.3</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- email -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<!-- sns -->
 		<!-- 서버 재시작 없이 바로 적용하기  spring boot auto restart -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

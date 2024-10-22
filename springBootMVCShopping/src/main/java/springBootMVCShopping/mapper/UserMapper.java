@@ -6,5 +6,5 @@ import springBootMVCShopping.domain.MemberDTO;
 
 @Mapper
 public interface UserMapper {
-	public void userInsert(MemberDTO dto);
+	public Integer userInsert(MemberDTO dto);
 }

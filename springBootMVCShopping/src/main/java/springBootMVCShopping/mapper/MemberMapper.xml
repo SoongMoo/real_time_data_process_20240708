@@ -80,6 +80,11 @@ where MEMBER_NUM = #{memberNum}
 	delete from members
 	where member_num = #{memberNum}
 </delete>
+<update id="memberEmailCheckUpdate" parameterType="string">
+	update members
+	set MEMBER_EMAIL_CONF = 'Y'
+	where member_email = #{memberEmail} and MEMBER_EMAIL_CONF is null
+</update>
 </mapper>
 
 
