@@ -7,10 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
+import springBootMVCShopping.command.EmployeeCommand;
 import springBootMVCShopping.command.MemberCommand;
 import springBootMVCShopping.sevice.myPage.EmployeeInfoService;
+import springBootMVCShopping.sevice.myPage.EmployeeModifyService;
 import springBootMVCShopping.sevice.myPage.MemberDropService;
 import springBootMVCShopping.sevice.myPage.MemberMyInfoService;
 import springBootMVCShopping.sevice.myPage.MemberMyUpdateService;
@@ -29,6 +32,8 @@ public class MyPageController {
 	MemberDropService memberDropService ;
 	@Autowired
 	EmployeeInfoService employeeInfoService;
+	@Autowired
+	EmployeeModifyService employeeModifyService;
 	@GetMapping("memberMyPage")
 	public String memMyPage(HttpSession session,Model model) {
 		memberMyInfoService.execute(session, model);
@@ -65,11 +70,29 @@ public class MyPageController {
 		memberDropService.execute(memberPw, session);
 		return "redirect:/login/logout";
 	}
-	@GetMapping("employeeMyPage")
+	@GetMapping("empModify")
 	public String empPage(HttpSession session, Model model) {
 		employeeInfoService.execute(session, model );
 		return "thymeleaf/myPage/employeeInfo";
 	}
+	@PostMapping("empModify")
+	public String empModify(EmployeeCommand employeeCommand, HttpSession session) {
+		employeeModifyService.execute(employeeCommand, session);
+		return "redirect:empModify";
+	}
+	
+	@GetMapping("employeeMyPage")
+	public String empMyPage() {
+		return "thymeleaf/myPage/employeeInfo";
+	}
+	@PostMapping("empMyPage")
+	public  ModelAndView empMyPage(HttpSession session,Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsonView");
+		employeeInfoService.execute(session, model);
+		return mav;
+	}
+	
 	
 }
 

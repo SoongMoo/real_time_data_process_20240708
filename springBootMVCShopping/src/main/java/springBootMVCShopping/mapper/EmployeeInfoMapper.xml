@@ -11,4 +11,23 @@
 	from employees
 	where  EMP_ID = #{empId}
 </select>
+<update id="employeeUpdate" parameterType="emp">
+update employees
+set EMP_ADDR = #{empAddr}
+	,EMP_ADDR_DETAIL = #{empAddrDetail}
+	,EMP_POST = #{empPost}
+	,EMP_EMAIL = #{empEmail}
+	,EMP_PHONE= #{empPhone}
+where EMP_NUM = #{empNum}
+</update>
+
+
+
+
+
+
+
+
+
+
 </mapper>
