@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCShopping.mapper.EmployeeInfoMapper">
+<select id="employeeSelectOne" parameterType="string" resultType="emp">
+	select EMP_NUM as empNum, EMP_ID as empId, EMP_PW as empPw, EMP_NAME as empName
+		   ,EMP_ADDR as empAddr, EMP_ADDR_DETAIL as empAddrDetail, EMP_POST as empPost
+		   ,EMP_PHONE as empPhone, EMP_JUMIN as empJumin, EMP_EMAIL as empEmail
+		   ,EMP_HIRE_DATE as empHireDate, EMP_IMAGE as empImage
+	from employees
+	where  EMP_ID = #{empId}
+</select>
+</mapper>

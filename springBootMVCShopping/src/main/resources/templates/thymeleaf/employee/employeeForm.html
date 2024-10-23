@@ -8,25 +8,6 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/static/js/daumAddressScript.js"></script>
 <script src="/static/js/check.js" ></script>
-<script type="text/javascript">
-$(function(){
-	var $drop = $("#drop");
-	$drop.on("dragenter", function(e) {  
-		//드래그 요소가 들어왔을떄  
-			$(this).addClass('drag-over');
-		}).on("dragleave", function(e) {  
-			//드래그 요소가 나갔을때  
-			$(this).removeClass('drag-over');
-		}).on("dragover", function(e) {  
-			e.stopPropagation();  
-			e.preventDefault();
-		}).on('drop', function(e) {  
-			//드래그한 항목을 떨어뜨렸을때  
-			e.preventDefault();  
-			$(this).removeClass('drag-over');
-		});
-});
-</script>
 </head>
 <body>
 직원등록페이지입니다.<br />
@@ -56,7 +37,7 @@ $(function(){
 		<span style="color:red" th:if="${#fields.hasErrors('empPhone')}" th:errors="*{empPhone}"></span><br />
 이메일 : <input type="email" name="empEmail"  id="userEamil" th:value="${employeeCommand.empEmail}"/>
 		<span style="color:red" th:if="${#fields.hasErrors('empEmail')}" th:errors="*{empEmail}"></span>
-		<span id='emailCheck'></span><br />
+		<span id='emialCheck'></span><br />
 주민번호: <input type="text" name="empJumin" th:value="${employeeCommand.empJumin}"/>
 		<span style="color:red" th:if="${#fields.hasErrors('empJumin')}" th:errors="*{empJumin}"></span><br />
 <input type="submit" value="등록" />

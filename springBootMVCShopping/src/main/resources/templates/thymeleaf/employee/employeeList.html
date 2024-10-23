@@ -26,11 +26,11 @@
 	<td><input type="checkbox" id="checkBoxs"/>
 			<input type="submit" value="삭제" /> 
 	</td></tr>
-<tr th:each="dto : ${dtos}"><!-- 직원상세보기를 해보겠습니다. -->
+<tr th:each="dto : ${list}"><!-- 직원상세보기를 해보겠습니다. -->
 	<td><a th:href="|employeeDetail?empNum=${dto.empNum}|">[[${dto.empNum}]]</a></td>
 	<td><a th:href="@{employeeDetail(empNum=${dto.empNum})}|">[[${dto.empId}]]</a></td>
 	<td>[[${dto.empName}]]</td>
-	<td>[[${#dates.format(dto.empRegiDate,'yyyy-MM-dd')}]]</td>
+	<td></td>
 	<td>[[${dto.empPhone}]]</td>
 	<td><input type="checkbox" name="nums" th:value="${dto.empNum}" /></td>
 </tr>

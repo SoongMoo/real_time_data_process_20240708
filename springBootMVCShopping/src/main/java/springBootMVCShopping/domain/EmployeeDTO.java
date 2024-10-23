@@ -18,6 +18,7 @@ public class EmployeeDTO {
 	Integer empPost;
 	String empPhone;
 	String empEmail;
-	Date empRegiDate;
+	Date empHireDate;
 	String empJumin;
+	String empImage;
 }

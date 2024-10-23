@@ -28,7 +28,7 @@
 		<span style="color:red" th:if="${#fields.hasErrors('empEmail')}" th:errors="*{empEmail}"></span><br />
 주민번호 :<input type="text" name="empJumin" th:value="${employeeCommand.empJumin}" />
 <span style="color:red" th:if="${#fields.hasErrors('empJumin')}" th:errors="*{empJumin}"></span><br />
-입사일 : <input type="date" name="empRegiDate" th:value="${#dates.format(employeeCommand.empRegiDate,'yyyy-MM-dd')}" /><br />
+입사일 : <input type="date" name="empHireDate" th:value="${#dates.format(employeeCommand.empHireDate,'yyyy-MM-dd')}" /><br />
 <input type="submit" value="직원정보 수정" />
 </form>
 </html>

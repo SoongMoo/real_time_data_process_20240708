@@ -21,7 +21,7 @@ public class EmployeeUpdateService {
 		dto.setEmpNum(employeeCommand.getEmpNum());
 		dto.setEmpPhone(employeeCommand.getEmpPhone());
 		dto.setEmpPost(employeeCommand.getEmpPost());
-		dto.setEmpRegiDate(employeeCommand.getEmpRegiDate());
+		dto.setEmpHireDate(employeeCommand.getEmpHireDate());
 		// dto에 저장한 값을 디비에 저장합니다.
 		employeeMapper.employeeUpdate(dto);
 	}

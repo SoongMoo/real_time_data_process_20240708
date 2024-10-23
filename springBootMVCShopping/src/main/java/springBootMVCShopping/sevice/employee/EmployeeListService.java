@@ -21,7 +21,7 @@ public class EmployeeListService {
 	String searchWord;
 	public void execute(String searchWord, int page, Model model) {
 		int limit= 3;
-		StartEndPageDTO sepDTO = startEndPageService.execute(limit, page, searchWord);
+		StartEndPageDTO sepDTO = startEndPageService.execute(page, limit,  searchWord);
 		List<EmployeeDTO> list = employeeMapper.employeeAllSelect(sepDTO);
 		
 		int count = employeeMapper.employeeCount(searchWord);

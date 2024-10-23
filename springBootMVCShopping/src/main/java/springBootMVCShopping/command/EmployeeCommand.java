@@ -36,7 +36,7 @@ public class EmployeeCommand {
 	@NotEmpty(message = "주민번호를 입력하여 주세요.")
 	String empJumin;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date empRegiDate;
+	Date empHireDate;
 	//empPw와 empPwCon를 비교하기 위한 메서드
 	public boolean isEmpPwEqualsEmpPwCon() {
 		return empPw.equals(empPwCon);

@@ -17,7 +17,7 @@
 	<result column="EMP_ADDR" jdbcType="VARCHAR" property="empAddr"/>
 	<result column="EMP_ADDR_detail" jdbcType="VARCHAR" property="empAddrDetail"/>
 	<result column="EMP_POST" jdbcType="BIGINT" property="empPost"/>
-	<result column="EMP_HIRE_DATE" jdbcType="DATE" property="empRegiDate" />
+	<result column="EMP_HIRE_DATE" jdbcType="DATE" property="empHireDate" />
 	<result column="EMP_PHONE" jdbcType="VARCHAR" property="empPhone"/>
 	<result column="EMP_EMAIL" jdbcType="VARCHAR" property="empEmail"/>
 	<result column="EMP_jumin" jdbcType="VARCHAR" property="empJumin"/>
@@ -80,7 +80,7 @@ set   EMP_NAME = #{empName}
     , EMP_POST =#{empPost}
     , EMP_PHONE = #{empPhone}
     , emp_jumin = #{empJumin}
-    , EMP_HIRE_DATE = #{empRegiDate}
+    , EMP_HIRE_DATE = #{empHireDate}
 where EMP_NUM = #{empNum}
 </update>
 <delete id="employeeDelete" parameterType="string">

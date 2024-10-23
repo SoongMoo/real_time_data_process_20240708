@@ -7,12 +7,13 @@
 <body>
 hello miso shopping<br />
 <a href="smsSend">문자보내기</a>
+<a href="mailling">메일보내기</a>
 <div th:if="${session.auth != null}">
 <ul>
 	<th:block th:if="${session.auth.grade == 'emp'}">
 	<li><a href="member/memberList">회원 관리</a></li>
 	<li><a href="employee/employeeList">직원 관리</a></li>
-	<li><a href="mailling">메일보내기</a></li>
+	<li><a href="myPage/employeeMyPage">내정보 보기</a></li>
 	</th:block>
 	
 	<th:block th:if="${session.auth.grade == 'mem'}">

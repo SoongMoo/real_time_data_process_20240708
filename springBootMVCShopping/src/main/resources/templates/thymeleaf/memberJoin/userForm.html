@@ -8,7 +8,7 @@
 회원가입 페이지입니다.<br />
 <form action="userWrite" method="post" th:object="${userCommand}">
 회원아이디 : <input type="text" name="memberId" id="userId" th:value="${userCommand.memberId}"/>
-			<span th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}"></span><br />
+		  <span th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}"></span><br />
 회원비밀번호 : <input type="password" name="memberPw" /><br />
 회원비밀번호확인 : <input type="password" name="memberPwCon" /><br />
 회원명 : <input type="text" name="memberName" th:field="*{memberName}"/><br />

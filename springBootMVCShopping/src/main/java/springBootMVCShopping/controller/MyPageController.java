@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.command.MemberCommand;
+import springBootMVCShopping.sevice.myPage.EmployeeInfoService;
 import springBootMVCShopping.sevice.myPage.MemberDropService;
 import springBootMVCShopping.sevice.myPage.MemberMyInfoService;
 import springBootMVCShopping.sevice.myPage.MemberMyUpdateService;
@@ -26,6 +27,8 @@ public class MyPageController {
 	MemberPwUpdateService memberPwUpdateService ;
 	@Autowired
 	MemberDropService memberDropService ;
+	@Autowired
+	EmployeeInfoService employeeInfoService;
 	@GetMapping("memberMyPage")
 	public String memMyPage(HttpSession session,Model model) {
 		memberMyInfoService.execute(session, model);
@@ -62,6 +65,12 @@ public class MyPageController {
 		memberDropService.execute(memberPw, session);
 		return "redirect:/login/logout";
 	}
+	@GetMapping("employeeMyPage")
+	public String empPage(HttpSession session, Model model) {
+		employeeInfoService.execute(session, model );
+		return "thymeleaf/myPage/employeeInfo";
+	}
+	
 }
 
 
