@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,6 +18,7 @@ import springBootMVCShopping.command.EmployeeCommand;
 import springBootMVCShopping.command.MemberCommand;
 import springBootMVCShopping.sevice.myPage.EmployeeInfoService;
 import springBootMVCShopping.sevice.myPage.EmployeeModifyService;
+import springBootMVCShopping.sevice.myPage.EmployeePwUpdateService;
 import springBootMVCShopping.sevice.myPage.MemberDropService;
 import springBootMVCShopping.sevice.myPage.MemberMyInfoService;
 import springBootMVCShopping.sevice.myPage.MemberMyUpdateService;
@@ -81,7 +83,7 @@ public class MyPageController {
 	@PostMapping("empModify")
 	public String empModify(EmployeeCommand employeeCommand, HttpSession session) {
 		employeeModifyService.execute(employeeCommand, session);
-		return "redirect:empModify";
+		return "redirect:employeeMyPage";
 	}
 	
 	@GetMapping("employeeMyPage")
@@ -94,6 +96,14 @@ public class MyPageController {
 		mav.setViewName("jsonView");
 		employeeInfoService.execute(session, model);
 		return mav;
+	}
+	@Autowired
+	EmployeePwUpdateService employeePwUpdateService;
+	@PostMapping("empPwPro")
+	public String empPwPro(@RequestParam("oldPw") String oldPw
+						,String newPw, HttpSession session) {
+		employeePwUpdateService.execute(oldPw, newPw, session);
+		return "redirect:employeeMyPage";
 	}
 	
 	

@@ -60,6 +60,17 @@ function empModify(){
 		}
 	});
 }
+function empPw(){
+	$("#empForm").css("display","none");
+	$("#content").css("display","block");
+	var item = "";
+	item +='<form action="empPwPro" method="post" id="frm">';
+	item +='현재비밀번호:<input type="password" name="oldPw" id="oldPw" required="required" /><br />';
+	item +='새 비밀번호:<input type="password" name="newPw" id="newPw" required="required" /><br />';
+	item +='<input type="submit" value="비밀번호 변경" />';
+	item +='</form>';
+	$("#content").html(item);
+}
 </script>
 </head>
 <body>
@@ -67,7 +78,7 @@ function empModify(){
 	<li><a href="/">홈</a></li>
 	<li><a href="employeeMyPage">내정보 보기</a></li>
 	<li><a href="javascript:empModify();">내정보 수정</a></li>
-	<li><a href="empPwModify">비밀번호변경</a></li>
+	<li><a href="javascript:empPw();">비밀번호변경</a></li>
 </ul>
 <div id="content" ></div>
 <div id="empForm" style="display: none">

@@ -20,7 +20,11 @@ set EMP_ADDR = #{empAddr}
 	,EMP_PHONE= #{empPhone}
 where EMP_NUM = #{empNum}
 </update>
-
+<update id="employeePwUpdate" >
+	update employees
+	set emp_pw = #{_newPw}
+	where emp_id = #{_empId}
+</update>
 
 
 
