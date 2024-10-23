@@ -10,6 +10,11 @@ $(function(){
 		type:"post",
 		url : "empMyPage",
 		success:function(result){ // result ==> ModelAndView
+			console.log(result);
+			var enterDate = new Date(result.employeeCommand.empHireDate);
+			var enterYear =  enterDate.getFullYear();
+			var enterMonth =  ("0" + (enterDate.getMonth() + 1)).slice(-2); // 9 ==> 09
+			var enterDay =  ("0" + enterDate.getDate()).slice(-2);
 			var item="";
 				item+="이름 : "+ result.employeeCommand.empName +"<br />";
 				item+="아이디 : "+ result.employeeCommand.empId +"<br />";
@@ -18,7 +23,7 @@ $(function(){
 				item+="우편번호 : "+ result.employeeCommand.empPost +"<br />";
 				item+="연락처 : "+ result.employeeCommand.empPhone +"<br />";
 				item+="주민번호 : "+ result.employeeCommand.empJumin+"<br />";
-				item+="입사일 : "+ result.employeeCommand.empHireDate +"<br />";
+				item+="입사일 : "+ enterYear +"-"+enterMonth+"-"+enterDay +"<br />";
 				item+="이메일 : "+ result.employeeCommand.empEmail +"<br />";
 				$("#content").html(item);
 		},
@@ -26,19 +31,60 @@ $(function(){
 			alert("서버오류");
 		}
 	});
-	1970010100000001 : 1
 });
+function empModify(){
+	$.ajax({
+		type:"get",
+		url : "empModify",
+		success : function(result){ // result ==> map
+			console.log(result);
+			$("#content").css("display","none");
+			$("#empForm").css("display","block");
+			var enterDate = new Date(result.employeeCommand.empHireDate);
+			var enterYear =  enterDate.getFullYear();
+			var enterMonth =  ("0" + (enterDate.getMonth() + 1)).slice(-2); // 9 ==> 09
+			var enterDay =  ("0" + enterDate.getDate()).slice(-2);
+			$("#empNum").val(result.employeeCommand.empNum);
+			$("#empName").val(result.employeeCommand.empName);
+			$("#empId").val(result.employeeCommand.empId);
+			$("#empPhone").val(result.employeeCommand.empPhone);
+			$("#empEmail").val(result.employeeCommand.empEmail);
+			$("#empAddr").val(result.employeeCommand.empAddr);
+			$("#empAddrDetail").val(result.employeeCommand.empAddrDetail);
+			$("#empPost").val(result.employeeCommand.empPost);
+			$("#empJumin").val(result.employeeCommand.empJumin);
+			$("#empHireDate").val(enterYear +"-"+enterMonth+"-"+enterDay);
+		},
+		error:function(){
+			alert("서버오류");
+		}
+	});
+}
 </script>
 </head>
 <body>
 <ul>
 	<li><a href="/">홈</a></li>
 	<li><a href="employeeMyPage">내정보 보기</a></li>
-	<li><a href="empModify">내정보 수정</a></li>
+	<li><a href="javascript:empModify();">내정보 수정</a></li>
 	<li><a href="empPwModify">비밀번호변경</a></li>
 </ul>
-<div id="content" >
-
+<div id="content" ></div>
+<div id="empForm" style="display: none">
+<form action="empModify" method="post" name="frm">
+직원번호 : <input type="text" name="empNum" id="empNum" /><br />
+직원명: <input type="text" name="empName" id="empName"  /><br />
+직원아이디: <input type="text" name="empId" id="empId" /><br />
+직원비밀번호: <input type="password" name="empPw" id="empPw" /><br />
+직원연락처: <input type="text" name="empPhone" id="empPhone" /><br />
+직원이메일: <input type="text" name="empEmail" id="empEmail"/><br />
+직원주소: <input type="text" name="empAddr" id="empAddr"/><br />
+직원상세주소: <input type="text" name="empAddrDetail" id="empAddrDetail"/><br />
+직원우편번호: <input type="text" name="empPost" id="empPost"/><br />
+직원주민번호: <input type="text" name="empJumin" id="empJumin" /><br />
+직원입사일: <input type="date" name="empHireDate" id="empHireDate"/><br />
+<input type="submit" value="직원 수정" />
+</form>
 </div>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package springBootMVCShopping.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
@@ -71,9 +74,9 @@ public class MyPageController {
 		return "redirect:/login/logout";
 	}
 	@GetMapping("empModify")
-	public String empPage(HttpSession session, Model model) {
-		employeeInfoService.execute(session, model );
-		return "thymeleaf/myPage/employeeInfo";
+	public @ResponseBody Map<String, Object> empPage(HttpSession session, Model model) {
+		Map<String, Object> map = employeeInfoService.execute(session, model );
+		return map;
 	}
 	@PostMapping("empModify")
 	public String empModify(EmployeeCommand employeeCommand, HttpSession session) {
@@ -86,7 +89,7 @@ public class MyPageController {
 		return "thymeleaf/myPage/employeeInfo";
 	}
 	@PostMapping("empMyPage")
-	public  ModelAndView empMyPage(HttpSession session,Model model) {
+	public ModelAndView empMyPage(HttpSession session,Model model) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("jsonView");
 		employeeInfoService.execute(session, model);
