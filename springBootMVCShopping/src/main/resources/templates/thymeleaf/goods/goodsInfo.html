@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table border=1 align="center" width="600">
+<caption>상품 상세보기</caption>
+<tr><th width="150">상품번호</th><td>[[${goodsCommand.goodsNum }]]</td></tr>
+<tr><th>상품명</th><td>[[${goodsCommand.goodsName }]]</td></tr>
+<tr><th>상품가격</th><td>[[${goodsCommand.goodsPrice }]]</td></tr>
+<tr><th>상품설명</th><td><!-- \n을 <br />로 변경합니다. -->
+<span  th:utext="${#strings.replace(goodsCommand.goodsContents, newLine, '<br />')}"></span>
+</td></tr>
+<tr><th>조회수</th><td>[[${goodsCommand.visitCount }]]</td></tr>
+<tr><th>등록한 사원</th><td>[[${goodsCommand.empNum }]]</td></tr>
+<tr><th>등록일</th><td>[[${#dates.format(goodsCommand.goodsRegist,'yyyy-MM-dd') }]]</td></tr>
+<tr><th>마지막 수정 사원</th><td>[[${goodsCommand.updateEmpNum }]]</td></tr>
+<tr><th>마지막 수정일</th><td>[[${#dates.format(goodsCommand.goodsUpdateDate,'yyyy-MM-dd') }]]</td></tr>
+<tr><th colspan="2">
+		<a th:href="@{goodsUpdate(goodsNum=${goodsCommand.goodsNum })}">상품 수정</a> | 
+		<a th:href="@{'goodsDel/'+${goodsCommand.goodsNum }}">상품 삭제</a> | 
+			  <!-- |goodsDel/${goodsCommand.goodsNum }| -->
+		<a href="goodsList">상품목록</a> |
+		<a href="javascript:history.back();">뒤로가기</a>		
+		</th></tr>
+</table>
+</body>
+</html>

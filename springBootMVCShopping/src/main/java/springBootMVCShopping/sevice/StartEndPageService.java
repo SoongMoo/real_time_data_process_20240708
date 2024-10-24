@@ -23,7 +23,7 @@ public class StartEndPageService {
 		int endPageNum = startPageNum + limitPage - 1;  //20
 		int maxPage = (int)((double)count / limit + 0.95); // 3
 		if(endPageNum > maxPage) endPageNum = maxPage;
-		/**/
+		System.out.println();
 		if(endPageNum == 0) endPageNum = 1;
 		if(searchWord == null) searchWord="";
 		model.addAttribute("list", list);
