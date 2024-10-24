@@ -58,7 +58,8 @@ public class GoodsController {
 			return "thymeleaf/goods/goodsForm";
 		}
 		goodsWriteService.execute(goodsCommand, session);
-		return "redirect:goodsList";
+		return "thymeleaf/goods/goodsRedirect.html";
+		//return "redirect:goodsList";
 	}
 	@Autowired
 	ProductsDeleteService productsDeleteService;

@@ -3,11 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#btn").click(function(){
+		var formData = new FormData($("#frm")[0]);
+		$.ajax({
+			type:"post",
+			url:"goodsWrite", 
+			data: formData,
+			enctype:"multipart/form-data",
+			contentType : false,
+			processData : false,
+			success:function(result){
+				if(result == 200){
+					location.href="goodsList";
+				}else{
+					$("#writeForm").html(result);
+				}
+			}
+		});
+	});
+});	
+</script>
 </head>
 <body>
-<div id="writeForm">
 <!-- 파일을 전송하려면 enctype="multipart/form-data"로 지정해 주어야 합니다. method="post"-->
-<form action="goodsWrite" method="post" id="frm" th:object="${goodsCommand}" enctype="multipart/form-data" >
+<form action="goodsWrite" method="post" id="frm" th:object="${goodsCommand}"  >
 	<table border = "1" width ="600" align="center">
 		<tr><th width="100">상품번호</th>
 			<td><input type="text" name="goodsNum" th:value="${goodsCommand.goodsNum}" readonly="readonly"/>자동부여</td></tr>
@@ -28,9 +50,9 @@
 			<td><input type="file" name="goodsDetailImage" multiple="multiple"/></td>
 		</tr>
 		<tr><th colspan="2">
-		<input type="submit" id="btn" value="상품 등록" /> </th></tr>
+		<!-- <input type="submit" id="btn" value="상품 등록" /> -->
+		<input type="button" id="btn" value="상품 등록" /></th></tr>
 	</table>
 </form>
-</div>
 </body>
 </html>

@@ -32,7 +32,6 @@ public class GoodsWriteService {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String empNum = employeeMapper.getEmpNum(auth.getUserId());
 		dto.setEmpNum(empNum);
-		
 		////// 파일 추가
 		/// 경로
 		URL resource = getClass().getClassLoader().getResource("static/upload");
