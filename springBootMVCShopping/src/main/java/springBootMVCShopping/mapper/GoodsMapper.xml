@@ -12,7 +12,15 @@
 <insert id="goodsInsert" parameterType="goods">
 insert into goods ( <include refid="goodsColumnsBase" /> )
 values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
-		,#{empNum}, sysdate, null, null,null,null,0,null,null)
+		,#{empNum}, sysdate, 
+		#{goodsMainImage}, #{goodsMainStoreImage},
+		<if test="goodsDetailImage != null">
+		#{goodsDetailImage},#{goodsDetailStoreImage},
+		</if>
+		<if test="goodsDetailImage == null">
+		null,null,
+		</if>
+		0,null,null)
 </insert>
 
 <!-- dto에 직접 넣어 가지고 오는 것이 아니라 setter를 이용해서 가져오겠습니다. -->
@@ -32,7 +40,7 @@ values(#{goodsNum}, #{goodsName}, #{goodsPrice}, #{goodsContents}
 		<arg column="GOODS_DETAIL_IMAGE" javaType="string" jdbcType="VARCHAR" />
 		<arg column="GOODS_DETAIL_STORE_IMAGE" javaType="string" jdbcType="VARCHAR" />		
 	</constructor>
-</resultMap> 
+</resultMap>
 <select id="allSelect" resultMap="goodsResultMap">
 select * from (
 	select ROW_NUMBER() over (order by goods_num desc) as rn,
@@ -82,12 +90,6 @@ where goods_num = #{goodsNum}
 </delete>
 
 
-
-<update id="visitCount" parameterType="string">
-	update goods
-	set visit_count = visit_count + 1
-	where goods_num = #{goodsNum}
-</update>
 </mapper>
 
 

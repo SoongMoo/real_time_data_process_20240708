@@ -38,6 +38,10 @@ public class GoodsController {
 		return "thymeleaf/goods/goodsList";
 	}
 	@GetMapping("goodsForm")
+	public String form() {
+		return "thymeleaf/goods/goodsWrite";
+	}
+	@GetMapping("goodsWrite")
 	public String goodsForm(Model model) {
 		String autoNum = autoNumService.execute("goods_", "goods_num", 7, "goods");
 		GoodsCommand  goodsCommand = new GoodsCommand();
@@ -51,11 +55,9 @@ public class GoodsController {
 	public String goodsWrite(@Validated GoodsCommand goodsCommand,BindingResult result
 			,HttpSession session) {
 		if(result.hasErrors()) {
-			System.out.println("오류");
 			return "thymeleaf/goods/goodsForm";
 		}
 		goodsWriteService.execute(goodsCommand, session);
-		
 		return "redirect:goodsList";
 	}
 	@Autowired

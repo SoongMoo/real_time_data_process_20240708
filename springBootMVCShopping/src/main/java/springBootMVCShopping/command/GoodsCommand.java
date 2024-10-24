@@ -23,6 +23,8 @@ public class GoodsCommand {
 	Date goodsRegist;
 	String updateEmpNum;
 	Date goodsUpdateDate;
+	MultipartFile goodsMainImage;
+	MultipartFile goodsDetailImage[];
 }
 
 

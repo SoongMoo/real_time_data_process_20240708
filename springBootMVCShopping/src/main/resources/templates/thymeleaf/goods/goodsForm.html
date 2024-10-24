@@ -6,7 +6,8 @@
 </head>
 <body>
 <div id="writeForm">
-<form action="goodsWrite" method="post" id="frm" th:object="${goodsCommand}" >
+<!-- 파일을 전송하려면 enctype="multipart/form-data"로 지정해 주어야 합니다. method="post"-->
+<form action="goodsWrite" method="post" id="frm" th:object="${goodsCommand}" enctype="multipart/form-data" >
 	<table border = "1" width ="600" align="center">
 		<tr><th width="100">상품번호</th>
 			<td><input type="text" name="goodsNum" th:value="${goodsCommand.goodsNum}" readonly="readonly"/>자동부여</td></tr>
@@ -19,6 +20,13 @@
 		<tr><th>상품설명</th>
 			<td><textarea rows="10" cols="50" name="goodsContents" >[[${goodsCommand.goodsContents}]]</textarea><br />
 		<span style="color:red" th:if="${#fields.hasErrors('goodsContents')}" th:errors="*{goodsContents}"></span></td></tr>
+		<tr><th>대문이미지</th>
+			<td><input type="file" name="goodsMainImage" /></td>
+		</tr>
+		<tr>
+			<th>이미지</th>
+			<td><input type="file" name="goodsDetailImage" multiple="multiple"/></td>
+		</tr>
 		<tr><th colspan="2">
 		<input type="submit" id="btn" value="상품 등록" /> </th></tr>
 	</table>
