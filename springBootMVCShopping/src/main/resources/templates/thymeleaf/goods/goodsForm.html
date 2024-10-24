@@ -7,6 +7,7 @@
 <script type="text/javascript">
 $(function(){
 	$("#btn").click(function(){
+		///form에 있는 데이터를 가져오기
 		var formData = new FormData($("#frm")[0]);
 		$.ajax({
 			type:"post",
@@ -21,6 +22,10 @@ $(function(){
 				}else{
 					$("#writeForm").html(result);
 				}
+			},
+			error:function(){
+				alert("로그인을 다시 시도해 주세요.");
+				location.href="/";
 			}
 		});
 	});

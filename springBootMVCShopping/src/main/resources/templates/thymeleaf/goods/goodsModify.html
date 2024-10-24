@@ -57,6 +57,18 @@ function fileDel(btn, orgFile, storeFile, kind){
 <tr><th>등록일</th><td>[[${#dates.format(goodsCommand.goodsRegist,'yyyy-MM-dd' )}]]</td></tr>
 <tr><th>마지막 수정 사원</th><td>[[${goodsCommand.updateEmpNum }]]</td></tr>
 <tr><th>마지막 수정일</th><td>[[${#dates.format(goodsCommand.goodsUpdateDate,'yyyy-MM-dd' )}]]</td></tr>
+<tr><th>대문이미지</th>
+	<td><input type="file" name="goodsMainImage" id="mainFile" style="display:none"/>
+		[[${goodsCommand.goodsMainImage}]]<button type="button">삭제</button>
+	</td>
+</tr>
+<tr><th>이미지</th>
+	<td><div th:each="image : ${#strings.arraySplit(goodsCommand.goodsDetailImage,'/')}">
+			[[${image}]]<button type="button">삭제</button>
+		</div>
+	
+		<input type="file" name="goodsDetailImage" multiple="multiple" /></td>
+</tr>
 <tr><th colspan="2"><input type="submit" value="수정완료" /></th></tr>
 </table>
 </form>

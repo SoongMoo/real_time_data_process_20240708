@@ -18,6 +18,16 @@
 <tr><th>등록일</th><td>[[${#dates.format(goodsCommand.goodsRegist,'yyyy-MM-dd') }]]</td></tr>
 <tr><th>마지막 수정 사원</th><td>[[${goodsCommand.updateEmpNum }]]</td></tr>
 <tr><th>마지막 수정일</th><td>[[${#dates.format(goodsCommand.goodsUpdateDate,'yyyy-MM-dd') }]]</td></tr>
+<tr><td colspan="2">대문이미지<br />
+	<img th:src="|/static/upload/${goodsCommand.goodsMainStoreImage}|"/>
+	</td></tr>
+<tr><td colspan="2">상세이미지<br />
+	<th:block th:each="image : ${#strings.arraySplit(goodsCommand.goodsDetailStoreImage,'/')}">
+		<img th:src="|/static/upload/${image}|"/><br />
+	</th:block>
+</td></tr>
+
+
 <tr><th colspan="2">
 		<a th:href="@{goodsUpdate(goodsNum=${goodsCommand.goodsNum })}">상품 수정</a> | 
 		<a th:href="@{'goodsDel/'+${goodsCommand.goodsNum }}">상품 삭제</a> | 
