@@ -68,7 +68,7 @@ function fileDel(btn,orgFile, storeFile, kind){
 			[[${image}]]<button type="button"
 			th:attr="onclick=|javascript:fileDel(this
 						,'${image}'
-					,'${#strings.arraySplit(goodsCommand.goodsDetailStoreImage,'/')[idx.index]}');|">삭제</button>
+					,'${#strings.arraySplit(goodsCommand.goodsDetailStoreImage,'[`/]')[idx.index]}');|">삭제</button>
 		</div>
 	
 		<input type="file" name="goodsDetailImage" multiple="multiple" /></td>
