@@ -27,11 +27,11 @@ public class GoodsUpdateService {
 	EmployeeMapper employeeMapper;
 	@Autowired
 	GoodsMapper goodsMapper;
-	public void execute(GoodsCommand goodsCommand, HttpSession session
-			, BindingResult result, Model model) {
-		
+
+	public void execute(GoodsCommand goodsCommand, HttpSession session, BindingResult result, Model model) {
+
 		GoodsDTO dto = new GoodsDTO();
-		/// 일반 정보 
+		/// 일반 정보
 		dto.setGoodsContents(goodsCommand.getGoodsContents());
 		dto.setGoodsName(goodsCommand.getGoodsName());
 		dto.setGoodsNum(goodsCommand.getGoodsNum());
@@ -40,13 +40,13 @@ public class GoodsUpdateService {
 		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
 		String empNum = employeeMapper.getEmpNum(auth.getUserId());
 		dto.setUpdateEmpNum(empNum);
-	
+
 		// 파일시스템에서 삭제
-		//1. 디렉터리 정보
+		// 1. 디렉터리 정보
 		URL resource = getClass().getClassLoader().getResource("static/upload");
 		String fileDir = resource.getFile();
 		System.out.println(fileDir);
-		if(goodsCommand.getGoodsMainImage() != null) {
+		if (goodsCommand.getGoodsMainImage() != null) {
 			// 2. 파일객체를 불러오기
 			MultipartFile mf = goodsCommand.getGoodsMainImage();
 			// 3. 파일이름 가져오기
@@ -56,14 +56,14 @@ public class GoodsUpdateService {
 			// 5. 새로운 파일명 만들기
 			String storeName = UUID.randomUUID().toString().replace("-", "");
 			// 6. 새로운 파일명과 확장자 붙이기
-			String storeFileName =  storeName + extension;
+			String storeFileName = storeName + extension;
 			System.out.println("storeFileName : " + storeFileName);
 			// 7. 파일객체 만들기
 			File file = new File(fileDir + "/" + storeFileName);
 			// 8. 파일 저장
 			try {
 				mf.transferTo(file);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			// 9. dto에 파일이름 저장
@@ -72,82 +72,70 @@ public class GoodsUpdateService {
 		}
 		String originalTotal = "";
 		String storeTotal = "";
-		if(!goodsCommand.getGoodsDetailImage()[0].getOriginalFilename().isEmpty()) {
-			//1. 디렉터리 정보
+		if (!goodsCommand.getGoodsDetailImage()[0].getOriginalFilename().isEmpty()) {
+			// 1. 디렉터리 정보
 			// 2. 파일객체를 불러오기
-			for(MultipartFile mf :  goodsCommand.getGoodsDetailImage()) {
-			//  3. 파일이름 가져오기 :
+			for (MultipartFile mf : goodsCommand.getGoodsDetailImage()) {
+				// 3. 파일이름 가져오기 :
 				String originalFile = mf.getOriginalFilename();
 				// 4. 확장자 불리하기
 				String extension = originalFile.substring(originalFile.lastIndexOf("."));
 				// 5. 새로운 파일명 만들기
 				String storeName = UUID.randomUUID().toString().replace("-", "");
 				// 6. 새로운 파일명과 확장자 붙이기
-				String storeFileName =  storeName + extension;
+				String storeFileName = storeName + extension;
 				// 7. 파일객체 만들기
 				File file = new File(fileDir + "/" + storeFileName);
 				// 8. 파일 저장
 				try {
 					mf.transferTo(file);
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				originalTotal += originalFile + "/";
 				storeTotal += storeFileName + "/";
 			}
 		}
-		
-		/////session에 있는 값은 삭제 , 넘어온 파일은 추가
+
+		///// session에 있는 값은 삭제 , 넘어온 파일은 추가
 		// session정보를 가져온다.
 		List<FileDTO> list = (List<FileDTO>) session.getAttribute("fileList");
 		// 파일의 정보를 디비로 부터 가져오기
 		GoodsDTO goodsDTO = goodsMapper.selectOne(goodsCommand.getGoodsNum());
 		// session에 있는 정보를 디비로부터 제거
-		// 배열을 리스트로 받아옴
-		List<String> dbOrg =  new ArrayList<>(
-					Arrays.asList(goodsDTO.getGoodsDetailImage().split("[/`]"))
-				); 
-		List<String> dbStore = new ArrayList<>(
-					Arrays.asList(goodsDTO.getGoodsDetailStoreImage().split("[/`]"))
-				);
-		/// session에 있는 데이터를  디비와 비교헤ㅐ서 디비에 있는데이터 삭제
-		if(list != null) {
-			for(FileDTO fdto : list) {
-				for( String img  : dbOrg) {
-					if(fdto.getOrgFile().equals(img)) {
-						dbOrg.remove(fdto.getOrgFile());
-						dbStore.remove(fdto.getStoreFile());
-						break;
+		if (goodsDTO.getGoodsDetailImage() != null) {
+			// 배열을 리스트로 받아옴
+			List<String> dbOrg = new ArrayList<>(Arrays.asList(goodsDTO.getGoodsDetailImage().split("[/`]")));
+			List<String> dbStore = new ArrayList<>(Arrays.asList(goodsDTO.getGoodsDetailStoreImage().split("[/`]")));
+			/// session에 있는 데이터를 디비와 비교헤ㅐ서 디비에 있는데이터 삭제
+			if (list != null) {
+				for (FileDTO fdto : list) {
+					for (String img : dbOrg) {
+						if (fdto.getOrgFile().equals(img)) {
+							dbOrg.remove(fdto.getOrgFile());
+							dbStore.remove(fdto.getStoreFile());
+							break;
+						}
 					}
 				}
 			}
+			for (String img : dbOrg)
+				originalTotal += img + "/";
+			for (String img : dbStore)
+				storeTotal += img + "/";
 		}
-		for(String img : dbOrg) originalTotal += img + "/";
-		for(String img : dbStore) storeTotal += img + "/";
 		dto.setGoodsDetailStoreImage(storeTotal);
 		dto.setGoodsDetailImage(originalTotal);
-		
+
 		int i = goodsMapper.goodsUpdate(dto);
-		if(i > 0) {
-			if(list != null) {
-				for(FileDTO fd : list) {
+		if (i > 0) {
+			if (list != null) {
+				for (FileDTO fd : list) {
 					File file = new File(fileDir + "/" + fd.getStoreFile());
-					if(file.exists()) file.delete();
+					if (file.exists())
+						file.delete();
 				}
 			}
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
