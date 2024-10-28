@@ -79,9 +79,19 @@ where goods_Num = #{goodsNum}
 </select>
 <update id="goodsUpdate" parameterType="goods"> 
 update goods
-set GOODS_NAME = #{goodsName}, GOODS_PRICE = #{goodsPrice}
+<trim prefix="set" suffixOverrides=",">
+	 GOODS_NAME = #{goodsName}, GOODS_PRICE = #{goodsPrice}
 	,GOODS_CONTENTs = #{goodsContents}
     ,update_emp_num = #{updateEmpNum}, goods_update_date = sysdate
+    <if test="goodsMainImage != null">
+    ,GOODS_MAIN_IMAGE = #{goodsMainImage}
+    ,GOODS_MAIN_STORE_IMAGE = #{goodsMainStoreImage}
+    </if>
+    <if test="goodsDetailImage != null ">
+    ,GOODS_DETAIL_IMAGE = #{goodsDetailImage}
+    ,GOODS_DETAIL_STORE_IMAGE = #{goodsDetailStoreImage}
+    </if>
+</trim>
 where goods_num = #{goodsNum}
 </update>
 <delete id="goodsDelete" parameterType="string">
