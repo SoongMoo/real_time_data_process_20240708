@@ -5,22 +5,22 @@
 <title>Insert title here</title>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript">
-function fileDel(btn, orgFile, storeFile, kind){
+function fileDel(btn,orgFile, storeFile, kind){
 	$.ajax({
 		type:'post',
-		url:'fileDel',
+		url:'/file/fileDel',
 		data:{"orgFile": orgFile , "storeFile" : storeFile},
 		dataType:'text',
 		success:function(result){
-			if(result == 1){
+			if(result =="1"){
 				$(btn).text("삭제취소");
-				if(kind == 'main'){
+				if(kind=='main'){
 					$("#main").css("display","none");
 					$("#mainFile").css("display","");
 				}
 			}else{
 				$(btn).text("삭제");
-				if(kind == 'main'){
+				if(kind=='main'){
 					$("#main").css("display","");
 					$("#mainFile").css("display","none");
 				}
@@ -30,14 +30,12 @@ function fileDel(btn, orgFile, storeFile, kind){
 			alert("서버오류");
 		}
 	});
-	
-	
 }
 </script>
-</head>  <!-- 파일을 추가하는 경우에는 enctype이  multipart/form-data이 어야 합니다.-->
-<body> <!-- goodsUpdate에가서 파일을 수정할 때 삭제 파일은 디비와 파일을 삭제할 코드를 작성 --> <!-- 파일이 잘 변경되네요.. -->
-															<!-- 단 파일명에 하이픈(-)가 있으면 오류가 있을 수 있으니 조심하세요.. -->
-<form action="goodsUpdate" method="post" name="frm" id="frm" th:object="${goodsCommand}">
+</head>  
+<body>
+															
+<form action="goodsUpdate" method="post" name="frm" id="frm" th:object="${goodsCommand}" enctype="multipart/form-data">
 <table border=1 align="center" width="600" >
 <caption>상품 상세보기</caption>
 <tr><th width="150">상품번호</th>    <!-- th:value="${goodsCommand.goodsNum} -->
@@ -59,12 +57,18 @@ function fileDel(btn, orgFile, storeFile, kind){
 <tr><th>마지막 수정일</th><td>[[${#dates.format(goodsCommand.goodsUpdateDate,'yyyy-MM-dd' )}]]</td></tr>
 <tr><th>대문이미지</th>
 	<td><input type="file" name="goodsMainImage" id="mainFile" style="display:none"/>
-		[[${goodsCommand.goodsMainImage}]]<button type="button">삭제</button>
+		<span id="main">[[${goodsCommand.goodsMainImage}]]</span><button type="button"
+			th:attr="onclick=|javascript:fileDel(this
+						,'${goodsCommand.goodsMainImage}'
+						,'${goodsCommand.goodsMainStoreImage}','main');|">삭제</button>
 	</td>
 </tr>
 <tr><th>이미지</th>
-	<td><div th:each="image : ${#strings.arraySplit(goodsCommand.goodsDetailImage,'/')}">
-			[[${image}]]<button type="button">삭제</button>
+	<td><div th:each="image, idx : ${#strings.arraySplit(goodsCommand.goodsDetailImage,'[`/]')}">
+			[[${image}]]<button type="button"
+			th:attr="onclick=|javascript:fileDel(this
+						,'${image}'
+					,'${#strings.arraySplit(goodsCommand.goodsDetailStoreImage,'/')[idx.index]}');|">삭제</button>
 		</div>
 	
 		<input type="file" name="goodsDetailImage" multiple="multiple" /></td>

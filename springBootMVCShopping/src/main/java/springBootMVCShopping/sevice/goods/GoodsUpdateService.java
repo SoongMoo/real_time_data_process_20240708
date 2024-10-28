@@ -20,8 +20,9 @@ public class GoodsUpdateService {
 	GoodsMapper goodsMapper;
 	public void execute(GoodsCommand goodsCommand, HttpSession session
 			, BindingResult result, Model model) {
-		System.out.println("dkssud");
+		
 		GoodsDTO dto = new GoodsDTO();
+		/// 일반 정보 
 		dto.setGoodsContents(goodsCommand.getGoodsContents());
 		dto.setGoodsName(goodsCommand.getGoodsName());
 		dto.setGoodsNum(goodsCommand.getGoodsNum());
@@ -30,7 +31,8 @@ public class GoodsUpdateService {
 		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
 		String empNum = employeeMapper.getEmpNum(auth.getUserId());
 		dto.setUpdateEmpNum(empNum);
-		System.out.println(dto.getGoodsName());
+		/////session에 있는 값은 삭제 , 넘어온 파일은 추가
+		
 		goodsMapper.goodsUpdate(dto);
 	}
 }

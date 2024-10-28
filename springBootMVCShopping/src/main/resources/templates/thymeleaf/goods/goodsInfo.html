@@ -22,7 +22,7 @@
 	<img th:src="|/static/upload/${goodsCommand.goodsMainStoreImage}|"/>
 	</td></tr>
 <tr><td colspan="2">상세이미지<br />
-	<th:block th:each="image : ${#strings.arraySplit(goodsCommand.goodsDetailStoreImage,'/')}">
+	<th:block th:each="image : ${#strings.arraySplit(goodsCommand.goodsDetailStoreImage,'[`/]')}">
 		<img th:src="|/static/upload/${image}|"/><br />
 	</th:block>
 </td></tr>

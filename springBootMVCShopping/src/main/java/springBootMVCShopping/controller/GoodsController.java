@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.command.GoodsCommand;
@@ -105,9 +106,8 @@ public class GoodsController {
 		goodsDeleteService.execute(goodsNum);
 		return "redirect:../goodsList"; //PathVariable인 경우에는 주소 앞에 .. 을 꼭해줘야 합니다.
 	}
-	// 먼저 진행했던 ipgo데이커로 인해 오류가 보였으나 다음에 할 내용리라 여기까지 진행 했다면 오류가 없을 것입니다.
-	// 다음시간에는 상품에 그림을 등록하는 방법에 대해서 설명하겠습니다.
-	// 여기서 잠깐 마이바티스에서 setter를 사용했던 것을 생성자를 이용하는 것으로 변경해 보겠습니다.
+
+	
 }
 
 
