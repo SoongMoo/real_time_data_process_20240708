@@ -36,15 +36,6 @@ IPGO_NUM , GOODS_NUM , IPGO_QTY , IPGO_DATE , MADE_DATE , ipgo_PRICE , EMP_NUM
 	on ip.goods_num  = g.goods_num
 	where IPGO_NUM = #{ipgoNum} and ip.GOODS_NUM = #{goodsNum}
 </select>
-
-
-
-
-
-
-
-
-
 <select id="goodsIpgoCount" parameterType="string" resultType="integer">
 	select count(*) from goods_ipgo
 	<where>

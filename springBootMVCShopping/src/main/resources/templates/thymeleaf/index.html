@@ -3,6 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="/static/js/money.js"></script>
+<script type="text/javascript">
+var page = 1;
+$(function(){
+	$("#load-more").click(loadMoreItems);
+});
+function loadMoreItems(){
+	page ++;
+	$.ajax({
+		url : "/",
+		type:"post",
+		data : {"page": page},
+		dataType : "json",
+		success : function(model){
+			var item  = '';
+			item += '<table align = "center"  >';
+			item += '<colgroup>';
+			item += '<col span="3" width="300" height="330" /> ';
+			item += '</colgroup>';
+			item += '<tr>';
+			$.each(model.list , function(idx, dto){
+				item += '<td>';
+				item += '<img src="/static/upload/'+ dto.goodsMainStoreImage +'" width="300" height="300"/><br />';
+				item += dto.goodsName + '<br />';
+				item += formatter.format(dto.goodsPrice) + '원<br />';
+				item += '</td>';
+				if((idx + 1) % 3 == 0) item += "</tr><tr>";
+			});
+			item += '</tr>';
+			item += '</table>';
+			$("#content").append(item);
+			if(model.maxPage <= page )$("#load-more").css("display","none");
+		}
+	})
+	
+}
+</script>
 </head>
 <body>
 hello miso shopping<br />
@@ -40,6 +78,26 @@ hello miso shopping<br />
 </table>
 </form>
 </div>
+<div id="content">
+<table align = "center"  >
+	<colgroup>
+		<col span="3" width="300" height="330" /> 
+	</colgroup>
+	<tr>
+		<th:block th:each="dto, idx : ${list}">
+			<td><img th:src="|/static/upload/${dto.goodsMainStoreImage}|" width="300" height="300"/><br/>
+				[[${dto.goodsName}]]<br />
+				[[${#numbers.formatCurrency(dto.goodsPrice) + "원"}]]<br />
+			</td>
+		<th:block th:if="${idx.count % 3 == 0}" th:utext="'</tr><tr>'"></th:block> 
+		</th:block>
+	</tr>
+</table>
+
+</div>
+<table align = "center" width="900" >
+	<tr><th><button id="load-more">더보기</button></th></tr>
+</table>
 </body>
 </html>
 
