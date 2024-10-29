@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title><!-- single페이지처럼 만들거라 ajax를 이용합니다. -->
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+// 페이지가 열리면 itemList함수가 실해되도록한다.
+$(function(){
+	itemList();
+});
+// ajax를 이용해서 데이터를 가져올 함수를 정의 합니다.
+function itemList(page){ //페이지받아올 수 있게 매개변수 추가
+	$.ajax({
+		url:"goodsItemList",
+		type:"post",
+		datatype: "json", 
+		//page와 searchWord를 전달
+		data : {'searchWord': $("#searchWord").val(), "page":page },
+		success:function(result){ //map을 이용해서 데이터를 가져옵니다. // map으로 부터 가져온 데이터는 result가 받는다.
+			// searchWor에 null이 뜨지 않게 해줍니다.
+			if(result.searchWord == null){
+				result.searchWord = "";
+			}
+			var item = "";
+				item +=	'<table>';
+				item +=	'	<tr><th>';
+				item +=	'		검색 : <input type="search" name="searchWord" id="searchWord" value="'+result.searchWord+'">'; 
+				item +=	'	</th></tr>';
+				item +=	'</table>';
+				item +=	'<table border=1 width="600" align="center">';
+				item +=	'	<tr>';
+				item +=	'		<th>번호</th><th>상품 번호</th><th>상품명</th><th>각격</th>';
+				item +=	'	</tr>';
+				// result가 받아온 map에서 list를 가져와 출력한다. jquery에 있는 foreach문 사용
+				$.each( result.dtos , function(idx, goodsDTO){
+					item +=	'	<tr> '; // 이름이나 상품번호를 클릭하면 함수가 실행되게 합니다.
+					item +=	'		<th>'+ eval(idx + 1)+' </th>'
+						 +'         <th><a href="javascript:goodsItem(\'' + goodsDTO.goodsNum +'\''
+						 +'		      , \''+ goodsDTO.goodsName + '\')">'+ goodsDTO.goodsNum +'</a></th>' 
+						 +'         <th><a href="javascript:goodsItem(\'' + goodsDTO.goodsNum +'\''
+						 +'		      , \''+ goodsDTO.goodsName + '\')">'+ goodsDTO.goodsName +'</a></th>' 
+					     +'         <th>'+  goodsDTO.goodsPrice +'</th>'; 
+					item += '	</tr>';
+				});
+				//페이징 작업을 추가합니다,
+				item +=	'<tr align="center"><td colspan="6">';
+				if(result.page <= 1){
+					item +=	'[이전]';
+				}
+				if(result.page > 1){
+					item +=	'<a href="javascript:itemList('+ eval(result.page - 1) + ')">[이전]</a>';
+				}					
+				var startPage = result.startPage; console.log(startPage);
+				var endPage = result.endPage; console.log(endPage);
+				while (startPage <= endPage){
+					item +=	'<a href="javascript:itemList('+ startPage + ')">['+startPage+']</a> ';
+					startPage++;
+				}
+				if(result.page >= result.maxPage){
+					item +=	'[다음]';
+				}
+				if(result.page < result.maxPage){
+					item +=	'<a href="javascript:itemList('+ eval(result.page + 1) + ')">[다음]</a>';
+				}
+				item +=	'</td></tr>';
+				item +=	'</table>';
+				// item이 goodsList에 출ㄹ겨되게 만들어주자.
+				$("#goodsList").html(item);
+		},
+		error:function(){
+			alert("서버오류");
+		}
+	});
+}
+// 상품번호나 상품이름을 클릭하면 부모 페이지에 값이 전달되는 함수를 만듭니다.
+function goodsItem(goodsNum, goodsName){//상품번호와 이름을 받아 옵니다.
+	// 받아온 값을 부모에 전달합니다.
+	$(opener.document).find("#goodsNum").val(goodsNum);
+	$(opener.document).find("#goodsName").val(goodsName);
+	//자신의 창은 닫습니다.
+	window.self.close();
+}
+</script>
+</head>
+<body>
+상품 검색<br />
+<span id="goodsList"></span>
+<span id="list"></span>
+</body>
+</html>

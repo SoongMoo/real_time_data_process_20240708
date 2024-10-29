@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#frm").submit(function(){
+		if($("#ipgoDate").val() == ""){
+			alert("입고일를 입력해주세요.");
+			$("#ipgoDate").focus();
+			return false;
+		}
+		if($("#madeDate").val() == ""){
+			alert("제조일를 입력해주세요.");
+			$("#madeDate").focus();
+			return false;
+		}
+		if($("#ipgoPrice").val() <= 0){
+			alert("금액를 입력해주세요.");
+			$("#ipgoPrice").focus();
+			return false;
+		}
+		if($("#ipgoQty").val() <= 0){
+			alert("수량를 입력해주세요.");
+			$("#ipgoQty").focus();
+			return false;
+		}
+	});
+});
+</script>
+</head>
+<body>
+<ul>
+	<li><a href="goodsList">상품관리</a></li>
+	<li><a href="goodsIpgo">상품 입고</a></li>
+	<li><a href="goodsIpgoList">상품 입고 현황</a></li>
+</ul>
+<form action="goodsIpgoModify" method="post" id="frm">
+입고번호 : <input type="text" name="goodsIpgoNum" readonly="readonly" th:value="${dto.goodsIpgoDTO.goodsIpgoNum }"/><br />
+상품번호 : <input type="text" name="goodsNum" readonly="readonly" th:value="${dto.goodsIpgoDTO.goodsNum }"/><br />
+입고일 : <input type="date" name="ipgoDate" id="ipgoDate"
+		th:value="${#dates.format(dto.goodsIpgoDTO.ipgoDate,'yyyy-MM-dd')}" /><br />
+입고 수량 : <input type="number" name="ipgoQty" id="ipgoQty" th:value="${dto.goodsIpgoDTO.ipgoQty }" min = "0"/><br />
+제조일 : <input type="datetime-local" name="madeDate"  id="madeDate"
+		th:value="${#dates.format(dto.goodsIpgoDTO.madeDate,'yyyy-MM-dd HH:mm:ss')}"/><br />
+가격 : <input type="number" name="ipgoPrice" id="ipgoPrice" th:value="${dto.goodsIpgoDTO.ipgoPrice }" min = "0"/><br />
+<input type="submit" value="수정완료" />
+</form>
+</body>
+</html>

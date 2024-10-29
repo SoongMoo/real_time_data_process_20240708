@@ -1,5 +1,6 @@
 package springBootMVCShopping.sevice.member;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class MemberWriteService {
 	PasswordEncoder passwordEncoder;
 	public void execute(MemberCommand memberCommand) {
 		MemberDTO dto = new MemberDTO();
+		/*
 		dto.setGender(memberCommand.getGender());
 		dto.setMemberAddr(memberCommand.getMemberAddr());
 		dto.setMemberAddrDetail(memberCommand.getMemberAddrDetail());
@@ -25,6 +27,9 @@ public class MemberWriteService {
 		dto.setMemberName(memberCommand.getMemberName().trim());
 		dto.setMemberNum(memberCommand.getMemberNum());
 		dto.setMemberPhone1(memberCommand.getMemberPhone1().trim());
+		*/
+		BeanUtils.copyProperties(memberCommand, dto);
+		
 		if(memberCommand.getMemberPhone2() != null) {
 			dto.setMemberPhone2(memberCommand.getMemberPhone2().trim());
 		}

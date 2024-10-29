@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCShopping.mapper.GoodsIpgoMapper">
+<sql id="baseColumns">
+IPGO_NUM , GOODS_NUM , IPGO_QTY , IPGO_DATE , MADE_DATE , ipgo_PRICE , EMP_NUM 
+</sql>
+<insert id="goodsIpgoInsert" parameterType="goodsIpgo">
+	insert into goods_ipgo ( <include refid="baseColumns" /> )
+	values(#{goodsIpgoNum},#{goodsNum},#{ipgoQty},#{ipgoDate},#{madeDate},#{ipgoPrice},#{empNum})
+</insert>
+<select id="goodsIpgoSelectList" resultMap="goodsIpgoResultMap">
+	select <include refid="baseColumns"/>
+	from goods_ipgo
+</select>
+<resultMap type="goodsIpgo" id="goodsIpgoResultMap">
+	<constructor>
+		<idArg column="IPGO_NUM" javaType="string" />
+		<idArg column="GOODS_NUM" javaType="string" />
+		<arg column="IPGO_QTY" javaType="integer"/>
+		<arg column="IPGO_DATE" javaType="java.util.Date"/>
+		<arg column="MADE_DATE" javaType="java.sql.Timestamp"/>
+		<arg column="IPGO_PRICE" javaType="integer"/>
+		<arg column="EMP_NUM" javaType="string"/>
+	</constructor>
+</resultMap>
+<resultMap type="goodsIpgoGoodsName" id="goodsIpgoGoodsNameResultMap">
+	<result column="goods_Name" jdbcType="VARCHAR" javaType="string" property="goodsName"/>
+	<association property="goodsIpgoDTO" javaType="goodsIpgo" resultMap="goodsIpgoResultMap"/>
+</resultMap>
+<select id="ipgoGoodsSelectOne" resultMap="goodsIpgoGoodsNameResultMap">
+	select IPGO_NUM , ip.GOODS_NUM , IPGO_QTY , IPGO_DATE , MADE_DATE , ipgo_PRICE , ip.EMP_NUM 
+		 , goods_name
+	from goods_ipgo ip join goods g
+	on ip.goods_num  = g.goods_num
+	where IPGO_NUM = #{ipgoNum} and ip.GOODS_NUM = #{goodsNum}
+</select>
+
+
+
+
+
+
+
+
+
+<select id="goodsIpgoCount" parameterType="string" resultType="integer">
+	select count(*) from goods_ipgo
+	<where>
+		<if test="searchWord != null">
+			IPGO_NUM like '%' || #{searchWord} || '%'
+			or GOODS_NUM like '%' || #{searchWord} || '%'
+		</if>
+	</where>
+</select>
+
+<update id="goodsIpgoUpdate" parameterType="goodsIpgo">
+update goods_Ipgo 
+set ipgo_Date = #{ipgoDate}, ipgo_Qty =#{ipgoQty} 
+	, made_Date = #{madeDate} , ipgo_Price = #{ipgoPrice}
+where (goods_num, ipgo_num) in ((#{goodsIpgoNum}, #{goodsNum}))
+</update>
+<delete id="ipgoGoodsNumDelete">
+delete from goods_ipgo
+where (ipgo_num , goods_num ) in (
+	<foreach collection="ipgoNumNgoodsNum.split('-')" item="item" close=")" open="(" separator=","
+			index="index">
+		#{item}
+	</foreach>
+)
+</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+

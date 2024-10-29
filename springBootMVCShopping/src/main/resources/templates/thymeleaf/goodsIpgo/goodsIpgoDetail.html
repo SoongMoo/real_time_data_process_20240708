@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+		$.ajax({
+			type:"post",
+			url:"goodsIpgoDetail",
+			data:{"ipgoNum": "[[${ipgoNum}]]", "goodsNum": "[[${goodsNum}]]"},
+			success : function(dto){
+				var ipgoDate = new Date(dto.goodsIpgoDTO.ipgoDate);
+				var ipgoYear = ipgoDate.getFullYear();
+				var ipgoMonth = ("0" + (ipgoDate.getMonth() + 1)).slice(-2);
+				var ipgoDay = ("0" + ipgoDate.getDate()).slice(-2);
+				
+				var madeDate = new Date(dto.goodsIpgoDTO.madeDate);
+				var madeYear = madeDate.getFullYear();;
+				var madeMonth= ("0" + (madeDate.getMonth() + 1)).slice(-2);
+				var madeDay = ("0" + madeDate.getDate()).slice(-2);
+				var madeHours = madeDate.getHours();
+				var madeMinutes = madeDate.getMinutes();
+				
+				var item="";
+				item += "입고번호 : " + dto.goodsIpgoDTO.goodsIpgoNum + "<br />";
+				item += "상품번호 : " + dto.goodsIpgoDTO.goodsNum + "<br />";
+				item += "상품이름 : " + dto.goodsName + "<br />";
+				item += "입고일 : " +  ipgoYear + '-' + ipgoMonth + '-' + ipgoDay  + "<br />";
+				item += "입고 수량 : "+ dto.goodsIpgoDTO.ipgoQty + "<br />";
+				item += "제조일 : " + madeYear + "-" + madeMonth + "-" + madeDay + " " 
+				  				   + madeHours + ":" + madeMinutes + "<br />";
+				item += "가격 : " + dto.goodsIpgoDTO.ipgoPrice + "<br />";
+				item += "<button type='button' ";
+				item += "		onclick=\"ipgoUpdate('" + dto.goodsIpgoDTO.goodsIpgoNum +"'";
+				item += ",'" + dto.goodsIpgoDTO.goodsNum + "');\">";
+				item += "입고 수정</button>" ;
+				item += "<button type='button' ";
+				item += "		onclick=\"ipgoDelete('" + dto.goodsIpgoDTO.goodsIpgoNum + "'";
+				item += ",'" + dto.goodsIpgoDTO.goodsNum + "');\">";
+				item += "입고 삭제</button>";
+				$("#detail").html(item);
+			},
+			error:function(){
+				alert("서버오류");
+			}
+		});
+});
+function ipgoUpdate(ipgoNum, goodsNum){
+	location.href="goodsIpgoUpdate?ipgoNum="+ipgoNum+"&goodsNum="+goodsNum;
+}
+function ipgoDelete(ipgoNum, goodsNum){
+	location.href="goodsIpgoDelete?num="+ipgoNum+"-"+goodsNum;
+}
+</script>
+
+</head>
+<body>
+<ul>
+	<li><a href="goodsList">상품관리</a></li>
+	<li><a href="goodsIpgo">상품 입고</a></li>
+	<li><a href="goodsIpgoList">상품 입고 현황</a></li>
+</ul>
+<div id="detail"></div>
+</body>
+</html>
