@@ -6,8 +6,9 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="/static/js/money.js"></script>
 <script type="text/javascript">
-var page = 1;
+var page = 0;
 $(function(){
+	loadMoreItems();
 	$("#load-more").click(loadMoreItems);
 });
 function loadMoreItems(){
@@ -36,9 +37,9 @@ function loadMoreItems(){
 			item += '</table>';
 			$("#content").append(item);
 			if(model.maxPage <= page )$("#load-more").css("display","none");
+			if(model.maxPage == 0)page = 0;
 		}
 	})
-	
 }
 </script>
 </head>
@@ -79,21 +80,22 @@ hello miso shopping<br />
 </form>
 </div>
 <div id="content">
+<!-- 
 <table align = "center"  >
 	<colgroup>
 		<col span="3" width="300" height="330" /> 
 	</colgroup>
 	<tr>
-		<th:block th:each="dto, idx : ${list}">
-			<td><img th:src="|/static/upload/${dto.goodsMainStoreImage}|" width="300" height="300"/><br/>
-				[[${dto.goodsName}]]<br />
-				[[${#numbers.formatCurrency(dto.goodsPrice) + "원"}]]<br />
+		<block th:each="dto, idx : ${list}">
+			<td><img src="/static/upload/${dto.goodsMainStoreImage}" width="300" height="300"/><br/>
+				${dto.goodsName}<br />
+				${#numbers.formatCurrency(dto.goodsPrice) + "원"}<br />
 			</td>
-		<th:block th:if="${idx.count % 3 == 0}" th:utext="'</tr><tr>'"></th:block> 
-		</th:block>
+		<block if="${idx.count % 3 == 0}" utext="'</tr><tr>'"></block> 
+		</block>
 	</tr>
 </table>
-
+ -->
 </div>
 <table align = "center" width="900" >
 	<tr><th><button id="load-more">더보기</button></th></tr>
