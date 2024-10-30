@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCShopping.mapper.GoodsStockMapper">
+<resultMap type="goodsStock" id="goodsStockResultMap">
+	<result column="stock" jdbcType="VARCHAR" property="stock"/>
+	<association property="goodsDTO" javaType="goods" >
+		<id column="goods_Num" jdbcType="VARCHAR" property="goodsNum"/>
+		<result column="goods_Name" jdbcType="VARCHAR" property="goodsName"/>
+		<result column="goods_Price" jdbcType="BIGINT" property="goodsPrice"/>
+		<result column="GOODS_CONTENTS" jdbcType="VARCHAR" property="goodsContents"/>
+		<result column="VISIT_COUNT" jdbcType="BIGINT" property="visitCount"/>
+		<result column="GOODS_MAIN_IMAGE" jdbcType="VARCHAR" property="goodsMainImage"/>
+		<result column="GOODS_MAIN_STORE_IMAGE" jdbcType="VARCHAR" property="goodsMainStoreImage"/>
+		<result column="GOODS_DETAIL_IMAGE" jdbcType="VARCHAR" property="goodsDetailImage"/>
+		<result column="GOODS_DETAIL_STORE_IMAGE" jdbcType="VARCHAR" property="goodsDetailStoreImage"/>
+		<result column="EMP_NUM" jdbcType="VARCHAR" property="empNum"/>
+		<result column="GOODS_REGIST" jdbcType="DATE" property="goodsRegist"/>
+		<result column="UPDATE_EMP_NUM" jdbcType="VARCHAR" property="updateEmpNum"/>
+		<result column="GOODS_UPDATE_DATE" jdbcType="DATE" property="goodsUpdateDate"/>
+	</association>
+</resultMap>
+<select id="goodsStockSelectOne" parameterType="string" resultMap="goodsStockResultMap">
+	select g.goods_Num , goods_name , goods_price ,goods_contents , emp_num  
+         ,goods_regist , GOODS_MAIN_IMAGE ,GOODS_MAIN_STORE_IMAGE , GOODS_DETAIL_IMAGE 
+         ,GOODS_DETAIL_STORE_IMAGE , visit_count ,update_Emp_Num , goods_Update_Date
+    from goods g left outer join (
+    	
+    )
+    where goods_Num = #{goodsNum} 
+</select>
+</mapper>

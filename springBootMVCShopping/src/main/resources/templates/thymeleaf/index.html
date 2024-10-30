@@ -27,10 +27,11 @@ function loadMoreItems(){
 			item += '<tr>';
 			$.each(model.list , function(idx, dto){
 				item += '<td>';
+				item += '<a href="item/detailView/'+dto.goodsNum+'">';
 				item += '<img src="/static/upload/'+ dto.goodsMainStoreImage +'" width="300" height="300"/><br />';
 				item += dto.goodsName + '<br />';
 				item += formatter.format(dto.goodsPrice) + '원<br />';
-				item += '</td>';
+				item += '</a></td>';
 				if((idx + 1) % 3 == 0) item += "</tr><tr>";
 			});
 			item += '</tr>';
