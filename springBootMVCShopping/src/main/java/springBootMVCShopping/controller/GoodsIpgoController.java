@@ -1,7 +1,5 @@
 package springBootMVCShopping.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
@@ -22,13 +19,10 @@ import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoDetailService;
 import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoListService;
 import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoService;
 import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoUpdateService;
-import springBootMVCShopping.sevice.goodsIpgo.GoodsItemService;
 
 @Controller
 @RequestMapping("goods")
 public class GoodsIpgoController {
-	@Autowired
-	GoodsItemService goodsItemService;
 	@Autowired
 	GoodsIpgoService goodsIpgoService;
 	@Autowired
@@ -95,7 +89,6 @@ public class GoodsIpgoController {
 		//return "thymeleaf/goods/goodsRedirect";
 		return "200";  //CSR
 	}
-	
 	@RequestMapping(value="goodsIpgo",method = RequestMethod.GET )
 	public String goodsIpgo(Model model) {
 		String autoNum = autoNumService.execute("ipgo_", "IPGO_NUM", 6, "goods_Ipgo");
