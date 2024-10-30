@@ -104,25 +104,4 @@ public class GoodsIpgoController {
 		model.addAttribute("goodsIpgoCommand", goodsIpgoCommand);
 		return "thymeleaf/goodsIpgo/goodsIpgo";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	@GetMapping(value="goodsItem")
-	public String goodsItem() {
-		return "thymeleaf/goodsIpgo/goodsItem";
-	}
-	@PostMapping(value="goodsItemList")
-	@ResponseBody // Map을 이용해 데이터를 html에 보내려면 RestAPI를 사용하지만 @ResponseBody를 이용하겠습니다.
-	public Map<String, Object> goodsItem( //searchWord를 가져오기 위해 html에 검색 부분 추가
-			@RequestParam(value = "searchWord", required = false) String searchWord,
-			@RequestParam(value = "page" , required = false, defaultValue = "1" ) int page
-			){ //함수 중복은 일단 넘어가겠습니다.
-		Map<String, Object> map = goodsItemService.execute(searchWord, page);
-		return map;
-	}
 }
