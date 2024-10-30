@@ -5,6 +5,68 @@
 <title>Insert title here</title><!-- single페이지처럼 만들거라 ajax를 이용합니다. -->
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	itemList();
+});
+function itemList(page){
+	$.ajax({
+		type:"post",
+		url:"goodsItem",
+		data: {"page": page, "searchWord" : $("#searchWord").val()},
+		success:function(result){
+			console.log(result);
+			var item = "";
+			item +=	'<table>';
+			item +=	'	<tr><th>';
+			item +=	'		검색 : <input type="search" name="searchWord" id="searchWord" value="'+result.searchWord+'" />';
+			item +=	'  			  <button onclick="itemList(' + result.page + ')" >검색</button>';
+			item +=	'	</th></tr>';
+			item +=	'</table>';
+			item +=	'<table border=1 width="600" align="center">';
+			item +=	'	<tr>';
+			item +=	'		<th>번호</th><th>상품 번호</th><th>상품명</th><th>가격</th>';
+			item +=	'	</tr>';
+			$.each(result.list, function(idx, dto){
+				item +=	'	<tr>';
+				item +=	'		<th>'+(idx + 1)
+		             +'</th><th><a href="javascript:goodsItem(\''+ dto.goodsNum +'\',\''+dto.goodsName +'\')">'+ dto.goodsNum + '</a>'
+		             +'</th><th><a href="javascript:goodsItem(\''+ dto.goodsNum +'\',\''+dto.goodsName +'\')">'+ dto.goodsName + '</a>'
+		             +'</th><th>'+ dto.goodsPrice+'</th>';
+				item +=	'	</tr>';
+			})
+			item +=	'<tr align="center"><td colspan="6">';
+			if(result.page <= 1){
+				item +=	'[이전]';
+			}else{
+				item +=	'<a href="javascript:itemList('+ (result.page - 1) +')">[이전]</a>';
+			}
+			var startPage = result.startPage;
+			var endPage = result.endPage;
+			while(startPage <= endPage){
+				item +=	'<a href="javascript:itemList('+ startPage +')">[' + startPage + ']</a>';				
+				startPage++;
+			}
+			if(result.page >= result.maxPage){
+			item +=	'[다음]';
+			}else{
+				item +=	'<a href="javascript:itemList('+ (result.page + 1) +')">[다음]</a>';
+			}
+			item +=	'</td></tr>';
+			item +=	'</table>';
+			$("#goodsList").html(item);
+		},
+		error:function(){
+			alert("서버오류");
+		}
+	});
+}
+//상품번호나 상품이름을 클릭하면 부모 페이지에 값이 전달되는 함수를 만듭니다.
+function goodsItem(goodsNum, goodsName){
+	$(opener.document).find("#goodsNum").val(goodsNum);
+	$(opener.document).find("#goodsName").val(goodsName);
+	//자신의 창은 닫습니다.
+	window.self.close();
+}
 </script>
 </head>
 <body>

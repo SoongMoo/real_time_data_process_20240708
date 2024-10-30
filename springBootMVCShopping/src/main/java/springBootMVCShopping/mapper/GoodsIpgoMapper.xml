@@ -61,6 +61,22 @@ where (ipgo_num , goods_num ) in (
 	</foreach>
 )
 </delete>
+<select id="itemSelectList" resultType="goods">
+select * from (
+	select rownum rn,  goods_Num , goods_name , goods_price ,goods_contents , emp_num  
+		  	,goods_regist , GOODS_MAIN_IMAGE ,GOODS_MAIN_STORE_IMAGE 
+		   , GOODS_DETAIL_IMAGE ,GOODS_DETAIL_STORE_IMAGE 
+		   , visit_count ,update_Emp_Num , goods_Update_Date
+	from goods
+	where goods_name like '%' || #{searchWord} || '%'
+	order by goods_Num desc
+)
+where rn between #{startRow} and #{endRow}
+</select>
+<select id="itemListCount" resultType="integer">
+	select count(*) from goods
+	where goods_name like '%' || #{searchWord} || '%'
+</select>
 </mapper>
 
 

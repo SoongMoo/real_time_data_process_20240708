@@ -1,5 +1,7 @@
 package springBootMVCShopping.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +22,7 @@ import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoDetailService;
 import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoListService;
 import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoService;
 import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoUpdateService;
+import springBootMVCShopping.sevice.goodsIpgo.GoodsItemListService;
 
 @Controller
 @RequestMapping("goods")
@@ -33,8 +37,6 @@ public class GoodsIpgoController {
 	GoodsIpgoUpdateService goodsIpgoUpdateService;
 	@Autowired
 	AutoNumService autoNumService;
-	
-	
 	@Autowired
 	GoodsIpgoDeleteService goodsIpgoDeleteService;
 	@RequestMapping("goodsIpgoDelete")  // get/post
@@ -42,21 +44,17 @@ public class GoodsIpgoController {
 		goodsIpgoDeleteService.execute(num);
 		return "redirect:goodsIpgoList";
 	}
-	
 	@PostMapping("goodsIpgoModify")
 	public String goodsIpgoModify(GoodsIpgoCommand goodsIpgoCommand) {
 		goodsIpgoUpdateService.execute(goodsIpgoCommand);
 		return "redirect:goodsIpgoDetail?ipgoNum="+goodsIpgoCommand.getGoodsIpgoNum()
 									  +"&goodsNum="+goodsIpgoCommand.getGoodsNum();
 	}
-	
-	
 	@RequestMapping(value="goodsIpgoUpdate" ,method=RequestMethod.GET)
 	public String goodsIpgoUpdate(String ipgoNum, String goodsNum,Model model) {
 		goodsIpgoDetailService.execute(ipgoNum,goodsNum, model);
 		return "thymeleaf/goodsIpgo/goodsIpgoUpdate";
 	}
-	
 	@GetMapping("goodsIpgoDetail")
 	public String detailView(
 			@ModelAttribute(value = "ipgoNum") String ipgoNum, 
@@ -66,21 +64,17 @@ public class GoodsIpgoController {
 		//goodsIpgoDetailService.execute(ipgoNum,goodsNum, model);
 		return "thymeleaf/goodsIpgo/goodsIpgoDetail";
 	}
-	
-	
 	@PostMapping("goodsIpgoDetail")
 	@ResponseBody
 	public GoodsIpgoGoodsNameDTO  detail(String ipgoNum, String goodsNum,Model model) {
 		GoodsIpgoGoodsNameDTO dto = goodsIpgoDetailService.execute(ipgoNum,goodsNum, model);
 		return dto;
 	}
-	
 	@GetMapping("goodsIpgoList")
 	public String goodsIpgoList(Model model) {
 		goodsIpgoListService.execute(model);
 		return "thymeleaf/goodsIpgo/goodsIpgoList";
 	}
-	
 	@RequestMapping(value="ipgoRegist")
 	@ResponseBody
 	public String ipgoRegist(GoodsIpgoCommand goodsIpgoCommand, HttpSession session) {
@@ -97,4 +91,19 @@ public class GoodsIpgoController {
 		model.addAttribute("goodsIpgoCommand", goodsIpgoCommand);
 		return "thymeleaf/goodsIpgo/goodsIpgo";
 	}
+	@GetMapping(value = "goodsItem")
+	public String goodsItem() {
+		return "thymeleaf/goodsIpgo/goodsItem";
+	}
+	@Autowired
+	GoodsItemListService goodsItemListService;
+	@PostMapping("goodsItem")
+	public @ResponseBody Map<String, Object> goodsItem1(
+			@RequestParam(value = "page" , required = false, defaultValue = "1" )int page
+			,@RequestParam(value = "searchWord", required = false) String searchWord) {
+		Map<String, Object> map = goodsItemListService.execute(page, searchWord);
+		return map;
+	}
 }
+
+
