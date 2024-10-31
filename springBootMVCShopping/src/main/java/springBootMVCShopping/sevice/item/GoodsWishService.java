@@ -21,9 +21,11 @@ public class GoodsWishService {
 	public void execute(String goodsNum, HttpSession session) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = memberMapper.memberNumSelect(auth.getUserId());
+		
 		Map<String , String> map = new HashMap<String , String>();
 		map.put("goodsNum", goodsNum);
 		map.put("memberNum", memberNum);
+		
 		itemMapper.wishItem(map);
 	}
 }

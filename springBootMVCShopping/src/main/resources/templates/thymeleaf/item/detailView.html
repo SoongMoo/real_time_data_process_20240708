@@ -7,6 +7,7 @@
 <script type="text/javascript">
 $(function(){
 	$("#wish").click(function(){
+		/*
 		$.ajax({
 			type : "post", 
 			url : "../wishItem",
@@ -23,7 +24,28 @@ $(function(){
 				location.href="/";
 				return false;
 			}
-		}); 
+		});
+		*/
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "../wishItem",true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.onload = function(){
+			if (xhr.status == 200) { // 정상적으로 처리 되었을 때 가져오는 값 200
+				if($("#wish").attr("src") == "/static/images/hart1.jpg"){
+					$("#wish").attr("src","/static/images/hart.jpg");
+				}else{
+					$("#wish").attr("src","/static/images/hart1.jpg");
+				}
+			}else{
+				alert('로그인 아웃 되었습니다.\n다시 로그인 해 주세요.');
+				location.href="/";
+				return false;
+			}
+		}
+		var formData = JSON.stringify({
+			"goodsNum":"[[${dto.goodsDTO.goodsNum }]]"
+		})
+		xhr.send(formData);
 	});
 });
 </script>
