@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCShopping.mapper.ItemMapper">
+<update id="wishItem" parameterType="java.util.Map" >
+	merge into wish w
+	using (select goods_num from goods where goods_num = #{goodsNum}) g
+	on (w.goods_num = g.goods_num and member_num = #{memberNum})
+	When MATCHED THEN
+		update set WISH_DATE = sysdate
+		delete where member_num = #{memberNum} and goods_num =#{goodsNum}
+	When not MATCHED THEN
+		insert (MEMBER_NUM, GOODS_NUM, WISH_DATE)
+		values (#{memberNum} , g.goods_num ,sysdate )
+</update>
+</mapper>
