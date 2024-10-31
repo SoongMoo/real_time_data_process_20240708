@@ -47,6 +47,35 @@ $(function(){
 		})
 		xhr.send(formData);
 	});
+	$("#cartBtn").click(function(){
+		//document.getElementById("cartBtn").addEventListener("click", function(){
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/item/cartAdd", true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.onload = function(){
+				if (xhr.status === 200) {
+					if(xhr.responseText == "200"){
+							if(confirm("계속 쇼핑하려면 '취소'를 클릭하세요."))
+									location.href="/item/cartList";
+					}else if(xhr.responseText == "900"){
+							alert("관리자는 사용할 수 없는 페이지입니다.");
+					}else if(xhr.responseText == "000"){
+							alert("로그 아웃되었습니다. 다시로그인 해주세요.");
+							window.open("/login/item.login","login"
+									,"width=315, height=200,top = 100, left=100"); 
+					}
+				}else{
+						alert("로그 아웃되었습니다. 다시로그인 해주세요.");
+						window.open("/login/item.login","login"
+								,"width=315, height=200,top = 100, left=100"); 
+				}
+			}
+			var formData = JSON.stringify({
+				goodsNum: "[[${dto.goodsDTO.goodsNum}]]",
+				qty : $("#cartQty").val()
+			})
+			xhr.send(formData);
+		});
 });
 </script>
 </head>

@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.command.GoodsIpgoCommand;
 import springBootMVCShopping.domain.GoodsIpgoGoodsNameDTO;
-import springBootMVCShopping.sevice.AutoNumService;
-import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoDeleteService;
-import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoDetailService;
-import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoListService;
-import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoService;
-import springBootMVCShopping.sevice.goodsIpgo.GoodsIpgoUpdateService;
-import springBootMVCShopping.sevice.goodsIpgo.GoodsItemListService;
+import springBootMVCShopping.service.AutoNumService;
+import springBootMVCShopping.service.goodsIpgo.GoodsIpgoDeleteService;
+import springBootMVCShopping.service.goodsIpgo.GoodsIpgoDetailService;
+import springBootMVCShopping.service.goodsIpgo.GoodsIpgoListService;
+import springBootMVCShopping.service.goodsIpgo.GoodsIpgoService;
+import springBootMVCShopping.service.goodsIpgo.GoodsIpgoUpdateService;
+import springBootMVCShopping.service.goodsIpgo.GoodsItemListService;
 
 @Controller
 @RequestMapping("goods")

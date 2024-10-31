@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import springBootMVCShopping.command.MemberCommand;
-import springBootMVCShopping.sevice.AutoNumService;
-import springBootMVCShopping.sevice.member.MemberDeleteService;
-import springBootMVCShopping.sevice.member.MemberDetailService;
-import springBootMVCShopping.sevice.member.MemberListService;
-import springBootMVCShopping.sevice.member.MemberUpdateService;
-import springBootMVCShopping.sevice.member.MemberWriteService;
-import springBootMVCShopping.sevice.member.MembersDeleteService;
+import springBootMVCShopping.service.AutoNumService;
+import springBootMVCShopping.service.member.MemberDeleteService;
+import springBootMVCShopping.service.member.MemberDetailService;
+import springBootMVCShopping.service.member.MemberListService;
+import springBootMVCShopping.service.member.MemberUpdateService;
+import springBootMVCShopping.service.member.MemberWriteService;
+import springBootMVCShopping.service.member.MembersDeleteService;
 
 @Controller
 @RequestMapping("member") //공통주소 처리

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import springBootMVCShopping.command.EmployeeCommand;
 import springBootMVCShopping.command.MemberCommand;
-import springBootMVCShopping.sevice.AutoNumService;
-import springBootMVCShopping.sevice.employee.EmployeeDeleteService;
-import springBootMVCShopping.sevice.employee.EmployeeDetailService;
-import springBootMVCShopping.sevice.employee.EmployeeInsertService;
-import springBootMVCShopping.sevice.employee.EmployeeListService;
-import springBootMVCShopping.sevice.employee.EmployeeUpdateService;
-import springBootMVCShopping.sevice.employee.EmployeesDeleteService;
+import springBootMVCShopping.service.AutoNumService;
+import springBootMVCShopping.service.employee.EmployeeDeleteService;
+import springBootMVCShopping.service.employee.EmployeeDetailService;
+import springBootMVCShopping.service.employee.EmployeeInsertService;
+import springBootMVCShopping.service.employee.EmployeeListService;
+import springBootMVCShopping.service.employee.EmployeeUpdateService;
+import springBootMVCShopping.service.employee.EmployeesDeleteService;
 
 @Controller
 @RequestMapping("employee")

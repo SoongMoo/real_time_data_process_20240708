@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import springBootMVCShopping.command.LoginCommand;
-import springBootMVCShopping.sevice.EmailSendService;
-import springBootMVCShopping.sevice.SMSMassageService;
-import springBootMVCShopping.sevice.goods.MainGoodsListService;
+import springBootMVCShopping.service.EmailSendService;
+import springBootMVCShopping.service.SMSMassageService;
+import springBootMVCShopping.service.goods.MainGoodsListService;
 
 //@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @SpringBootApplication

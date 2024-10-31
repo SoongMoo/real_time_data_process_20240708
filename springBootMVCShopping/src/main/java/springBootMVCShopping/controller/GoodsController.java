@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.command.GoodsCommand;
-import springBootMVCShopping.sevice.AutoNumService;
-import springBootMVCShopping.sevice.goods.GoodsDeleteService;
-import springBootMVCShopping.sevice.goods.GoodsDetailService;
-import springBootMVCShopping.sevice.goods.GoodsListService;
-import springBootMVCShopping.sevice.goods.GoodsUpdateService;
-import springBootMVCShopping.sevice.goods.GoodsWriteService;
-import springBootMVCShopping.sevice.goods.ProductsDeleteService;
+import springBootMVCShopping.service.AutoNumService;
+import springBootMVCShopping.service.goods.GoodsDeleteService;
+import springBootMVCShopping.service.goods.GoodsDetailService;
+import springBootMVCShopping.service.goods.GoodsListService;
+import springBootMVCShopping.service.goods.GoodsUpdateService;
+import springBootMVCShopping.service.goods.GoodsWriteService;
+import springBootMVCShopping.service.goods.ProductsDeleteService;
 
 @Controller
 @RequestMapping("goods")

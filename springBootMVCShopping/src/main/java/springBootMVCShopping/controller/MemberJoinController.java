@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import springBootMVCShopping.command.UserCommand;
-import springBootMVCShopping.sevice.memberJoin.MemberJoinService;
+import springBootMVCShopping.service.memberJoin.MemberJoinService;
 
 @Controller
 @RequestMapping("register")

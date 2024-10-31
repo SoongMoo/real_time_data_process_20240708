@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
-import springBootMVCShopping.sevice.EmailCheckService;
-import springBootMVCShopping.sevice.FileDelService;
+import springBootMVCShopping.service.EmailCheckService;
+import springBootMVCShopping.service.FileDelService;
 
 // spring boot
 @RestController

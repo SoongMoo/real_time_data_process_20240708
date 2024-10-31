@@ -16,13 +16,13 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.command.EmployeeCommand;
 import springBootMVCShopping.command.MemberCommand;
-import springBootMVCShopping.sevice.myPage.EmployeeInfoService;
-import springBootMVCShopping.sevice.myPage.EmployeeModifyService;
-import springBootMVCShopping.sevice.myPage.EmployeePwUpdateService;
-import springBootMVCShopping.sevice.myPage.MemberDropService;
-import springBootMVCShopping.sevice.myPage.MemberMyInfoService;
-import springBootMVCShopping.sevice.myPage.MemberMyUpdateService;
-import springBootMVCShopping.sevice.myPage.MemberPwUpdateService;
+import springBootMVCShopping.service.myPage.EmployeeInfoService;
+import springBootMVCShopping.service.myPage.EmployeeModifyService;
+import springBootMVCShopping.service.myPage.EmployeePwUpdateService;
+import springBootMVCShopping.service.myPage.MemberDropService;
+import springBootMVCShopping.service.myPage.MemberMyInfoService;
+import springBootMVCShopping.service.myPage.MemberMyUpdateService;
+import springBootMVCShopping.service.myPage.MemberPwUpdateService;
 
 @Controller
 @RequestMapping("myPage")

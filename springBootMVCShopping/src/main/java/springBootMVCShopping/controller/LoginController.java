@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.command.LoginCommand;
-import springBootMVCShopping.sevice.IdcheckService;
-import springBootMVCShopping.sevice.login.UserLoginService;
+import springBootMVCShopping.service.IdcheckService;
+import springBootMVCShopping.service.login.UserLoginService;
 
 @Controller
 @RequestMapping("login")
