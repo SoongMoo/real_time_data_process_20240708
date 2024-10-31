@@ -3,24 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#wish").click(function(){
+		$.ajax({
+			type : "post", 
+			url : "../wishItem",
+			data : {"goodsNum":"[[${dto.goodsDTO.goodsNum }]]"},
+			success:function(){
+				if($("#wish").attr("src") == "/static/images/hart1.jpg"){
+					$("#wish").attr("src","/static/images/hart.jpg");
+				}else{
+					$("#wish").attr("src","/static/images/hart1.jpg");
+				}
+			},
+			error:function(){
+				alert('로그인 아웃 되었습니다.\n다시 로그인 해 주세요.');
+				location.href="/";
+				return false;
+			}
+		}); 
+	});
+});
+</script>
 </head>
 <body>
 <table width="800" align="center">
-<caption>${dto.goodsName } 상품정보입니다.</caption>
-<tr><td rowspan="5"><img src="goods/upload/${dto.goodsMainImage }" height="200" /></td>
-					<td>${dto.goodsName }</td></tr>
-<tr>                <td>${dto.goodsPrice }</td></tr>
-<tr>                <td>들여다본 수 : ${dto.visitCount }</td>
+<caption>[[${dto.goodsDTO.goodsName }]] 상품정보입니다.</caption>
+<tr><td rowspan="5"><img th:src="|/static/upload/${dto.goodsDTO.goodsMainStoreImage }|" height="200" width="200" /></td>
+					<td>[[${dto.goodsDTO.goodsName }]]</td></tr>
+<tr>                <td>[[${dto.goodsDTO.goodsPrice }]]</td></tr>
+<tr>                <td>들여다본 수 : [[${dto.goodsDTO.visitCount }]]</td>
 <tr>                <td>수량 : <input type="number" min="1" step="1" value="1" id="cartQty"/> </td></tr>
-<tr>                <td><button type="button" id="cartBtn">장바구니</button> | 
- 						<button type="button" id="buyItem">바로구매 </button> | 
- 						<c:if test="${ empty isTrue }">
-							<img src="images/hart1.jpg" width="20" id="wish"/>
-						</c:if>
-						<c:if test="${!empty isTrue }">
-							<img src="images/hart.jpg" width="20" id="wish"/>
-						</c:if>
-					찜</td></tr>
+<tr>                <td>
+					<th:block th:if="${dto.stock != 0 and dto.stock != null}">	
+						<button type="button" id="cartBtn">장바구니</button> | 
+ 						<button type="button" id="buyItem">바로구매 </button> |
+ 					</th:block>	 
+ 					<th:block th:if="${dto.stock == 0 or dto.stock == null}">	
+ 						품절입니다. 곧 입고될 예정입니다.
+ 					</th:block>
+					<img src="/static/images/hart1.jpg" id="wish" width="20"/>찜</td></tr>
 <tr><td colspan="2">
 		<span id="descript">제품 상세 설명</span> | 
 		<span id="review">리뷰</span> | 

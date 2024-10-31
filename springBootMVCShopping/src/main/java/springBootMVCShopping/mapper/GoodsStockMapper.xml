@@ -22,12 +22,39 @@
 	</association>
 </resultMap>
 <select id="goodsStockSelectOne" parameterType="string" resultMap="goodsStockResultMap">
-	select g.goods_Num , goods_name , goods_price ,goods_contents , emp_num  
-         ,goods_regist , GOODS_MAIN_IMAGE ,GOODS_MAIN_STORE_IMAGE , GOODS_DETAIL_IMAGE 
-         ,GOODS_DETAIL_STORE_IMAGE , visit_count ,update_Emp_Num , goods_Update_Date
-    from goods g left outer join (
-    	
-    )
-    where goods_Num = #{goodsNum} 
+	select 	g.goods_Num , goods_name , goods_price ,goods_contents , emp_num  
+	  ,goods_regist , GOODS_MAIN_IMAGE ,GOODS_MAIN_STORE_IMAGE 
+	  , GOODS_DETAIL_IMAGE ,GOODS_DETAIL_STORE_IMAGE 
+	  , visit_count ,update_Emp_Num , goods_Update_Date
+	  , stock
+	from goods g left outer join 
+	(select ip.goods_num , nvl(iqty,0) - nvl(pqty, 0) stock
+	from (select goods_num, sum(IPGO_QTY)  iqty
+			from goods_ipgo 
+			group by goods_num) ip left outer join 
+		(select goods_num , sum(purchase_qty) pqty
+		from purchase_list
+		group by goods_num) pl
+	on ip.goods_num = pl.goods_num) s
+	on g.goods_num = s.goods_num
+	where g.goods_num = #{goodsNum} 
 </select>
+<update id="goodsVisitCountUpdate" parameterType="string">
+	update goods
+	set visit_count = visit_count + 1
+	where goods_num = #{goodsNum}
+</update>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+

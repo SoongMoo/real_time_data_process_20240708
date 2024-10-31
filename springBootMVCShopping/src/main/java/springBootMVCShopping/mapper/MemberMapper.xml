@@ -85,6 +85,9 @@ where MEMBER_NUM = #{memberNum}
 	set MEMBER_EMAIL_CONF = 'Y'
 	where member_email = #{memberEmail} and MEMBER_EMAIL_CONF is null
 </update>
+<select id="memberNumSelect" parameterType="string" resultType="string">
+	select member_num from members where member_id = #{memberId}
+</select>
 </mapper>
 
 
