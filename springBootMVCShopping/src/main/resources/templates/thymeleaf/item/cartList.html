@@ -8,25 +8,27 @@
 <script type="text/javascript" src="/static/js/money.js"></script>
 <script type="text/javascript">
 function cartAdd(goodsNum , goodsPrice){
-	var stringNumber = $("#"+goodsNum).text();
-	var number = Number(stringNumber.replace(/,/g, ''));
-	number = number + 1;
-	const commaNumber = number.toLocaleString();
+	var stringNumber = $("#"+goodsNum).text();  // 1,000
+	var number = Number(stringNumber.replace(/,/g, '')); // 1000
+	number += 1;
+	const commaNumber = number.toLocaleString(); // 1,001
+	
 	var formData = JSON.stringify({
 		goodsNum : goodsNum,
 		qty : 1
 	});
-	console.log(formData);
+
 	option = {
 		type: "post",
 		url: "/item/cartAdd",
 		contentType: "application/json",
-		data : formData,
-		success :  function(result){
-			var price = $("#t_"+goodsNum).text().substring(1).replace(",", "");
+		data:formData,
+		success :  function(result){ // w1,000,000
+			var price = $("#t_"+goodsNum).text().substring(1).replace(/,/g, "");
+			console.log(price); // 100000
 			if(result == 200){
-				$("#"+goodsNum).text(commaNumber);
-				price = Number(price) + parseInt(goodsPrice);
+				$("#"+goodsNum).text(commaNumber); // 수량  1000 + 1
+				price = Number(price) + parseInt(goodsPrice);     // 	1000
 				$("#t_"+goodsNum).text(formatter.format(price));
 			}
 		},
@@ -43,13 +45,17 @@ function prodChk(){
 	for(var i = 0; i < chkLeng.length ; i++){
 		if(chkLeng[i].checked){
 			cnt ++;
-			totalQty += Number($(".cartQty:eq("+i+")").text());
-			var price = $(".totalPrice:eq("+i+")").text().substring(1).replace(",","");
+			var stringQty = $(".cartQty:eq("+i+")").text();  // 1,000
+			var number = Number(stringQty.replace(/,/g, '')); // 1000
+			totalQty += Number(number);
+			
+			var price = $(".totalPrice:eq("+i+")").text().substring(1).replace(/,/g,"");
 			totalPrice += Number(price);		
 		}
 	}
+	var commaQty = totalQty.toLocaleString(); // 1,001
 	$("#prodCnt").text(cnt);
-	$("#totQty").text(totalQty);
+	$("#totQty").text(commaQty);
 	$("#totalPrice").text(formatter.format(totalPrice));
 }
 function err(){
@@ -60,12 +66,12 @@ function checkQty(goodsNum, goodsPrice){
 	var stringNumber = $("#"+goodsNum).text();
 	var number = Number(stringNumber.replace(/,/g, ''));
 	if(number > 1){
-		number = number + 1;
+		number = number - 1;
 		const commaNumber = number.toLocaleString();
 		var xhr = new XMLHttpRequest();
 		xhr.onload = function(){
 			if(xhr.status==200){
-				var price = $("#t_"+goodsNum).text().substring(1).replace(",", "");
+				var price = $("#t_"+goodsNum).text().substring(1).replace(/,/g, "");
 				$("#"+goodsNum).text(commaNumber);
 				price = Number(price) - parseInt(goodsPrice);
 				$("#t_"+goodsNum).text(formatter.format(price));
