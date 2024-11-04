@@ -25,5 +25,14 @@ public class CartListService {
 		
 		List<GoodsCartDTO> list = cartMapper.cartSelectList(memberNum);
 		model.addAttribute("list", list);
+		Integer totPri = 0;
+		Integer totQty = 0;
+		for( GoodsCartDTO dto  :  list) {
+			totPri += dto.getGoodsDTO().getGoodsPrice() * dto.getCartDTO().getCartQty();
+			totQty += dto.getCartDTO().getCartQty();
+		}
+		model.addAttribute("totPri", totPri);
+		model.addAttribute("totQty", totQty);
+		
 	}
 }
