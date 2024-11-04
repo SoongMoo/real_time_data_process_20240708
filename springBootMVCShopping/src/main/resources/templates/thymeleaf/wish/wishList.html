@@ -9,7 +9,6 @@
 
 </script>
 </head>
-<!-- 여기까지해서 관심상품에 대한 내용을 마무리하겠습니다. -->
 <body>
 <form action="wishDels" id="frm" method="post">
 	<table width="600" border = 1>
@@ -19,9 +18,9 @@
 				<input type="submit" value="선택 삭제" /> 
 			</td>
 		</tr>
-		<tr th:each="dto , idx : ${dtos}">
+		<tr th:each="dto , idx : ${list}">
 			<td>[[${idx.count}]]</td>
-			<td><img th:src="|/static/upload/${dto.goodsMainStore}|" width="30"/></td>
+			<td><img th:src="|/static/upload/${dto.goodsMainStoreImage}|" width="30"/></td>
 			<td><a th:href="@{/goods/goodsDetail(goodsNum=${dto.goodsNum})}">[[${dto.goodsName}]]</a></td>
 			<td>[[${dto.goodsPrice}]]</td>
 			<td><input type="checkbox" name="nums" th:value="${dto.goodsNum}"/>

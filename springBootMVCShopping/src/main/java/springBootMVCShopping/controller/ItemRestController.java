@@ -1,5 +1,7 @@
 package springBootMVCShopping.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +20,8 @@ public class ItemRestController {
 	@Autowired
 	CartInsertService cartInsertService;
 	@RequestMapping("wishItem")
-	public void wishAdd(@RequestBody String goodsNum,HttpSession session) {
-		goodsWishService.execute(goodsNum, session);
+	public void wishAdd(@RequestBody Map<String, Object> map,HttpSession session) {
+		goodsWishService.execute(map.get("goodsNum").toString(), session);
 	}
 	@RequestMapping("cartAdd")
 	public String cartAdd(@RequestBody CartCommand cartCommand

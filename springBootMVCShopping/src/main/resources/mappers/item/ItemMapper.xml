@@ -3,6 +3,12 @@
         "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCShopping.mapper.ItemMapper">
+<sql id="goodsColumnsBase">
+	   goods_Num , goods_name , goods_price ,goods_contents , emp_num  
+	  ,goods_regist , GOODS_MAIN_IMAGE ,GOODS_MAIN_STORE_IMAGE 
+	  , GOODS_DETAIL_IMAGE ,GOODS_DETAIL_STORE_IMAGE 
+	  , visit_count ,update_Emp_Num , goods_Update_Date
+</sql>
 <update id="wishItem" parameterType="java.util.Map" >
 	merge into wish w
 	using (select goods_num from goods where goods_num = #{goodsNum}) g
@@ -14,5 +20,9 @@
 		insert (MEMBER_NUM, GOODS_NUM, WISH_DATE)
 		values (#{memberNum} , g.goods_num ,sysdate )
 </update>
-
+<select id="wishSelectList" parameterType="string" resultType="goods">
+select <include refid="goodsColumnsBase" />
+from goods
+where goods_num in (select goods_num from wish where member_num = #{memberNum})
+</select>
 </mapper>

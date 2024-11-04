@@ -1,0 +1,22 @@
+package springBootMVCShopping.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import jakarta.servlet.http.HttpSession;
+import springBootMVCShopping.service.item.GoodsWishListService;
+
+@Controller
+@RequestMapping("item")
+public class ItemController {
+	@Autowired
+	GoodsWishListService goodsWishListService;
+	@GetMapping("wishList")
+	public String wishList(HttpSession session, Model model) {
+		goodsWishListService.execute(session, model);
+		return "thymeleaf/wish/wishList";
+	}
+}
