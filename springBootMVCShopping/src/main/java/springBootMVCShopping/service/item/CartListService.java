@@ -21,17 +21,9 @@ public class CartListService {
 	CartMapper cartMapper;
 	public void execute(Model model, HttpSession session) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
-		MemberDTO memDTO = memberMapper.memberSelectOne(auth.getUserId());
+		String memberNum = memberMapper.memberNumSelect(auth.getUserId());
 		
-		List<GoodsCartDTO> list = cartMapper.cartSelectList(memDTO.getMemberNum());
-		Integer totPri = 0;
-		Integer totQty = 0;
-		for(GoodsCartDTO dto : list) {
-			totPri += dto.getTotalPrice();
-			totQty += dto.getCartDTO().getCartQty();
-		}
+		List<GoodsCartDTO> list = cartMapper.cartSelectList(memberNum);
 		model.addAttribute("list", list);
-		model.addAttribute("totPri", totPri);
-		model.addAttribute("totQty", totQty);
 	}
 }

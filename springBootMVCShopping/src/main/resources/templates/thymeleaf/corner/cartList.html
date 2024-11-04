@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+</head>
+<body>
+<form action="/purchase/goodsBuy" method="post" >
+<table width="600" align = "center">
+	<tr><td><input type="checkbox" id="checkBoxs" checked="checked"/></td>
+		<td>이미지</td><td>제품이름</td><td>수량</td><td>합계금액</td>
+		<td><input type="button"  value="선택 상품 삭제" onclick="del1();"/></td>
+	</tr>
+	
+	<tr th:each="dto : ${list}">
+		<td><input type="checkbox" name="nums" checked="checked" th:value="${dto.goodsDTO.goodsNum}" />
+		<td><img th:src="|/static/upload/${dto.goodsDTO.goodsMainStoreImage}|"  width="30"/></td>
+		<td>[[${dto.goodsDTO.goodsName}]]</td>
+		<td><a th:href="|javascript:checkQty('${dto.goodsDTO.goodsNum}','${dto.goodsDTO.goodsPrice}');|"> - </a>
+			<spna th:id="${dto.goodsDTO.goodsNum}" class="cartQty">[[${#numbers.formatInteger(dto.cartDTO.cartQty, 1, 'COMMA')}]]</spna>
+			<a th:href="|javascript:cartAdd('${dto.goodsDTO.goodsNum}','${dto.goodsDTO.goodsPrice}');|"> + </a></td>
+		<td><span th:id="${'t_'+dto.goodsDTO.goodsNum}" class="totalPrice"></span>원</td>
+		<td><input type="button"  value="삭제"  
+				th:attr="onclick=|javascript:location.href='cartDel?goodsNums=${dto.goodsDTO.goodsNum}'|"/> </td>
+	</tr>		
+
+	<tr><td colspan="6" align="right">
+			상품수 : <span id="prodCnt">[[${list.size()}]]</span>개<br />
+			총수량 : <span id="totQty"></span>개<br />
+			전체 합계 : <span id="totalPrice"></span>원
+		</td>
+	</tr>
+	<tr><td colspan="6" align="right"><input type="submit" value="구매하기"/></td></tr>
+</table>
+</form>
+</body>
+</html>

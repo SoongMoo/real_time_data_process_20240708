@@ -3,6 +3,53 @@
         "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCShopping.mapper.CartMapper">
+<sql id="goodsColumnsBase">
+	   goods_Num , goods_name , goods_price ,goods_contents , emp_num  
+	  ,goods_regist , GOODS_MAIN_IMAGE ,GOODS_MAIN_STORE_IMAGE 
+	  , GOODS_DETAIL_IMAGE ,GOODS_DETAIL_STORE_IMAGE 
+	  , visit_count ,update_Emp_Num , goods_Update_Date
+</sql>
+<resultMap type="goods" id="goodsResultMap">
+	<id column="goods_Num" 						jdbcType="VARCHAR" 	property="goodsNum"/>
+	<result column="goods_Name" 				jdbcType="VARCHAR" 	property="goodsName" />
+	<result column="GOODS_PRICE" 				jdbcType="BIGINT" 	property="goodsPrice" />
+	<result column="goods_Contents"  			jdbcType="VARCHAR" 	property="goodsContents" />
+	<result column="emp_Num"  					jdbcType="VARCHAR"  property="empNum" />
+	<result column="visit_Count" 				jdbcType="BIGINT" 	property="visitCount" />
+	<result column="goods_Regist" 				jdbcType="DATE"  	property="goodsRegist" />
+	<result column="update_Emp_Num"  			jdbcType="VARCHAR"  property="updateEmpNum" />
+	<result column="goods_Update_Date" 			jdbcType="DATE"  	property="goodsUpdateDate" />
+	<result column="GOODS_MAIN_IMAGE"  			jdbcType="VARCHAR"  property="goodsMainImage" />
+	<result column="GOODS_MAIN_STORE_IMAGE"  	jdbcType="VARCHAR"  property="goodsMainStoreImage" />
+	<result column="GOODS_DETAIL_IMAGE"  		jdbcType="VARCHAR"  property="goodsDetailImage" />
+	<result column="GOODS_DETAIL_STORE_IMAGE"  	jdbcType="VARCHAR"  property="goodsDetailStoreImage" />		
+</resultMap>
+<select id="goodsSelect" parameterType="string" resultMap="goodsResultMap">
+	select <include refid="goodsColumnsBase" />
+	from goods  
+	where goods_Num = #{goodsNum} 
+</select>
+<resultMap type="cart" id="cartResultMap">
+	<id column="goods_num" jdbcType="VARCHAR" property="goodsNum"/>
+	<id column="member_num" jdbcType="VARCHAR" property="memberNum"/>
+	<result column="cart_Num" jdbcType="BIGINT" property="cartNum"/>
+	<result column="cart_date" jdbcType="DATE" property="cartDate"/>
+	<result column="cart_qty" jdbcType="BIGINT" property="cartQty"/>
+</resultMap>
+<select id="cartSelect" resultMap="cartResultMap" parameterType="integer"> 
+	select cart_num , goods_num, member_num, cart_date,cart_qty
+	from cart
+	where cart_num = #{cartNum}
+</select>
+<resultMap type="cartGoods" id="cartGoodsResultMap">
+	<association property="goodsDTO" javaType="goods" column="goodsNum"  select="goodsSelect" />
+	<association property="cartDTO" javaType="cart" column="cartNum"  select="cartSelect"/>
+</resultMap>
+<select id="cartSelectList" resultMap="cartGoodsResultMap" >
+	select GOODS_NUM goodsNum, cart_num cartNum
+	from cart
+	where member_num = #{memberNum}
+</select>
 <update id="cartMerge" parameterType="cart">
 merge into cart c	
 using (select goods_num from goods where goods_num = #{goodsNum}) g	
@@ -10,7 +57,18 @@ on (c.goods_num = g.goods_num and MEMBER_NUM = #{memberNum})
 WHEN MATCHED THEN	
 	update set CART_QTY = CART_QTY + #{cartQty}	
 WHEN NOT MATCHED THEN	
-	insert (MEMBER_NUM,GOODS_NUM,CART_DATE, CART_QTY)
-	values (#{memberNum}, #{goodsNum}, sysdate, #{cartQty})
+	insert (cart_NUM
+			, MEMBER_NUM,GOODS_NUM,CART_DATE, CART_QTY)
+	values ((select nvl(max(cart_num ),0) + 1  from cart)
+			,#{memberNum}, #{goodsNum}, sysdate, #{cartQty})
 </update>
+
+
+
+
+
+
+
+
+
 </mapper>

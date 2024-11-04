@@ -26,3 +26,9 @@ from goods
 where goods_num in (select goods_num from wish where member_num = #{memberNum})
 </select>
 </mapper>
+
+
+
+
+
+

@@ -9,5 +9,4 @@ import lombok.Data;
 public class GoodsCartDTO {
 	GoodsDTO goodsDTO;     // 1
 	CartDTO cartDTO;       // 1
-	Integer totalPrice;
 }

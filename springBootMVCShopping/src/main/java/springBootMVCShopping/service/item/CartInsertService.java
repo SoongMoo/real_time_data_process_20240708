@@ -24,7 +24,7 @@ public class CartInsertService {
 			memberNum = memberMapper.memberNumSelect(auth.getUserId());
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "000";
+			return "000";  // session이 없다
 		}
 		if(memberNum == null) {
 			return "900";
