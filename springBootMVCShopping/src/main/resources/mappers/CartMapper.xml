@@ -63,6 +63,12 @@ WHEN NOT MATCHED THEN
 			,#{memberNum}, #{goodsNum}, sysdate, #{cartQty})
 </update>
 
+<update id="cartQtyDown" >
+	update cart
+	set cart_qty = cart_qty - 1
+	where goods_num = #{goodsNum} 
+	and member_num = #{memberNum}
+</update>
 
 
 
