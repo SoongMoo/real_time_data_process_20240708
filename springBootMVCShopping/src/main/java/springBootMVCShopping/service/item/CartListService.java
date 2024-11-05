@@ -23,7 +23,7 @@ public class CartListService {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = memberMapper.memberNumSelect(auth.getUserId());
 		
-		List<GoodsCartDTO> list = cartMapper.cartSelectList(memberNum);
+		List<GoodsCartDTO> list = cartMapper.cartSelectList(memberNum, null);
 		model.addAttribute("list", list);
 		Integer totPri = 0;
 		Integer totQty = 0;

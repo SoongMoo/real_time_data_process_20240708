@@ -48,8 +48,20 @@
 <select id="cartSelectList" resultMap="cartGoodsResultMap" >
 	select GOODS_NUM goodsNum, cart_num cartNum
 	from cart
-	where member_num = #{memberNum}
+	<trim prefix="where" prefixOverrides="AND | OR">
+		member_num = #{memberNum}
+		<if test="nums != null">
+			and goods_num in 
+			<foreach collection="nums" item="goodsNum" close=")" open="(" index="index" 
+					separator=",">
+				#{goodsNum}
+			</foreach>
+		</if>
+	</trim>
 </select>
+
+
+
 <update id="cartMerge" parameterType="cart">
 merge into cart c	
 using (select goods_num from goods where goods_num = #{goodsNum}) g	
