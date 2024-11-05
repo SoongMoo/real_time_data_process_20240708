@@ -13,4 +13,6 @@ public class LoginCommand {
 	@Size(min = 8, max = 20)
 	String userPw;
 	
+	boolean idStore;
+	boolean autoLogin; 
 }

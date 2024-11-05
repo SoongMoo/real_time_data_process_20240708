@@ -72,7 +72,9 @@ hello miso shopping<br />
 <div th:if="${session.auth == null}">
 <form action="/login/login" method="post" th:object="${loginCommand}" >
 <table border="1" align="center">
-	<tr><td colspan="2">자동로그인 | 아이디저장</td></tr>
+	<tr><td colspan="2">자동로그인<input type="checkbox" name="autoLogin" /> | 
+						아이디저장<input type="checkbox" name="idStore" 
+								       th:checked="${loginCommand.idStore}" /></td></tr>
 	<tr><td>아 이 디 : <input type="text" name="userId" th:value="${loginCommand.userId}" /><br />
 			<span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></span></td>
 		<td rowspan="2">
