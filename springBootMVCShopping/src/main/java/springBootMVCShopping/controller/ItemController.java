@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.service.item.CartListService;
+import springBootMVCShopping.service.item.GoodsCartDelsService;
 import springBootMVCShopping.service.item.GoodsWishListService;
 
 @Controller
@@ -17,6 +18,8 @@ public class ItemController {
 	GoodsWishListService goodsWishListService;
 	@Autowired
 	CartListService cartListService;
+	@Autowired
+	GoodsCartDelsService goodsCartDelsService;
 	@GetMapping("wishList")
 	public String wishList(HttpSession session, Model model) {
 		goodsWishListService.execute(session, model);
@@ -26,5 +29,10 @@ public class ItemController {
 	public String cartList(Model model, HttpSession session) {
 		cartListService.execute(model, session);
 		return "thymeleaf/item/cartList";
+	}
+	@GetMapping("cartDel")
+	public String cartDel(String goodsNums[] , HttpSession session) {
+		goodsCartDelsService.execute(goodsNums, session);
+		return "redirect:cartList";
 	}
 }

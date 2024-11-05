@@ -70,6 +70,15 @@ WHEN NOT MATCHED THEN
 	and member_num = #{memberNum}
 </update>
 
+<delete id="goodsNumsDelete" parameterType="hashmap">
+delete from cart
+where member_num = #{memberNum}
+and goods_num in 
+	<foreach collection="goodsNums" item="goodsNum" close=")" open="(" index="index" 
+		separator=",">
+		#{goodsNum}
+	</foreach>
+</delete>
 
 
 

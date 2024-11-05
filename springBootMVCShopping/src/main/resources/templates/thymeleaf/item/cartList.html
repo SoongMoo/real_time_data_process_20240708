@@ -84,6 +84,38 @@ function checkQty(goodsNum, goodsPrice){
 		alert("최소 수량은 1이어야 합니다.");
 	}	
 }
+function del1(){
+	var chk_arr = [];
+	$("input:checkbox[name='nums']:checked").each(function(){
+		chk_arr.push($(this).val());
+	});
+	/*
+		$.ajax({
+			type:,
+			url:,
+			data:formData,
+			contentType:"application/json",
+			dataType:,
+			success:function(result){},
+			error:
+		});
+	*/
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","cartDels",true);
+	xhr.setRequestHeader("Content-Type", "application/json");
+	var formData = JSON.stringify(chk_arr);
+	xhr.onload = function(){
+		if(xhr.status == 200){
+			var result = xhr.responseText;
+			if(result == "200") location.reload(); // CSR을 할 필요 없다.. SSR을 권장
+			else alert("삭제되지 않았습니다.");
+			
+		}else{
+			alert("삭제되지 않았습니다.");
+		}
+	}
+	xhr.send(formData);
+}
 </script>
 </head>
 <body>

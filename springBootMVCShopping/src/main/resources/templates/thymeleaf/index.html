@@ -53,9 +53,10 @@ hello miso shopping<br />
 	<th:block th:if="${session.auth.grade == 'emp'}">
 	<li><a href="member/memberList">회원 관리</a></li>
 	<li><a href="employee/employeeList">직원 관리</a></li>
-	<li><a href="myPage/employeeMyPage">내정보 보기</a></li>
-	
 	<li><a href="goods/goodsList">상품관리</a></li>
+	<li><a href="myPage/employeeMyPage">내정보 보기</a></li>
+	<li><a href="/purchase/purchaseList">주문 내역</a></li>
+	<li><a href="/inquire/goodsQuestion">상품 문의</a></li>
 	</th:block>
 	
 	<th:block th:if="${session.auth.grade == 'mem'}">

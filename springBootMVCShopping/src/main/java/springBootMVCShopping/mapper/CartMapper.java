@@ -1,6 +1,7 @@
 package springBootMVCShopping.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,4 +18,15 @@ public interface CartMapper {
 	public List<GoodsCartDTO> cartSelectList(String memberNum);
 	public int cartQtyDown(@Param("goodsNum") String goodsNum
             ,@Param("memberNum") String memberNum);
+	public int goodsNumsDelete(Map<String, Object> condition);
 }
+
+
+
+
+
+
+
+
+
+
