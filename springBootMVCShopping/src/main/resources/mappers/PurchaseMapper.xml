@@ -83,9 +83,9 @@ where purchase_num = #{purchaseNum}
 </select>
 <insert id="paymentInsert" parameterType="payment">
 insert into payment(purchase_num,confirmnumber,cardnum,tid,totalprice,resultmessage,paymethod
-					,appldate,appltime,purchasename)
+					,appldate,appltime)
 values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultmassage}
-	  ,#{paymethod},#{appldate},#{appltime},#{purchasename})
+	  ,#{paymethod},#{appldate},#{appltime})
 </insert>
 </mapper>
 

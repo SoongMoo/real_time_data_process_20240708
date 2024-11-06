@@ -112,14 +112,13 @@ public class INIstdpayPcReturn {
 					PaymentDTO dto = new PaymentDTO();
 					dto.setAppldate(resultMap.get("applDate"));
 					dto.setAppltime(resultMap.get("applTime"));
-					dto.setCardnum(resultMap.get("CARD_Num"))
+					dto.setCardnum(resultMap.get("CARD_Num"));
 					dto.setConfirmnumber(resultMap.get("applNum"));
 					dto.setPaymethod(resultMap.get("payMethod"));
 					dto.setPurchaseNum(resultMap.get("MOID"));
 					dto.setResultmassage(resultMap.get("resultMsg"));
 					dto.setTid(resultMap.get("tid"));
 					dto.setTotalprice(resultMap.get("TotPrice"));
-					dto.setPurchasename(resultMap.get("goodsName"));
 
 					purchaseRepository.paymentInsert(dto);
 					
