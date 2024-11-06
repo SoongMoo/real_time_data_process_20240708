@@ -29,14 +29,19 @@ public class PurchaseRepository {
 		statement = namespace + ".purchaseListInsert";
 		return sqlSession.insert(statement, map);
 	}
-	
-	
-	
-	
-	
-	
-	public List<OrderListDTO> orderList(String memberNum){
+	public List<OrderListDTO> orderList(Map<String , String> map){
 		statement = namespace + ".orderList";
-		return sqlSession.selectList(statement, memberNum);
+		return sqlSession.selectList(statement, map);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+

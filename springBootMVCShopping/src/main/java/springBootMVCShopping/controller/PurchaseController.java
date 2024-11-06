@@ -33,15 +33,15 @@ public class PurchaseController {
 		String purchaseNum = goodsOrderService.execute(purchaseCommand, session, model);
 		return "thymeleaf/purchase/payment";
 	}
-
-	
-	
-	
 	@GetMapping("orderList")
 	public String orderList(HttpSession session, Model model) {
 		orderProcessListService.execute(session, model);
 		return "thymeleaf/purchase/orderList";
 	}
+	
+	
+	
+	
 	@GetMapping("purchaseList")
 	public String purchaseList(HttpSession session, Model model) {
 		orderProcessListService.execute(session, model);

@@ -1,6 +1,8 @@
 package springBootMVCShopping.service.purchase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,12 @@ public class OrderProcessListService {
 	public void execute(HttpSession session, Model model) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = memberMapper.memberNumSelect(auth.getUserId());
-		List<OrderListDTO> list = purchaseRepository.orderList(memberNum); 
+		
+		Map<String , String> map = new HashMap<String, String>();
+		map.put("memberNum", memberNum);
+		
+		List<OrderListDTO> list = purchaseRepository.orderList(map); 
+		
 		model.addAttribute("list", list);
 	}
 }
