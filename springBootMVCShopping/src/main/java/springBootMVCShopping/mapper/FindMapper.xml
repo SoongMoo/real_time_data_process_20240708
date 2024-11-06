@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCShopping.mapper.FindMapper">
+<select id="findId" parameterType="string" resultType="string">
+select member_id
+from members
+where member_email = #{_userEmail} 
+and (member_phone1 = #{_userPhone} or member_phone2 = #{_userPhone})
+union
+select emp_id
+from employees
+where emp_phone = #{_userPhone} and emp_email =#{_userEmail}
+</select>
+<select id="userEmail" resultType="auth">
+<!-- 직원이나 회원중 모두 찾는다. -->
+select member_email userEmail , 'mem' grade
+from members
+where member_id = #{_userId} and member_phone1 = #{_userPhone} 
+union
+select emp_email  , 'emp'
+from employees 
+where emp_phone = #{_userPhone} and emp_id = #{_userId} 
+</select>
+<update id="pwUpdate" parameterType="userChangePassword">
+update ${tableName}
+set ${pwColumName}  = #{userPw}
+where ${userIdColumName}  = #{userId} 
+and ${phoneColumn} = #{userPhone}
+</update>
+</mapper>
+
+
+
+
+
+
+
+
