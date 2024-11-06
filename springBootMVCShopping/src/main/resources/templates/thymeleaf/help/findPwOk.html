@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block th:if="${#strings.isEmpty(auth)}">
+정보가 부족합니다. 다시 확인하여주시기 바람니다.
+</th:block> 
+<th:block th:if="${not #strings.isEmpty(auth)}">
+[[${auth.userEmail}]]의 임시비밀번호는 이메일로 전송되었습니다.<br />
+로그인 후 비밀번호를 변경해 주시기 바랍니다.<br />
+</th:block>
+</body>
+</html>

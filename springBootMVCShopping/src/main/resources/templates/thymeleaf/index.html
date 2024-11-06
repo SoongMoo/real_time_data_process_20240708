@@ -82,7 +82,8 @@ hello miso shopping<br />
 		</td></tr>
 	<tr><td>비밀번호: <input type="password" name="userPw" /><br />
 			<span th:if="${#fields.hasErrors('userPw')}" th:errors="*{userPw}"> </td></tr>
-	<tr><td colspan="2">아이디 / 비밀번호 찾기 | 
+	<tr><td colspan="2"><a href="/help/findId">아이디</a> / 
+						<a href="/help/findPassword">비밀번호 찾기</a> | 
 		<a href="/register/userAgree">회원가입</a></td></tr>
 </table>
 </form>
