@@ -135,7 +135,14 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>		
+		</dependency>	
+		<dependency>
+			<groupId>INIpaySample</groupId>
+			<artifactId>INIpaySample</artifactId>
+			<version>1.3</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/INIpaySample_v1.3.jar</systemPath>
+		</dependency>	
 	</dependencies>
 
 	<build>

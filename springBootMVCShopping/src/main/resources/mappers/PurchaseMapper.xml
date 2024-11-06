@@ -76,7 +76,11 @@ on pl.purchase_num = p.purchase_num
 	</if>
 </trim>
 </select>
-
+<select id="purchaseSelect" parameterType="string" resultType="purchase">
+select  <include refid="purchaseBaseColumns" />
+from purchase
+where purchase_num = #{purchaseNum}
+</select>
 </mapper>
 
 

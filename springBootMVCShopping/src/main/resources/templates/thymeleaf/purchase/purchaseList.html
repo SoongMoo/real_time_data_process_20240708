@@ -6,10 +6,20 @@
 </head>
 <body>
 <table width="800" align="center">
-   <tr><td>주문일(결제번호)</td> 
-      <td>상품명/주문번호</td> 
-      <td>주문상태</td> 
+   <tr><td>주문일(결제번호)</td> <td>상품명/주문번호</td><td>주문상태</td></tr>
+   
+   <tr th:each=" orderListDTO : ${list}">
+   		<td>[[${#dates.format(orderListDTO.purchaseDTO.purchaseDate,'yyyy-MM-dd')}]](결제번호)</td> 
+   		<td>
+   			<th:block th:each="purchaseListGoodsDTO : ${orderListDTO.purchaseListGoodsDTOs}">
+   				<img th:src="|/static/upload/${purchaseListGoodsDTO.goodsDTO.goodsMainStoreImage}|" 
+				width="30" />[[${purchaseListGoodsDTO.goodsDTO.goodsName}]]
+			</th:block>
+			/[[${orderListDTO.purchaseDTO.purchaseNum}]]
+		</td>
+		<td> [[${orderListDTO.purchaseDTO.purchaseStatus}]]</td>
    </tr>
+   
 </table>
 </body>
 </html>

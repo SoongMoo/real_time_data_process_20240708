@@ -8,6 +8,18 @@
 <body>
 <table width="800" align="center" >
 	<tr><td>주문번호 / 결제번호</td><td> 상품명 </td><td> 주문상태 </td></tr>
+	
+	<tr th:each=" orderListDTO : ${list}">
+		<td>[[${orderListDTO.purchaseDTO.purchaseNum}]] / 결제번호</td>
+		<th:block th:each="purchaseListGoodsDTO : ${orderListDTO.purchaseListGoodsDTOs}">
+			<td><img th:src="|/static/upload/${purchaseListGoodsDTO.goodsDTO.goodsMainStoreImage}|" 
+				width="30" />
+			[[${purchaseListGoodsDTO.goodsDTO.goodsName}]]
+			</td>
+		</th:block>
+		<td> <a th:href="|paymentOk?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">결제하기</a> 
+			 주문취소 </td>
+	</tr>
 </table>
 </body>
 </html>
