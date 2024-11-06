@@ -13,7 +13,7 @@ public class PaymentDTO {
 	String tid;
 	String totalprice;
 	String resultmassage;
-	String paymethod;
+	String paymathod;
 	String appldate;
 	String appltime;
 	String purchasename;

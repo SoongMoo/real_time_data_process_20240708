@@ -54,6 +54,10 @@ public class PurchaseController {
 		iniPayReturnService.execute(request);
 		return "thymeleaf/purchase/buyfinished";
 	}
+	@RequestMapping("close")
+	public String close() {
+		return "thymeleaf/purchase/close";
+	}
 	
 	@GetMapping("orderList")
 	public String orderList(HttpSession session, Model model) {

@@ -114,12 +114,12 @@ public class INIstdpayPcReturn {
 					dto.setAppltime(resultMap.get("applTime"));
 					dto.setCardnum(resultMap.get("CARD_Num"));
 					dto.setConfirmnumber(resultMap.get("applNum"));
-					dto.setPaymethod(resultMap.get("payMethod"));
+					dto.setPaymathod(resultMap.get("payMethod"));
 					dto.setPurchaseNum(resultMap.get("MOID"));
 					dto.setResultmassage(resultMap.get("resultMsg"));
 					dto.setTid(resultMap.get("tid"));
 					dto.setTotalprice(resultMap.get("TotPrice"));
-
+					System.out.println("주문번호 : " + dto.getPurchaseNum());
 					purchaseRepository.paymentInsert(dto);
 					
 				} catch (Exception ex) {
