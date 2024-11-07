@@ -9,7 +9,7 @@
 , PURCHASE_NAME
 </sql>
 <select id="selectPurchaseNum" resultType="string">
-select concat(to_char(sysdate,'yyyyMMdd') , nvl(max(substr(purchase_num,9)),0 ) +1)
+select concat(to_char(sysdate,'yyyyMMdd') , nvl(max(to_number(substr(purchase_num,9))),0 ) +1)
 from purchase
 where substr(purchase_num,1 ,8) = to_char(sysdate,'yyyyMMdd')
 </select>
