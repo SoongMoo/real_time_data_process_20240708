@@ -87,6 +87,7 @@ public class INIstdpayPcReturn {
 
 				HttpUtil httpUtil = new HttpUtil();
 
+				
 				try{
 					//#####################
 					// 4.API 통신 시작
@@ -121,9 +122,7 @@ public class INIstdpayPcReturn {
 					dto.setTotalprice(resultMap.get("TotPrice"));
 					System.out.println("주문번호 : " + dto.getPurchaseNum());
 					purchaseRepository.paymentInsert(dto);
-					
 				} catch (Exception ex) {
-					
 					//####################################
 					// 실패시 처리(***가맹점 개발수정***)
 					//####################################
@@ -140,6 +139,7 @@ public class INIstdpayPcReturn {
 
 					// 취소 결과 확인
 					System.out.println(netcancelResultString);
+					ex.printStackTrace();
 				}
 
 			}else{

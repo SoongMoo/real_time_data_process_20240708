@@ -10,15 +10,33 @@
 	<tr><td>주문번호 / 결제번호</td><td> 상품명 </td><td> 주문상태 </td></tr>
 	
 	<tr th:each=" orderListDTO : ${list}">
-		<td>[[${orderListDTO.purchaseDTO.purchaseNum}]] / 결제번호</td>
+		<td>[[${orderListDTO.purchaseDTO.purchaseNum}]] / 
+			<th:block th:if="${orderListDTO.paymentDTO.appldate != null}">
+				<th:block th:if="${orderListDTO.paymentDTO.confirmnumber != null}">
+					[[${orderListDTO.paymentDTO.confirmnumber}]]
+				</th:block>
+				<th:block th:if="${orderListDTO.paymentDTO.confirmnumber == null}">
+					현금결제
+				</th:block>
+			</th:block>
+			<th:block th:if="${orderListDTO.paymentDTO.appldate == null}">
+				결제대기중
+			</th:block>
+		</td>
 		<th:block th:each="purchaseListGoodsDTO : ${orderListDTO.purchaseListGoodsDTOs}">
-			<td><img th:src="|/static/upload/${purchaseListGoodsDTO.goodsDTO.goodsMainStoreImage}|" 
+		<td><img th:src="|/static/upload/${purchaseListGoodsDTO.goodsDTO.goodsMainStoreImage}|" 
 				width="30" />
 			[[${purchaseListGoodsDTO.goodsDTO.goodsName}]]
-			</td>
+		</td>
 		</th:block>
-		<td> <a th:href="|paymentOk?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">결제하기</a> 
-			 주문취소 </td>
+		<td> 
+			<span th:if="${orderListDTO.paymentDTO.appldate == null}">
+				<a th:href="|paymentOk?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">결제하기</a> 
+			</span>
+			<span th:if="${orderListDTO.paymentDTO.appldate != null}">
+			 	<a th:href="@{paymentDel(purchaseNum=${orderListDTO.purchaseDTO.purchaseNum})}">결제취소</a> 
+			</span>
+		</td>
 	</tr>
 </table>
 </body>

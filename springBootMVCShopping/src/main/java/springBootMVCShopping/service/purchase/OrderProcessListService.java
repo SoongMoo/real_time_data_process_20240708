@@ -20,12 +20,13 @@ public class OrderProcessListService {
 	MemberMapper memberMapper;
 	@Autowired
 	PurchaseRepository purchaseRepository;
-	public void execute(HttpSession session, Model model) {
+	public void execute(HttpSession session, Model model, String purchaseNum) {
 		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = memberMapper.memberNumSelect(auth.getUserId());
 		
 		Map<String , String> map = new HashMap<String, String>();
 		map.put("memberNum", memberNum);
+		map.put("purchaseNum", purchaseNum);
 		
 		List<OrderListDTO> list = purchaseRepository.orderList(map); 
 		

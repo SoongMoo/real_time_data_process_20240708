@@ -5,11 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.command.PurchaseCommand;
+import springBootMVCShopping.repository.PurchaseRepository;
 import springBootMVCShopping.service.purchase.GoodsBuyService;
 import springBootMVCShopping.service.purchase.GoodsOrderService;
 import springBootMVCShopping.service.purchase.INIstdpayPcReturn;
@@ -27,8 +29,7 @@ public class PurchaseController {
 	GoodsOrderService goodsOrderService;
 	@Autowired
 	IniPayReqService iniPayReqService;
-	@Autowired
-	INIstdpayPcReturn iniPayReturnService;
+
 	@PostMapping("goodsBuy")
 	public String goodsBuy(String nums[] , HttpSession session,Model model) {
 		goodsBuyService.execute(nums, session, model);
@@ -49,24 +50,30 @@ public class PurchaseController {
 		}
 		return "thymeleaf/purchase/payment";
 	}
-	@RequestMapping("INIstdpay_pc_return")
-	public String payReturn(HttpServletRequest request) {
-		iniPayReturnService.execute(request);
-		return "thymeleaf/purchase/buyfinished";
-	}
-	@RequestMapping("close")
-	public String close() {
-		return "thymeleaf/purchase/close";
-	}
-	
+
 	@GetMapping("orderList")
 	public String orderList(HttpSession session, Model model) {
-		orderProcessListService.execute(session, model);
+		orderProcessListService.execute(session, model, null);
 		return "thymeleaf/purchase/orderList";
 	}
 	@GetMapping("purchaseList")
 	public String purchaseList(HttpSession session, Model model) {
-		orderProcessListService.execute(session, model);
+		orderProcessListService.execute(session, model, null);
 		return "thymeleaf/purchase/purchaseList";
 	}
+	@Autowired
+	PurchaseRepository purchaseRepository;
+	@GetMapping("paymentDel")
+	public String paymentDel(String purchaseNum) {
+		purchaseRepository.paymentDel(purchaseNum);
+		return "redirect:orderList";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

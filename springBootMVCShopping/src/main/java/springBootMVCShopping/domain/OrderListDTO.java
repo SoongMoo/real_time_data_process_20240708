@@ -10,5 +10,6 @@ import lombok.Data;
 @Alias("orderList")
 public class OrderListDTO {
 	PurchaseDTO purchaseDTO;   // 1
+	PaymentDTO paymentDTO; // 1
 	List<PurchaseListGoodsDTO> purchaseListGoodsDTOs;  // n
 }

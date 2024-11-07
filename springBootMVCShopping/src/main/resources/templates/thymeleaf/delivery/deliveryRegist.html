@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>deliveryRegist</title>
+</head>
+<body>
+구매상품 정보<br />
+<table width="800" align = "center">
+<th:block th:each=" dto : ${list[0].purchaseListGoodsDTOs}">
+	<tr><td><img width="30" th:src="|/static/upload/${dto.goodsDTO.goodsMainStoreImage}|"/></td>
+		<td>제품명 : [[${dto.goodsDTO.goodsName}]] | 제품가격 : [[${dto.purchaseListDTO.totalPrice}]] | 
+			주문수량 : [[${dto.purchaseListDTO.purchaseQty}]]</td></tr>
+	<tr><td colspan="2"><b>상품설명</b><br />
+		<span>[[${#strings.replace(dto.goodsDTO.goodsContents,newLineChar,'&lt;br /&gt;')}]]</span>
+		</td></tr> 
+</th:block>
+	<tr>
+		<td width="400">
+			<h2>주문내용</h2>
+			주문번호 : [[${list[0].purchaseDTO.purchaseNum}]]<br />
+			주문날짜 : [[${#dates.format(list[0].purchaseDTO.purchaseDate,'yyyy-MM-dd')}]]<br />
+			주문금액 : [[${list[0].purchaseDTO.purchasePrice}]]<br />
+			배송지 : [[${list[0].purchaseDTO.deliveryAddr + ' ' + list[0].purchaseDTO.deliveryAddrDetail}]]<br />
+			연락처 : [[${list[0].purchaseDTO.deliveryPhone}]]<br />
+			받는사람 : [[${list[0].purchaseDTO.deliveryName}]]<br />
+			주문메세지 : [[${list[0].purchaseDTO.message}]]<br />
+		</td>
+		<td width="400" th:if="${list[0].paymentDTO.appldate != null}">
+			<h2>결제내용</h2>
+			결제번호 : <span th:if="${list[0].paymentDTO.confirmnumber != null}">
+						[[${list[0].paymentDTO.confirmnumber}]]
+					</span>
+					 <span th:if="${list[0].paymentDTO.confirmnumber == null}">
+						현금결제
+					</span>
+					<br />
+			결제금액 : [[${list[0].paymentDTO.totalprice}]]  <br />
+			결제 일 : <br />
+			카드번호 : [${list[0].paymentDTO.cardnum}]] <br /> 
+		</td>
+		<td width="400" th:if="${list[0].paymentDTO.appldate == null}">
+			<h2>결제내용</h2>
+			결제 정보가 없습니다.<br /><br /><br /><br /><br /><br /><br />
+		</td>
+	</tr>
+</table>
+
+<table width="800" align = "center">
+	<tr><td colspan="2">배송정보</td></tr>
+	<tr><td>송장번호</td><td></td></tr>
+</table>
+<form action="/delivery/deliveryRegist" method="post">
+<table width="800" align = "center">
+	<tr><td colspan="2">배송정보입력</td></tr>
+	<tr><td>송장번호</td>
+		<td><input type="text" name="deliveryNum" required="required"/></td></tr>
+	<tr><td colspan="2"><input type="submit" value="배송정보등록"/></td></tr>	
+</table>
+</form>
+</body>
+</html>

@@ -49,6 +49,14 @@ and c.goods_num in
 			<arg column="purchase_Name" javaType="string"/>		
 		</constructor>
 	</association>
+	<association property="paymentDTO" javaType="payment">
+		<id  column="purchase_num" jdbcType="VARCHAR" property="purchaseNum" />
+		<result column="confirmnumber" jdbcType="VARCHAR" property="confirmnumber"/>
+		<result column="cardnum" jdbcType="VARCHAR" property="cardnum"/>
+		<result column="appldate" jdbcType="VARCHAR" property="appldate"/>
+		<result column="APPTIME" jdbcType="VARCHAR" property="appltime"/>
+		<result column="totalprice" jdbcType="BIGINT" property="totalprice"/>
+	</association>
 	<collection property="purchaseListGoodsDTOs" ofType="purchaseListGoods">
 		<association property="purchaseListDTO" javaType="purchaseList">
 			<result column="purchase_qty" jdbcType="BIGINT" property="purchaseQty"/>
@@ -58,21 +66,27 @@ and c.goods_num in
 			<id column="goods_Num" jdbcType="VARCHAR" property="goodsNum"/>
 			<result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
 			<result column="GOODS_MAIN_STORE_IMAGE" jdbcType="VARCHAR" property="goodsMainStoreImage"/>
+			<result column="goods_contents" jdbcType="VARCHAR" property="goodsContents" />
 		</association>
 	</collection>
 </resultMap>
 <select id="orderList" parameterType="hashmap" resultMap="orderListResultMap">
-select  g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE
+select  g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE, goods_contents
 	   ,GOODS_UNIT_PRICE, PURCHASE_QTY
 	   ,p.purchase_num , PURCHASE_DATE , PURCHASE_PRICE, DELIVERY_ADDR, DELIVERY_ADDR_DETAIL
 	   ,DELIVERY_POST, DELIVERY_PHONE, MESSAGE, PURCHASE_STATUS, MEMBER_NUM
 	   ,DELIVERY_NAME, PURCHASE_NAME
+       ,CONFIRMNUMBER, CARDNUM,  APPLDATE, APPTIME, CONFIRMNUMBER, totalprice
 from  goods g join purchase_list pl
 on g.goods_num = pl.goods_num join purchase p
-on pl.purchase_num = p.purchase_num
+on pl.purchase_num = p.purchase_num left outer join payment pm
+on p.purchase_num = pm.purchase_num
 <trim prefix="where"  prefixOverrides="AND | OR">
 	<if test="memberNum != null">
 		member_num = #{memberNum}
+	</if>
+	<if test="purchaseNum != null">
+		and p.purchase_num = #{purchaseNum}
 	</if>
 </trim>
 </select>
@@ -87,6 +101,10 @@ insert into payment(PURCHASE_NUM,CONFIRMNUMBER,CARDNUM,TID,TOTALPRICE,RESULTMASS
 values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultmassage}
 	  ,#{paymathod},#{appldate},#{appltime})
 </insert>
+<delete id="paymentDel" parameterType="string">
+	delete from payment
+	where purchase_num = #{purchaseNum}
+</delete>
 </mapper>
 
 
