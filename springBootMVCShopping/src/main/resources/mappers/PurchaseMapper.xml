@@ -57,6 +57,12 @@ and c.goods_num in
 		<result column="APPTIME" jdbcType="VARCHAR" property="appltime"/>
 		<result column="totalprice" jdbcType="BIGINT" property="totalprice"/>
 	</association>
+	<association property="deliveryDTO" javaType="delivery">
+		<id  column="purchase_num" jdbcType="VARCHAR" property="purchaseNum" />
+		<result column="delivery_num" jdbcType="VARCHAR" property="deliveryNum"/>
+		<result column="delivery_date" jdbcType="DATE" property="deliveryDate"/>
+		<result column="delivery_status" jdbcType="VARCHAR" property="deliveryStatus"/>
+	</association>
 	<collection property="purchaseListGoodsDTOs" ofType="purchaseListGoods">
 		<association property="purchaseListDTO" javaType="purchaseList">
 			<result column="purchase_qty" jdbcType="BIGINT" property="purchaseQty"/>
@@ -77,10 +83,12 @@ select  g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE, goods_contents
 	   ,DELIVERY_POST, DELIVERY_PHONE, MESSAGE, PURCHASE_STATUS, MEMBER_NUM
 	   ,DELIVERY_NAME, PURCHASE_NAME
        ,CONFIRMNUMBER, CARDNUM,  APPLDATE, APPTIME, CONFIRMNUMBER, totalprice
+       ,DELIVERY_NUM, DELIVERY_DATE, DELIVERY_STATUS
 from  goods g join purchase_list pl
 on g.goods_num = pl.goods_num join purchase p
 on pl.purchase_num = p.purchase_num left outer join payment pm
-on p.purchase_num = pm.purchase_num
+on p.purchase_num = pm.purchase_num left outer join delivery d
+on p.purchase_num = d.purchase_num
 <trim prefix="where"  prefixOverrides="AND | OR">
 	<if test="memberNum != null">
 		member_num = #{memberNum}

@@ -32,7 +32,23 @@ function detail(purchaseNum){
 			/[[${orderListDTO.purchaseDTO.purchaseNum}]]
 		</td>
 		<td> <a th:href="|javascript:detail('${orderListDTO.purchaseDTO.purchaseNum}');|" >주문상세보기</a> | 
-			[[${orderListDTO.purchaseDTO.purchaseStatus}]]</td>
+			<span th:if="${orderListDTO.paymentDTO.appldate == null}">
+				결제대기중
+			</span>
+			<th:block th:if="${orderListDTO.paymentDTO.appldate != null}">
+				<span th:if="${orderListDTO.deliveryDTO.deliveryNum == null}">
+					결제완료
+				</span>
+				<th:block th:if="${orderListDTO.deliveryDTO.deliveryNum != null}">
+					<span th:if="${orderListDTO.deliveryDTO.deliveryStatus != '배송완료'}">
+						<a th:href="|/delivery/deliveryStatus?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">배송중</a>
+					</span>
+					<span th:if="${orderListDTO.deliveryDTO.deliveryStatus == '배송완료'}">
+						배송완료
+					</span>
+				</th:block>
+			</th:block>
+		</td>
    </tr>
    
 </table>

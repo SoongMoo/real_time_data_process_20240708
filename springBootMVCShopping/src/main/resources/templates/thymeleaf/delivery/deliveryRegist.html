@@ -37,7 +37,7 @@
 					<br />
 			결제금액 : [[${list[0].paymentDTO.totalprice}]]  <br />
 			결제 일 : <br />
-			카드번호 : [${list[0].paymentDTO.cardnum}]] <br /> 
+			카드번호 : [[${list[0].paymentDTO.cardnum}]] <br /> 
 		</td>
 		<td width="400" th:if="${list[0].paymentDTO.appldate == null}">
 			<h2>결제내용</h2>
@@ -45,14 +45,21 @@
 		</td>
 	</tr>
 </table>
-
-<table width="800" align = "center">
+<form action="/delivery/deliveryRegist" method="post" 
+								th:if="${list[0].deliveryDTO.deliveryNum != null}">
+<input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
+<table width="800" align = "center" >
 	<tr><td colspan="2">배송정보</td></tr>
-	<tr><td>송장번호</td><td></td></tr>
+	<tr><td>송장번호</td><td>[[${list[0].deliveryDTO.deliveryNum}]]</td></tr>
+	<tr><td colspan="2"><input type="submit" value="배송정보삭제"/></td></tr>
 </table>
-<form action="/delivery/deliveryRegist" method="post">
+</form>
+
+<form action="/delivery/deliveryRegist" method="post" 
+							th:if="${list[0].deliveryDTO.deliveryNum == null}">
+<input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
 <table width="800" align = "center">
-	<tr><td colspan="2">배송정보입력</td></tr>
+	<tr><td colspan="2"><b>배송정보입력</b></td></tr>
 	<tr><td>송장번호</td>
 		<td><input type="text" name="deliveryNum" required="required"/></td></tr>
 	<tr><td colspan="2"><input type="submit" value="배송정보등록"/></td></tr>	
