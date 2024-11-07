@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>deliveryRegist</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#btn").click(function(){
+		opener.location.reload();
+		window.self.close();
+	});
+});
+</script>
 </head>
 <body>
 구매상품 정보<br />
@@ -65,5 +74,6 @@
 	<tr><td colspan="2"><input type="submit" value="배송정보등록"/></td></tr>	
 </table>
 </form>
+<button type="button" id="btn">닫기</button>
 </body>
 </html>
