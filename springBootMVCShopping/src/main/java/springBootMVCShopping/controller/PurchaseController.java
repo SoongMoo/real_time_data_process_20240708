@@ -68,7 +68,11 @@ public class PurchaseController {
 		purchaseRepository.paymentDel(purchaseNum);
 		return "redirect:orderList";
 	}
-	
+	@GetMapping("purchaseOk")
+	public String purchaseOk(String purchaseNum) {
+		purchaseRepository.paymentStatusUpdate(purchaseNum);
+		return "redirect:orderList";
+	}
 	
 	
 	

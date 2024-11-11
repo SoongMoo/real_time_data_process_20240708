@@ -3,20 +3,22 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="deliveryRepositorySql">
-<update id="deliveryUpdate" parameterType="delivery">
-merge into delivery d
-using (select purchase_num from purchase where purchase_num = #{purchaseNum}) p
-on (d.purchase_num = p.purchase_num)
-WHEN MATCHED THEN
-update set DELIVERY_NUM = null
-delete where purchase_num = #{purchaseNum}
-WHEN not MATCHED THEN
-insert (PURCHASE_NUM, DELIVERY_NUM, DELIVERY_DATE, DELIVERY_STATUS)
-values (#{purchaseNum},#{deliveryNum},sysdate,'배송중' )
-</update>
+<insert id="deliveryInsert" parameterType="delivery">
+insert into delivery(PURCHASE_NUM, DELIVERY_NUM, DELIVERY_DATE, DELIVERY_STATUS)
+values (#{purchaseNum},#{deliveryNum},<!--sysdate--> now(),'배송중' )
+</insert>
 <update id="deliveryStatusUpdate" parameterType="string">
 	update delivery
 	set delivery_status = '배송완료'
 	where purchase_num = #{purchaseNum}
 </update>
+<delete id="deliveryDelete"  parameterType="string">
+	delete from delivery
+	where purchase_num = #{purchaseNum}
+</delete>
 </mapper>
+
+
+
+
+

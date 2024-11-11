@@ -12,12 +12,19 @@ public class DeliveryRepository {
 	SqlSession sqlSession;
 	String namespace = "deliveryRepositorySql";
 	String statement;
-	public Integer deliveryUpdate(DeliveryDTO dto) {
-		statement = namespace + ".deliveryUpdate";
-		return sqlSession.update(statement, dto);
+	public Integer deliveryInsert(DeliveryDTO dto) {
+		statement = namespace + ".deliveryInsert";
+		return sqlSession.insert(statement, dto);
 	}
 	public Integer deliveryStatusUpdate(String purchaseNum) {
 		statement = namespace + ".deliveryStatusUpdate";
 		return sqlSession.update(statement, purchaseNum);
 	}
+	public Integer deliveryDelete(String purchaseNum) {
+		statement = namespace + ".deliveryDelete";
+		return sqlSession.delete(statement, purchaseNum);
+	}
 }
+
+
+

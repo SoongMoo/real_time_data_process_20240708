@@ -28,7 +28,7 @@
 	  , visit_count ,update_Emp_Num , goods_Update_Date
 	  , stock
 	from goods g left outer join 
-	(select ip.goods_num , nvl(iqty,0) - nvl(pqty, 0) stock
+	(select ip.goods_num , COALESCE(iqty,0) - COALESCE(pqty, 0) stock
 	from (select goods_num, sum(IPGO_QTY)  iqty
 			from goods_ipgo 
 			group by goods_num) ip left outer join 

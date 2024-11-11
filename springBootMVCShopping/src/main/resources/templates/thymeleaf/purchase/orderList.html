@@ -34,7 +34,28 @@
 				<a th:href="|paymentOk?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">결제하기</a> 
 			</span>
 			<span th:if="${orderListDTO.paymentDTO.appldate != null}">
-			 	<a th:href="@{paymentDel(purchaseNum=${orderListDTO.purchaseDTO.purchaseNum})}">결제취소</a> 
+				<th:block th:if="${orderListDTO.deliveryDTO.deliveryNum == null }">
+			 	<a th:href="@{paymentDel(purchaseNum=${orderListDTO.purchaseDTO.purchaseNum})}">결제취소</a>
+			 	</th:block> 
+			 	<th:block th:if="${orderListDTO.deliveryDTO.deliveryNum != null }">
+			 		<th:block th:if="${orderListDTO.deliveryDTO.deliveryStatus == '배송중' }">
+			 			배송중
+			 		</th:block>
+			 		<th:block th:if="${orderListDTO.deliveryDTO.deliveryStatus == '배송완료' }">
+			 			배송완료 | 
+			 			<th:block th:if="${orderListDTO.purchaseDTO.purchaseStatus != '구매확정'}">
+			 			<a th:href="|purchaseOk?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">구매확정</a>
+			 			</th:block>
+			 			<th:block th:if="${orderListDTO.purchaseDTO.purchaseStatus == '구매확정'}">
+			 				 <th:block th:each=" dto : ${orderListDTO.purchaseListGoodsDTOs}">
+				 				<a th:href="@{/review/goodsReview(
+				 								goodsNum=${dto.goodsDTO.goodsNum}
+				 							   ,purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}
+				 							)}">후기등록|수정</a>
+				 			</th:block>
+			 			</th:block>
+			 		</th:block>
+			 	</th:block>
 			</span>
 		</td>
 	</tr>

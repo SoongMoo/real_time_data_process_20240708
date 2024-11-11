@@ -13,11 +13,13 @@ $(function(){
 	});
 	
 });
+
 window.onunload = function () {
     if (window.opener && !window.opener.closed) {
       window.opener.location.reload();
     }
 };
+
 </script>
 </head>
 <body>
@@ -61,7 +63,7 @@ window.onunload = function () {
 		</td>
 	</tr>
 </table>
-<form action="/delivery/deliveryRegist" method="post" 
+<form action="/delivery/deliveryDelete" method="post" 
 								th:if="${list[0].deliveryDTO.deliveryNum != null}">
 <input type="hidden" name="purchaseNum" th:value="${list[0].purchaseDTO.purchaseNum}">
 <table width="800" align = "center" >

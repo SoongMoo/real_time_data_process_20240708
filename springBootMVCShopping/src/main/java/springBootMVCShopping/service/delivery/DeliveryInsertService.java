@@ -14,6 +14,6 @@ public class DeliveryInsertService {
 		DeliveryDTO dto= new DeliveryDTO();
 		dto.setDeliveryNum(deliveryNum);
 		dto.setPurchaseNum(purchaseNum);
-		deliveryRepository.deliveryUpdate(dto);	
+		deliveryRepository.deliveryInsert(dto);	
 	}
 }

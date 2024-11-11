@@ -9,7 +9,7 @@
 , PURCHASE_NAME
 </sql>
 <select id="selectPurchaseNum" resultType="string">
-select concat(to_char(sysdate,'yyyyMMdd') , nvl(max(to_number(substr(purchase_num,9))),0 ) +1)
+select concat(to_char(sysdate,'yyyyMMdd') , COALESCE(max(to_number(substr(purchase_num,9))),0 ) +1)
 from purchase
 where substr(purchase_num,1 ,8) = to_char(sysdate,'yyyyMMdd')
 </select>
@@ -74,6 +74,12 @@ and c.goods_num in
 			<result column="GOODS_MAIN_STORE_IMAGE" jdbcType="VARCHAR" property="goodsMainStoreImage"/>
 			<result column="goods_contents" jdbcType="VARCHAR" property="goodsContents" />
 		</association>
+		<association property="reviewDTO" javaType="review">
+			<id column="REVIEW_NUM" jdbcType="BIGINT" property="reviewNum"/>
+			<result column="REVIEW_DATE" jdbcType="DATE" property="reviewDate"/>
+			<result column="REVIEW_CONTENTS" jdbcType="VARCHAR" property="reviewContents"/>
+			<result column="MEMBER_ID" jdbcType="VARCHAR" property="memberId"/>
+		</association>
 	</collection>
 </resultMap>
 <select id="orderList" parameterType="hashmap" resultMap="orderListResultMap">
@@ -84,11 +90,13 @@ select  g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE, goods_contents
 	   ,DELIVERY_NAME, PURCHASE_NAME
        ,CONFIRMNUMBER, CARDNUM,  APPLDATE, APPTIME, CONFIRMNUMBER, totalprice
        ,DELIVERY_NUM, DELIVERY_DATE, DELIVERY_STATUS
+       ,REVIEW_NUM, REVIEW_DATE, REVIEW_CONTENTS, MEMBER_ID
 from  goods g join purchase_list pl
 on g.goods_num = pl.goods_num join purchase p
 on pl.purchase_num = p.purchase_num left outer join payment pm
 on p.purchase_num = pm.purchase_num left outer join delivery d
-on p.purchase_num = d.purchase_num
+on p.purchase_num = d.purchase_num left outer join reviews r
+on pl.purchase_num = r.purchase_num and pl.goods_num = r.goods_num 
 <trim prefix="where"  prefixOverrides="AND | OR">
 	<if test="memberNum != null">
 		member_num = #{memberNum}
@@ -113,6 +121,11 @@ values(#{purchaseNum},#{confirmnumber},#{cardnum},#{tid},#{totalprice},#{resultm
 	delete from payment
 	where purchase_num = #{purchaseNum}
 </delete>
+<update id="paymentStatusUpdate" parameterType="string"> 
+	update purchase
+	set PURCHASE_STATUS = '구매확정'
+	where purchase_num = #{purchaseNum}
+</update>
 </mapper>
 
 

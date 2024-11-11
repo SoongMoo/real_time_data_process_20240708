@@ -71,7 +71,7 @@ WHEN MATCHED THEN
 WHEN NOT MATCHED THEN	
 	insert (cart_NUM
 			, MEMBER_NUM,GOODS_NUM,CART_DATE, CART_QTY)
-	values ((select nvl(max(cart_num ),0) + 1  from cart)
+	values ((select COALESCE(max(cart_num ),0) + 1  from cart)
 			,#{memberNum}, #{goodsNum}, sysdate, #{cartQty})
 </update>
 

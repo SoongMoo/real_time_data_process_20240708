@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="springBootMVCShopping.mapper.UserMapper">
 <sql id="memberNum">
-select concat('mem_' ,nvl(substr(max(member_num),5),100000 )+ 1) from members
+select concat('mem_' ,COALESCE(substr(max(member_num),5),100000 )+ 1) from members
 </sql>
 <insert id="userInsert" parameterType="memberDTO">
 insert into members(MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW, MEMBER_ADDR

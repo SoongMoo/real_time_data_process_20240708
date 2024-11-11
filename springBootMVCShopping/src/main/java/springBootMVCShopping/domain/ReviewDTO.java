@@ -12,7 +12,7 @@ public class ReviewDTO {
 	String goodsNum;
 	String purchaseNum;
 	Date reviewDate;
-	String reviewContent;
+	String reviewContents;
 
 	Integer reviewNum;
 	String memberId;

@@ -52,7 +52,7 @@ select * from (
 			or goods_num like '%' || #{searchWord} || '%'
 		</if>
 	</where>
-)sub1
+) AS sub1
 where rn between #{startRow}  and #{endRow}
 </select>
 <select id="goodsCount" parameterType="string" resultType="integer">
@@ -101,15 +101,16 @@ where goods_num = #{goodsNum}
 
 <select id="goodsSelectList" resultMap="goodsResultMap">
 select * from (
-	select rownum rn, goods_Num , goods_name , goods_price ,goods_contents , emp_num,goods_regist , GOODS_MAIN_IMAGE 
+	select ROW_NUMBER() over (order by goods_num desc) as rn
+		, goods_Num , goods_name , goods_price ,goods_contents , emp_num,goods_regist , GOODS_MAIN_IMAGE 
 		,GOODS_MAIN_STORE_IMAGE , GOODS_DETAIL_IMAGE ,GOODS_DETAIL_STORE_IMAGE , visit_count 
 		,update_Emp_Num , goods_Update_Date
 	from goods
-)
+) as sub1
 where rn between #{startRow} and #{endRow}
 </select>
 </mapper>
-
+<!-- nvl <====> ifnull ====> COALESCE(column, 0) -->
 
 
 

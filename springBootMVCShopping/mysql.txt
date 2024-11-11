@@ -1,3 +1,27 @@
+/* 1.데이터 베이스 생성  */
+CREATE DATABASE miso default CHARACTER SET UTF8;
+SHOW databases;
+
+/* 2. 사용자 계정 */
+/*ex1) 내부 접근을 허용하는 사용자 추가*/
+create user 'test'@'localhost' identified by '0000';
+/*ex2) 123.234.132.234만 접속하는 사용자 추가*/
+create user 'test'@'123.234.132.234' identified by '0000';
+/*ex3) 외부 접근을 허용하는 사용자 추가 */
+create user 'miso'@'%' identified by '1234';
+/* 사용자 계정 확인 */
+select user, host from mysql.user;
+
+
+/*3. 권한주기 */
+/* 모든 데이터베이스의 모든 테이블에 모든 권한을 줌 */
+grant all privileges on *.* to 'miso'@'%';
+/* miso 데이터베이스의 모든 테이블에 모든 권한을 줌 */
+grant all privileges on miso.* to 'miso'@'%';
+
+SHOW VARIABLES LIKE 'datadir';
+
+
   CREATE TABLE CART (
   MEMBER_NUM VARCHAR(50), 
   GOODS_NUM VARCHAR(50), 
