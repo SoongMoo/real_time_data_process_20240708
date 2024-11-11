@@ -6,11 +6,18 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript">
 $(function(){
+	
 	$("#btn").click(function(){
 		opener.location.reload();
 		window.self.close();
 	});
+	
 });
+window.onunload = function () {
+    if (window.opener && !window.opener.closed) {
+      window.opener.location.reload();
+    }
+};
 </script>
 </head>
 <body>

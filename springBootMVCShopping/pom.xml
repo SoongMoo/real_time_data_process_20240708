@@ -143,6 +143,12 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/libs/INIpaySample_v1.3.jar</systemPath>
 		</dependency>	
+		<!--mysql-->
+		 <dependency>
+	        <groupId>mysql</groupId>
+	        <artifactId>mysql-connector-java</artifactId>
+	        <version>8.0.33</version>
+	    </dependency>
 	</dependencies>
 
 	<build>
