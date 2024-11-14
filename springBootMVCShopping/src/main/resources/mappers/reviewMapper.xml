@@ -12,7 +12,7 @@ where GOODS_NUM = #{goodsNum} and purchase_num = #{purchaseNum}
 
 <insert id="reviewInsert" parameterType="review">
 insert INTO reviews (GOODS_NUM, purchase_num, REVIEW_DATE, REVIEW_CONTENTS, member_id)
-values(#{goodsNum}, #{purchaseNum}, now() <!-- sysdate -->,  #{reviewContents}, #{memberId})
+values(#{goodsNum}, #{purchaseNum},  sysdate,  #{reviewContents}, #{memberId})
 </insert>
 
 
@@ -20,7 +20,7 @@ values(#{goodsNum}, #{purchaseNum}, now() <!-- sysdate -->,  #{reviewContents}, 
 update reviews
 set REVIEW_CONTENTS = #{reviewContents},
 	member_id =  #{memberId},
-	REVIEW_DATE = now() <!-- sysdate -->
+	REVIEW_DATE = sysdate,
 where GOODS_NUM = #{goodsNum} and purchase_num = #{purchaseNum}
 </update>
 <select id="goodsReviewList" parameterType="string" resultType="review">

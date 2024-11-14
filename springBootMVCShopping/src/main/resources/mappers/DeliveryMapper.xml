@@ -5,7 +5,7 @@
 <mapper namespace="deliveryRepositorySql">
 <insert id="deliveryInsert" parameterType="delivery">
 insert into delivery(PURCHASE_NUM, DELIVERY_NUM, DELIVERY_DATE, DELIVERY_STATUS)
-values (#{purchaseNum},#{deliveryNum},<!--sysdate--> now(),'배송중' )
+values (#{purchaseNum},#{deliveryNum},sysdate,'배송중' )
 </insert>
 <update id="deliveryStatusUpdate" parameterType="string">
 	update delivery

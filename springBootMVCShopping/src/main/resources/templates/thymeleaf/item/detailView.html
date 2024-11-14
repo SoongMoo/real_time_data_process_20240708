@@ -124,6 +124,7 @@ function goodsDescript(){
 		contentType: "application/json",
 		dataType : "json",
 		success : function(data){
+			console.log(data);	
 			var item = "";
 			item += "<table width='800' align='center'>";
 			item += "<tr><td>";
@@ -143,7 +144,6 @@ function goodsDescript(){
 	        console.error("Error:", error);
 	    }
 	});
-	
 }
 </script>
 </head>
@@ -156,11 +156,11 @@ function goodsDescript(){
 <tr>                <td>들여다본 수 : [[${dto.goodsDTO.visitCount }]]</td>
 <tr>                <td>수량 : <input type="number" min="1" step="1" value="1" id="cartQty"/> </td></tr>
 <tr>                <td>
-					<th:block th:if="${dto.stock != 0 and dto.stock != null}">	
+					<th:block th:if="${dto.stock >= 0 and dto.stock != null}">	
 						<button type="button" id="cartBtn">장바구니</button> | 
  						<button type="button" id="buyItem">바로구매 </button> |
  					</th:block>	 
- 					<th:block th:if="${dto.stock == 0 or dto.stock == null}">	
+ 					<th:block th:if="${dto.stock <= 0 or dto.stock == null}">	
  						품절입니다. 곧 입고될 예정입니다.
  					</th:block>
 					<img src="/static/images/hart1.jpg" id="wish" width="20"/>찜</td></tr>
