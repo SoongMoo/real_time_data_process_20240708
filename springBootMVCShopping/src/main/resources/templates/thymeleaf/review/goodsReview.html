@@ -8,10 +8,10 @@
 <form action="reviewWrite" method="post" >
 <input type="hidden" name="goodsNum" th:value="${dto.goodsNum}" /> 
 <input type="hidden" name="purchaseNum" th:value="${dto.purchaseNum}" />
-<input type="hidden" name="memberId" th:value="${dto.memberId}" />
 <table align="center" width="600">
 	<tr><td>리뷰작성</td>
-	    <td><textarea rows="5" cols="30" name="reviewContents">[[${dto.reviewContents}]]</textarea></td>
+	    <td><textarea rows="5" cols="30" name="reviewContents">[[${dto.reviewContents}]]</textarea>
+	    <span>[[${message}]]</span></td>
 	</tr>
 	<tr><td colspan="2"><input type="submit" value="리뷰등록" /></td></tr>		
 </table>

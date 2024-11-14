@@ -1,5 +1,7 @@
 package springBootMVCShopping.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,7 +20,15 @@ public class ReviewRepository {
 	}
 	public int reviewInsert(ReviewDTO dto) {
 		statement = namespace + ".reviewInsert";
+		return sqlSession.insert(statement, dto);
+	}
+	public int reviewUpdate(ReviewDTO dto) {
+		statement = namespace + ".reviewUpdate";
 		return sqlSession.update(statement, dto);
+	}
+	public List<ReviewDTO> goodsReviewList(String goodsNum){
+		statement = namespace + ".goodsReviewList";
+		return sqlSession.selectList(statement, goodsNum);
 	}
 	
 	

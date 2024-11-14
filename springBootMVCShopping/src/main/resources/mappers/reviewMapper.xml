@@ -8,8 +8,26 @@ select REVIEW_CONTENTS
 from reviews
 where GOODS_NUM = #{goodsNum} and purchase_num = #{purchaseNum}
 </select>
+
+
 <insert id="reviewInsert" parameterType="review">
 insert INTO reviews (GOODS_NUM, purchase_num, REVIEW_DATE, REVIEW_CONTENTS, member_id)
 values(#{goodsNum}, #{purchaseNum}, now() <!-- sysdate -->,  #{reviewContents}, #{memberId})
 </insert>
+
+
+<update id="reviewUpdate" parameterType="review">
+update reviews
+set REVIEW_CONTENTS = #{reviewContents},
+	member_id =  #{memberId},
+	REVIEW_DATE = now() <!-- sysdate -->
+where GOODS_NUM = #{goodsNum} and purchase_num = #{purchaseNum}
+</update>
+<select id="goodsReviewList" parameterType="string" resultType="review">
+	select GOODS_NUM, PURCHASE_NUM, REVIEW_DATE, REVIEW_CONTENTS, MEMBER_ID
+	from reviews
+	where goods_num = #{goodsNum}
+</select>
 </mapper>
+
+

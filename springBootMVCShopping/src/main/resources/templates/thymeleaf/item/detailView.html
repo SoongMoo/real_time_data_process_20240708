@@ -6,6 +6,10 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript">
 $(function(){
+	goodsDescript();
+	$("#descript").click(function(){
+		goodsDescript();
+	});
 	$("#wish").click(function(){
 		/*
 		$.ajax({
@@ -49,34 +53,98 @@ $(function(){
 	});
 	$("#cartBtn").click(function(){
 		//document.getElementById("cartBtn").addEventListener("click", function(){
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "/item/cartAdd", true);
-			xhr.setRequestHeader("Content-Type", "application/json");
-			xhr.onload = function(){
-				if (xhr.status === 200) {
-					if(xhr.responseText == "200"){
-							if(confirm("계속 쇼핑하려면 '취소'를 클릭하세요."))
-									location.href="/item/cartList";
-					}else if(xhr.responseText == "900"){
-							alert("관리자는 사용할 수 없는 페이지입니다.");
-					}else if(xhr.responseText == "000"){
-							alert("로그 아웃되었습니다. 다시로그인 해주세요.");
-							window.open("/login/item.login","login"
-									,"width=315, height=200,top = 100, left=100"); 
-					}
-				}else{
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "/item/cartAdd", true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.onload = function(){
+			if (xhr.status === 200) {
+				if(xhr.responseText == "200"){
+						if(confirm("계속 쇼핑하려면 '취소'를 클릭하세요."))
+								location.href="/item/cartList";
+				}else if(xhr.responseText == "900"){
+						alert("관리자는 사용할 수 없는 페이지입니다.");
+				}else if(xhr.responseText == "000"){
 						alert("로그 아웃되었습니다. 다시로그인 해주세요.");
 						window.open("/login/item.login","login"
 								,"width=315, height=200,top = 100, left=100"); 
 				}
+			}else{
+					alert("로그 아웃되었습니다. 다시로그인 해주세요.");
+					window.open("/login/item.login","login"
+							,"width=315, height=200,top = 100, left=100"); 
 			}
-			var formData = JSON.stringify({
-				goodsNum: "[[${dto.goodsDTO.goodsNum}]]",
-				qty : $("#cartQty").val()
-			})
-			xhr.send(formData);
-		});
+		}
+		var formData = JSON.stringify({
+			goodsNum: "[[${dto.goodsDTO.goodsNum}]]",
+			qty : $("#cartQty").val()
+		})
+		xhr.send(formData);
+	});
+	$("#review").click(function(){
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "/review/reviewList", true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		var formData = JSON.stringify(
+				{"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
+		);
+		xhr.onload = function(){
+			if(xhr.status == 200){
+				var result = JSON.parse(xhr.responseText);
+				var item='<table width="600" border="1">';
+				/*
+				result.reviews.forEach(function(review){
+					item += '<tr><th>'+review.memberId+'</th><th>'+review.purchaseNum+'</th></tr>';
+			        item += '<tr><th colspan="2">'+review.reviewContents+'</th></tr>';
+				});
+				*/
+				const reviewDetails = result.reviews.map(function(review){
+					 return `
+				        <tr><th>${review.memberId}</th><th>${review.purchaseNum}</th></tr>
+				        <tr><th colspan="2">${review.reviewContents}</th></tr>
+				    `;
+				});			
+				item += reviewDetails;
+				item += '</table>';
+				$("#content").html(item);
+			}else{
+				alert("서버오류!!!!");
+			}
+		}
+		xhr.send(formData);
+	});
 });
+function goodsDescript(){
+	var formData = JSON.stringify(
+			{"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"}
+	);
+	$.ajax({
+		type : "post",
+		url : "../goodsDescript",
+		data : formData,
+		contentType: "application/json",
+		dataType : "json",
+		success : function(data){
+			var item = "";
+			item += "<table width='800' align='center'>";
+			item += "<tr><td>";
+			item += "<span>" + data.goodsDTO.goodsContents +"</span> ";
+			item += "<br />";
+			if(data.goodsDTO.goodsDetailStoreImage != null){
+				var imageParts = data.goodsDTO.goodsDetailStoreImage.split(/[\/,`]/);
+				imageParts.forEach(function(image,index, array){
+					item += "<img src='/static/upload/"+image+"' /><br />";
+				});
+			}
+			item += "</td></tr>";
+		 	item += "</table>";
+		 	$("#content").html(item);
+		},
+		error: function(xhr, status, error) {
+	        console.error("Error:", error);
+	    }
+	});
+	
+}
 </script>
 </head>
 <body>
