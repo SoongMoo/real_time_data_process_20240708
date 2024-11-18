@@ -35,7 +35,7 @@ $(function(){
 		});
 		*/
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "../wishItem",true);
+		xhr.open("POST", "/item/wishItem",true);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onload = function(){
 			if (xhr.status == 200) { // 정상적으로 처리 되었을 때 가져오는 값 200
