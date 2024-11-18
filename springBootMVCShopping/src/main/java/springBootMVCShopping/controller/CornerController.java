@@ -41,8 +41,9 @@ public class CornerController {
 	public String inquireList(@ModelAttribute("goodsNum") String goodsNum
 			,Model model) {
 		//model.addAttribute("goodsNum", goodsNum);
-		List<InquireDTO> list = inquireRepository.inquireList(goodsNum);
+		List<InquireDTO> list = inquireRepository.inquireList(goodsNum, null);
 		model.addAttribute("list", list);
+		model.addAttribute("newLineChar", "\n");
 		return "thymeleaf/inquire/inquireList";
 	}
 	

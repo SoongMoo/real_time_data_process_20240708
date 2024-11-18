@@ -16,12 +16,32 @@ $(function(){
 		}else{
 			popupWindow  = window.open("/inquire/inquireWrite?goodsNum=[[${goodsNum}]]","상품문의"
 					,"width=700, height=650, top = 100, left=100");
-			popupWindow.onbeforeunload = function(){ // 팦업창이 닫힌때 라면
-				inquire();
-			}
+			let popupCheckInterval = setInterval(function(){
+				if (popupWindow.closed) {
+					clearInterval(popupCheckInterval); 
+					inquire(); 
+				}
+			}, 500);
 		}	
 	});
 });	
+
+
+function inquireUpdate(inquireNum){
+	window.open("/inquire/inquireUpdate?inquireNum="+inquireNum,
+			"","width=700, height=650, top = 100, left=100");
+}
+
+function inquireDelete(inquireNum){
+	$.ajax({
+		type:'post',
+		url:'/inquire/inquireDelete',
+		data: {'inquireNum':inquireNum},
+		success:function(){
+			inquire();
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -29,9 +49,26 @@ $(function(){
 	<tr><td colspan="3" align="right">
 			<button type="button" id="inquire1" >문의 하기</button></td></tr>
 	<tr><th width="15%">답변 상태</th><th>작성자</th><th>질문일자</th></tr>
+	
 <th:block th:each=" dto , idx : ${list}">	
-	<tr><th width="15%">답변 상태</th><th>작성자</th><th>질문일자</th></tr>
+	<tr><th width="15%">검토 | 답변완료</th>
+		<th>[[${dto.memberId}]]</th>
+		<th>[[${#dates.format(dto.inquireDate,'yyyy-MM-dd')}]]<br />
+			<th:block th:if="${session.auth != null}">
+				<th:block th:if="${session.auth.userId == dto.memberId}">
+					<button type="button" th:attr="onclick=|inquireUpdate('${dto.inquireNum}');|">문의수정</button> 
+					<button type="button" th:attr="onclick=|inquireDelete('${dto.inquireNum}');|">문의삭제</button>
+				</th:block>
+			</th:block>
+		</th>
+	</tr>
+	<tr>
+		<th colspan="3">
+			<span th:utext="${#strings.replace(dto.inquireContents, newLineChar,'&lt;br /&gt;')}"></span>
+		</th>
+	</tr>
 </th:block>
+
 </table>
 </body>
 

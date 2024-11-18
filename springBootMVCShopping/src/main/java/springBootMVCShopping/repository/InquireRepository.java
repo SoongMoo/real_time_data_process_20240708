@@ -1,6 +1,8 @@
 package springBootMVCShopping.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,28 @@ public class InquireRepository {
 		statement = namespace + ".inquireInsert";
 		return sqlSession.insert(statement, dto);
 	}
-	public List<InquireDTO> inquireList(String goodsNum){
+	public List<InquireDTO> inquireList(String goodsNum, Integer inquireNum){
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("goodsNum", goodsNum);
+		map.put("inquireNum", inquireNum);
 		statement = namespace + ".inquireList";
-		return sqlSession.selectList(statement, goodsNum);
+		return sqlSession.selectList(statement, map);
 	}
+	public Integer inquireDelete(Integer inquireNum) {
+		statement = namespace + ".inquireDelete";
+		return sqlSession.delete(statement, inquireNum);
+	}
+	public Integer inquireUpdate(InquireDTO dto) {
+		statement = namespace + ".inquireUpdate";
+		return sqlSession.update(statement, dto);
+	}
+	
 }
+
+
+
+
+
+
+
+

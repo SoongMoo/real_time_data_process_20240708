@@ -10,11 +10,48 @@ VALUES((select coalesce(max(inquire_num),0) + 1 from inquire)
 	   ,#{memberNum},#{goodsNum},#{inquireSubject},#{inquireKind}
 	   ,#{inquireContents},sysdate)
 </insert>
-<select id="inquireList" parameterType="string" resultType="inquire">
-select inquire_num, member_num, goods_num, inquire_subject, inquire_contents
-	  ,inquire_kind, inquire_date, inquire_answer, inquire_answer_date
-	  ,emp_num
-from inquire
-where goods_num = #{goodsNum}
+<select id="inquireList" parameterType="hashmap" resultType="inquire">
+select inquire_num, i.member_num, i.goods_num, inquire_subject, inquire_contents ,inquire_kind, 
+      inquire_date, inquire_answer, inquire_answer_date ,i.emp_num 
+      ,member_id 
+      ,goods_name 
+from inquire i left outer join members m 
+on i.member_num = m.member_num join goods g 
+on i.goods_num = g.goods_num 
+<trim prefix="where" prefixOverrides="AND | OR">
+	<if test="goodsNum != null">
+		 i.goods_num = #{goodsNum}
+	</if>
+	<if test="inquireNum  != null">
+		and inquire_num = #{inquireNum}
+	</if>
+</trim> 
 </select>
+<delete id="inquireDelete" parameterType="integer">
+	delete from inquire
+	where  INQUIRE_NUM = #{inquireNum}
+</delete>
+<update id="inquireUpdate" parameterType="inquire">
+update inquire
+set INQUIRE_SUBJECT = #{inquireSubject}
+   ,INQUIRE_CONTENTS = #{inquireContents}
+   ,INQUIRE_KIND = #{inquireKind}
+where  INQUIRE_NUM = #{inquireNum}
+</update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>
