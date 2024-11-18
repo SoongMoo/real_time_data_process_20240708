@@ -10,6 +10,10 @@ $(function(){
 	$("#descript").click(function(){
 		goodsDescript();
 	});
+	$("#inquire").click(function(){
+		inquire();
+	});
+	
 	$("#wish").click(function(){
 		/*
 		$.ajax({
@@ -145,6 +149,20 @@ function goodsDescript(){
 	    }
 	});
 }
+function inquire(){
+	$.ajax({
+		type : "POST",
+		url: "/corner/inquireList",
+		dataType : "html",
+		data : {"goodsNum":"[[${dto.goodsDTO.goodsNum}]]"},
+		success : function(item){
+			$("#content").html(item);
+		},
+		error:function(){
+			alert("로그아웃되었습니다.");
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -167,7 +185,7 @@ function goodsDescript(){
 <tr><td colspan="2">
 		<span id="descript">제품 상세 설명</span> | 
 		<span id="review">리뷰</span> | 
-		<span id="inquire" onclick="inquire();">상품문의</span>
+		<span id="inquire">상품문의</span>
 	</td></tr>
 <tr><td colspan="2"><div id="content"></div></td></tr>
 </table>

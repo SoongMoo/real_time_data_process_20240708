@@ -21,6 +21,7 @@ public class GoodsDetailViewService {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
 		try {
 			response.getWriter().print(mapper.writeValueAsString(dto));
 		}catch(Exception e) {}

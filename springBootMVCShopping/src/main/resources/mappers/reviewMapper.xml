@@ -20,7 +20,7 @@ values(#{goodsNum}, #{purchaseNum},  sysdate,  #{reviewContents}, #{memberId})
 update reviews
 set REVIEW_CONTENTS = #{reviewContents},
 	member_id =  #{memberId},
-	REVIEW_DATE = sysdate,
+	REVIEW_DATE = sysdate
 where GOODS_NUM = #{goodsNum} and purchase_num = #{purchaseNum}
 </update>
 <select id="goodsReviewList" parameterType="string" resultType="review">

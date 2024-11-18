@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inquireMapperSql">
+<insert id="inquireInsert" parameterType="inquire">
+insert into inquire(INQUIRE_NUM, MEMBER_NUM, GOODS_NUM,INQUIRE_SUBJECT,INQUIRE_KIND
+					, INQUIRE_CONTENTS, INQUIRE_DATE )
+VALUES((select coalesce(max(inquire_num),0) + 1 from inquire)
+	   ,#{memberNum},#{goodsNum},#{inquireSubject},#{inquireKind}
+	   ,#{inquireContents},sysdate)
+</insert>
+<select id="inquireList" parameterType="string" resultType="inquire">
+select inquire_num, member_num, goods_num, inquire_subject, inquire_contents
+	  ,inquire_kind, inquire_date, inquire_answer, inquire_answer_date
+	  ,emp_num
+from inquire
+where goods_num = #{goodsNum}
+</select>
+</mapper>

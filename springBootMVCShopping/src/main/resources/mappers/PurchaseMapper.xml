@@ -75,7 +75,6 @@ and c.goods_num in
 			<result column="goods_contents" jdbcType="VARCHAR" property="goodsContents" />
 		</association>
 		<association property="reviewDTO" javaType="review">
-			<id column="REVIEW_NUM" jdbcType="BIGINT" property="reviewNum"/>
 			<result column="REVIEW_DATE" jdbcType="DATE" property="reviewDate"/>
 			<result column="REVIEW_CONTENTS" jdbcType="VARCHAR" property="reviewContents"/>
 			<result column="MEMBER_ID" jdbcType="VARCHAR" property="memberId"/>
@@ -90,7 +89,7 @@ select  g.goods_num , goods_name, GOODS_MAIN_STORE_IMAGE, goods_contents
 	   ,DELIVERY_NAME, PURCHASE_NAME
        ,CONFIRMNUMBER, CARDNUM,  APPLDATE, APPTIME, CONFIRMNUMBER, totalprice
        ,DELIVERY_NUM, DELIVERY_DATE, DELIVERY_STATUS
-       ,REVIEW_NUM, REVIEW_DATE, REVIEW_CONTENTS, MEMBER_ID
+       ,REVIEW_DATE, REVIEW_CONTENTS, MEMBER_ID
 from  goods g join purchase_list pl
 on g.goods_num = pl.goods_num join purchase p
 on pl.purchase_num = p.purchase_num left outer join payment pm

@@ -52,7 +52,7 @@ select * from (
 			or goods_num like '%' || #{searchWord} || '%'
 		</if>
 	</where>
-) AS sub1
+)
 where rn between #{startRow}  and #{endRow}
 </select>
 <select id="goodsCount" parameterType="string" resultType="integer">
@@ -106,7 +106,7 @@ select * from (
 		,GOODS_MAIN_STORE_IMAGE , GOODS_DETAIL_IMAGE ,GOODS_DETAIL_STORE_IMAGE , visit_count 
 		,update_Emp_Num , goods_Update_Date
 	from goods
-) as sub1
+)
 where rn between #{startRow} and #{endRow}
 </select>
 </mapper>

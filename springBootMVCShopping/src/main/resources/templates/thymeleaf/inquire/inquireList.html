@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#inquire1").click(function(){
+		if([[${#strings.isEmpty(session.auth)}]]){
+			popupWindow  = window.open("/login/item.login","login"
+					,"width=315, height=200,top = 100, left=100");
+			popupWindow.onbeforeunload = function(){ // 팦업창이 닫힌때 라면
+				window.location.reload();
+			}
+		}else{
+			popupWindow  = window.open("/inquire/inquireWrite?goodsNum=[[${goodsNum}]]","상품문의"
+					,"width=700, height=650, top = 100, left=100");
+			popupWindow.onbeforeunload = function(){ // 팦업창이 닫힌때 라면
+				inquire();
+			}
+		}	
+	});
+});	
+</script>
+</head>
+<body>
+<table width="800" align="center" border="1">
+	<tr><td colspan="3" align="right">
+			<button type="button" id="inquire1" >문의 하기</button></td></tr>
+	<tr><th width="15%">답변 상태</th><th>작성자</th><th>질문일자</th></tr>
+<th:block th:each=" dto , idx : ${list}">	
+	<tr><th width="15%">답변 상태</th><th>작성자</th><th>질문일자</th></tr>
+</th:block>
+</table>
+</body>
+
+</html>
