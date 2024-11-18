@@ -21,9 +21,9 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		excludeList.add("/static/**/*");
 		excludeList.add("/register/**/*");
 		excludeList.add("/checkRest/**/*");
-		excludeList.add("/corner/**/*");
 		excludeList.add("/review/**/*");
 		excludeList.add("/payment/**/*");
+		excludeList.add("/corner/**/*");
 		registry.addInterceptor(inteceptorConfig)
 				.addPathPatterns("/**/*")// 모두차단
 				.excludePathPatterns(excludeList);// 허용할 주소

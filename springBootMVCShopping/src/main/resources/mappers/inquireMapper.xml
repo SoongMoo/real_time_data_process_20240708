@@ -38,10 +38,13 @@ set INQUIRE_SUBJECT = #{inquireSubject}
    ,INQUIRE_KIND = #{inquireKind}
 where  INQUIRE_NUM = #{inquireNum}
 </update>
-
-
-
-
+<update id="inquireAnswerUpdate" parameterType="inquire">
+update inquire
+set EMP_NUM = #{empNum}, <!-- 답변한 직원 -->
+	INQUIRE_ANSWER = #{inquireAnswer}, <!-- 답변내용 -->
+	inquire_answer_date = sysdate <!-- 답변시간 -->
+where INQUIRE_NUM = #{inquireNum}
+</update>
 
 
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="inquireAnswer" method="post">
+<table width="600" border="1">
+<tr><th>문의 번호</th>
+	<td><input type="text" th:value="${list[0].inquireNum }" name="inquireNum" readonly="readonly" /></td></tr>
+<tr><th>질문자</th><td>[[${list[0].memberNum }]]</td></tr>
+<tr><th>문의 제목</th><td>[[${list[0].inquireSubject }]]</td></tr>
+<tr><th>문의 등록일</th><td>[[${#dates.format(list[0].inquireDate,'yyyy-MM-dd') }]]</td></tr>
+<tr><th>문의 내용</th>
+	<td><span th:utext="${#strings.replace(list[0].inquireContents,newLineChar, '<br />') }"></span></td>
+</tr>
+<tr><th>답변한 사람</th><td>[[${list[0].empNum }]]</td></tr>
+<tr><th>답변일</th><td>[[${#dates.format(list[0].inquireAnswerDate,'yyyy-MM-dd') }]]</td></tr>
+<tr><th>문의 답변</th>
+	<td><textarea rows="10" cols="50" name="inquireAnswer" >[[${list[0].inquireAnswer }]]</textarea></td>
+</tr>
+<tr><th colspan="2"><input type="submit" value="답변달기" /></th></tr>
+</table>
+</form>
+
+</body>
+</html>

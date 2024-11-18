@@ -35,7 +35,10 @@ public class InquireRepository {
 		statement = namespace + ".inquireUpdate";
 		return sqlSession.update(statement, dto);
 	}
-	
+	public Integer inquireAnswerUpdate(InquireDTO dto) {
+		statement = namespace + ".inquireAnswerUpdate";
+		return sqlSession.update(statement, dto);
+	}
 }
 
 

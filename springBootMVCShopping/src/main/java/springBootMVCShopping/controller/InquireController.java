@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.domain.AuthInfoDTO;
 import springBootMVCShopping.domain.InquireDTO;
+import springBootMVCShopping.mapper.EmployeeMapper;
 import springBootMVCShopping.mapper.MemberMapper;
 import springBootMVCShopping.repository.InquireRepository;
 
@@ -82,6 +83,29 @@ public class InquireController {
 			e.printStackTrace();
 		}
 		//return "thymeleaf/inquire/goodsInquireClose"; 
+	}
+	@RequestMapping("goodsQuestion")
+	public String goodsQuestion(Model model) {
+		List<InquireDTO> list = inquireRepository.inquireList(null, null);
+		model.addAttribute("list", list);
+		return "thymeleaf/inquire/goodsQuestion";
+	}
+	@GetMapping("inquireAnswer")
+	public String inquireAnswer(Integer inquireNum, Model model) {
+		List<InquireDTO> list = inquireRepository.inquireList(null, inquireNum);
+		model.addAttribute("list", list);
+		model.addAttribute("newLineChar", "\n");
+		return "thymeleaf/inquire/inquireAnswer";
+	}
+	@Autowired
+	EmployeeMapper employeeMapper;
+	@PostMapping("inquireAnswer")
+	public String inquireAnswer(InquireDTO inquireDTO, HttpSession  session) {
+		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
+		String empNum = employeeMapper.getEmpNum(auth.getUserId());
+		inquireDTO.setEmpNum(empNum);
+		inquireRepository.inquireAnswerUpdate(inquireDTO);
+		return "redirect:goodsQuestion";
 	}
 }
 
