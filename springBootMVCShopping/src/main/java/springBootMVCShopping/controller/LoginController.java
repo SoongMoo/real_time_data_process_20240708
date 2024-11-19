@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.command.LoginCommand;
@@ -35,8 +36,9 @@ public class LoginController {
 	@PostMapping("login")
 	public String login(@Validated LoginCommand loginCommand
 			,BindingResult result
-			,HttpSession session) {
-		userLoginService.execute(loginCommand, session, result);
+			,HttpSession session
+			,HttpServletResponse response) {
+		userLoginService.execute(loginCommand, session, result, response);
 		if(result.hasErrors()) {
 			return "thymeleaf/index";
 		}
@@ -54,7 +56,7 @@ public class LoginController {
 	@PostMapping("item.login")
 	public void item(LoginCommand loginCommand,BindingResult result
 			,HttpSession session, HttpServletResponse response) {
-		userLoginService.execute(loginCommand, session, result);
+		userLoginService.execute(loginCommand, session, result, response);
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = null;
 		try {

@@ -7,10 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.HttpServletRequest;
 import springBootMVCShopping.command.LoginCommand;
+import springBootMVCShopping.service.CookiesService;
 import springBootMVCShopping.service.EmailSendService;
 import springBootMVCShopping.service.SMSMassageService;
 import springBootMVCShopping.service.goods.MainGoodsListService;
@@ -27,13 +28,16 @@ public class SpringBootMvcShoppingApplication {
 	@Autowired
 	MainGoodsListService mainGoodsListService;
 	@GetMapping("/")
-	public String index(LoginCommand logincommand
+	public String index(LoginCommand loginCommand
 			//,@RequestParam(value="page", required = false , defaultValue = "1") Integer page
-			//,Model model
-			) {
+			,Model model
+			,HttpServletRequest request) {
 		//mainGoodsListService.execute(page, model);
+		cookiesService.execute(request, model, loginCommand);
 		return "thymeleaf/index";
 	}
+	@Autowired
+	CookiesService cookiesService;
 	@PostMapping("/")
 	public ModelAndView index(int page, Model model) {
 		ModelAndView mav = new ModelAndView();
