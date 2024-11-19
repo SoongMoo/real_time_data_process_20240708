@@ -11,4 +11,5 @@ import springBootMVCShopping.domain.GoodsDTO;
 public interface ItemMapper {
 	public int wishItem(Map<String , String> map);
 	public List<GoodsDTO> wishSelectList(String memberNum);
+	public Integer wishCountSelectOne(Map<String, String> map);
 }

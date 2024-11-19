@@ -25,6 +25,10 @@ select <include refid="goodsColumnsBase" />
 from goods
 where goods_num in (select goods_num from wish where member_num = #{memberNum})
 </select>
+<select id="wishCountSelectOne" parameterType="hashmap" resultType="integer">
+	select count(*) from wish
+	where goods_num = #{goodsNum} and member_num = #{memberNum}
+</select>
 </mapper>
 
 

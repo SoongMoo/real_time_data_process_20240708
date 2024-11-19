@@ -8,8 +8,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 @Component
 public class SpingBootConfig {
+	
 	// ModelAndView객체를 만들어주겠습니다.
 	@Bean(value = "jsonView")
 	public MappingJackson2JsonView jsonView() {

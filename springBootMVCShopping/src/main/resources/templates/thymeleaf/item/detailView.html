@@ -13,7 +13,10 @@ $(function(){
 	$("#inquire").click(function(){
 		inquire();
 	});
-	
+	$("#buyItem").click(function(){
+		location.href = 
+			"/item/buyItem?goodsNum=[[${dto.goodsDTO.goodsNum}]]&qty="+$("#cartQty").val();
+	});
 	$("#wish").click(function(){
 		/*
 		$.ajax({
@@ -34,20 +37,26 @@ $(function(){
 			}
 		});
 		*/
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "/item/wishItem",true);
-		xhr.setRequestHeader("Content-Type", "application/json");
-		xhr.onload = function(){
-			if (xhr.status == 200) { // 정상적으로 처리 되었을 때 가져오는 값 200
-				if($("#wish").attr("src") == "/static/images/hart1.jpg"){
-					$("#wish").attr("src","/static/images/hart.jpg");
+		if([[${#strings.isEmpty(session.auth)}]]){
+			alert("로그 아웃되었습니다. 다시로그인 해주세요.");
+			window.open("/login/item.login","login"
+					,"width=315, height=200,top = 100, left=100");
+		}else{
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/item/wishItem",true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.onload = function(){
+				if (xhr.status == 200) { // 정상적으로 처리 되었을 때 가져오는 값 200
+					if($("#wish").attr("src") == "/static/images/hart1.jpg"){
+						$("#wish").attr("src","/static/images/hart.jpg");
+					}else{
+						$("#wish").attr("src","/static/images/hart1.jpg");
+					}
 				}else{
-					$("#wish").attr("src","/static/images/hart1.jpg");
+					alert('로그인 아웃 되었습니다.\n다시 로그인 해 주세요.');
+					location.href="/";
+					return false;
 				}
-			}else{
-				alert('로그인 아웃 되었습니다.\n다시 로그인 해 주세요.');
-				location.href="/";
-				return false;
 			}
 		}
 		var formData = JSON.stringify({
@@ -176,14 +185,16 @@ function inquire(){
 <tr>                <td>들여다본 수 : [[${dto.goodsDTO.visitCount }]]</td>
 <tr>                <td>수량 : <input type="number" min="1" step="1" value="1" id="cartQty"/> </td></tr>
 <tr>                <td>
-					<th:block th:if="${dto.stock >= 0 and dto.stock != null}">	
+					<th:block th:if="${dto.stock > 0 and dto.stock != null}">	
 						<button type="button" id="cartBtn">장바구니</button> | 
  						<button type="button" id="buyItem">바로구매 </button> |
  					</th:block>	 
  					<th:block th:if="${dto.stock <= 0 or dto.stock == null}">	
  						품절입니다. 곧 입고될 예정입니다.
  					</th:block>
-					<img src="/static/images/hart1.jpg" id="wish" width="20"/>찜</td></tr>
+ 					
+					<img th:if="${wish <= 0 or wish == null}" src="/static/images/hart1.jpg" id="wish" width="20"/>
+					<img th:if="${wish > 0 }"src="/static/images/hart.jpg" id="wish" width="20"/>찜</td></tr>
 <tr><td colspan="2">
 		<span id="descript">제품 상세 설명</span> | 
 		<span id="review">리뷰</span> | 

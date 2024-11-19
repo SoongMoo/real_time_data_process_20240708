@@ -63,7 +63,7 @@ public class LoginController {
 			e.printStackTrace();
 		}
 		String str = "<script language='javascript'>";
-			   //str+= " opener.location.reload();";
+			   str+= " opener.location.reload();";
 			   str+= " window.self.close();";
 		       str+= " </script>"; 
 		out.print(str);

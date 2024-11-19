@@ -30,7 +30,7 @@ public class PurchaseController {
 	@Autowired
 	IniPayReqService iniPayReqService;
 
-	@PostMapping("goodsBuy")
+	@RequestMapping("goodsBuy")
 	public String goodsBuy(String nums[] , HttpSession session,Model model) {
 		goodsBuyService.execute(nums, session, model);
 		return "thymeleaf/purchase/goodsOrder";
