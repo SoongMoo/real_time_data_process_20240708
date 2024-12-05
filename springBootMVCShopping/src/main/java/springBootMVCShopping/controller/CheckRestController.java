@@ -3,11 +3,13 @@ package springBootMVCShopping.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
 import springBootMVCShopping.service.EmailCheckService;
 import springBootMVCShopping.service.FileDelService;
+import springBootMVCShopping.service.HospInfoService;
 
 // spring boot
 @RestController
@@ -35,6 +37,13 @@ public class CheckRestController {
 	@PostMapping("/file/fileDel")
 	public int fileDel(String orgFile, String storeFile, HttpSession session) {
 		 return  fileDelService.execute(orgFile, storeFile, session);
+	}
+
+	@Autowired
+	HospInfoService hospInfoService;
+	@PostMapping("hospitals")
+	public String  hospitals() {
+		return hospInfoService.execute();
 	}
 
 }

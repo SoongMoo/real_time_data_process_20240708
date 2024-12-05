@@ -7,12 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import springBootMVCShopping.command.LoginCommand;
 import springBootMVCShopping.service.CookiesService;
 import springBootMVCShopping.service.EmailSendService;
+import springBootMVCShopping.service.HospInfoService;
 import springBootMVCShopping.service.SMSMassageService;
 import springBootMVCShopping.service.goods.MainGoodsListService;
 
@@ -71,12 +73,9 @@ public class SpringBootMvcShoppingApplication {
 		sMSMassageService.smsSend(userPhone, "010-7146-1970", message);
 		return "redirect:/";
 	}
-	
-	
-	
-	
-	
-	
-	
+	@GetMapping("hospitals")
+	public String hospitals() {
+		return "thymeleaf/hospital";
+	}
 	
 }

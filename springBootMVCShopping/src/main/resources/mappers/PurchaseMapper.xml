@@ -104,6 +104,7 @@ on pl.purchase_num = r.purchase_num and pl.goods_num = r.goods_num
 		and p.purchase_num = #{purchaseNum}
 	</if>
 </trim>
+order by p.purchase_num
 </select>
 <select id="purchaseSelect" parameterType="string" resultType="purchase">
 select  <include refid="purchaseBaseColumns" />

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springBootMVCShopping.mapper.HospitalMapper">
+<insert id="insertHospital" parameterType="hospital">
+        INSERT INTO hospital_info (id,
+            addr, cl_cd, cl_cd_nm, cmdc_gdr_cnt, cmdc_intn_cnt, cmdc_resdnt_cnt, 
+            cmdc_sdr_cnt, dety_gdr_cnt, dety_intn_cnt, dety_resdnt_cnt, dety_sdr_cnt, 
+            dr_tot_cnt, emdong_nm, estb_dd, hosp_url, mdept_gdr_cnt, mdept_intn_cnt, 
+            mdept_resdnt_cnt, mdept_sdr_cnt, pnurs_cnt, post_no, sggu_cd, sggu_cd_nm, 
+            sido_cd, sido_cd_nm, telno, x_pos, y_pos, yadm_nm, ykiho
+        ) VALUES (
+        	(select nvl(max(id),0) + 1 from hospital_info),
+            #{addr}, #{clCd}, #{clCdNm}, #{cmdcGdrCnt}, #{cmdcIntnCnt}, #{cmdcResdntCnt},
+            #{cmdcSdrCnt}, #{detyGdrCnt}, #{detyIntnCnt}, #{detyResdntCnt}, #{detySdrCnt},
+            #{drTotCnt}, #{emdongNm}, #{estbDd}, #{hospUrl}, #{mdeptGdrCnt}, #{mdeptIntnCnt},
+            #{mdeptResdntCnt}, #{mdeptSdrCnt}, #{pnursCnt}, #{postNo}, #{sgguCd}, #{sgguCdNm},
+            #{sidoCd}, #{sidoCdNm}, #{telno}, #{xPos}, #{yPos}, 
+            <if test="yadmNm != null">
+            	#{yadmNm},
+            </if>
+            <if test="yadmNm == null">
+            	0,
+            </if> 
+            #{ykiho}
+        )
+    </insert>
+</mapper>

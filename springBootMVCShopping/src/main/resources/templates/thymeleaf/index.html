@@ -42,12 +42,37 @@ function loadMoreItems(){
 		}
 	})
 }
+  document.getElementById("hello").addEventListener("selectstart", function(event) {
+    event.preventDefault(); // 텍스트 선택 시작 차단
+  });
 </script>
 </head>
 <body>
+<script type="text/javascript">
+  document.getElementById("hello").addEventListener("selectstart", function(event) {
+    event.preventDefault(); // 텍스트 선택 시작 차단
+  });
+</script>
+  <style>
+    #hello {
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+  </style>
+<svg width="280" id="hello" height="55" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color: red;" />
+            <stop offset="100%" style="stop-color: yellow;" />
+        </linearGradient>
+    </defs>
+    <text x="50%" y="50%" text-anchor="middle" fill="url(#gradient)" font-size="48" font-family="Arial" dy=".3em">
+        111@EWRW
+    </text>
+</svg>
 hello miso shopping<br />
 <a href="smsSend">문자보내기</a>
 <a href="mailling">메일보내기</a>
+<a href="hospitals">병원</a>
 <div th:if="${session.auth != null}">
 <ul>
 	<th:block th:if="${session.auth.grade == 'emp'}">

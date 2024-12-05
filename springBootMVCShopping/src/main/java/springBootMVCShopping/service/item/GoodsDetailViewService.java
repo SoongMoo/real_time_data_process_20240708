@@ -25,6 +25,8 @@ public class GoodsDetailViewService {
 	MemberMapper memberMapper;
 	@Autowired
 	ItemMapper itemMapper;
+	@Autowired
+	ObjectMapper  mapper;
 	public void execute(String goodsNum, Model model, HttpServletResponse response
 			, HttpSession session) {
 		GoodsStockDTO dto = goodsStockMapper.goodsStockSelectOne(goodsNum);
@@ -39,11 +41,10 @@ public class GoodsDetailViewService {
 			Integer i = itemMapper.wishCountSelectOne(map);
 			model.addAttribute("wish", i);
 		}
-		ObjectMapper mapper = new ObjectMapper();
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		try {
-			response.getWriter().print(mapper.writeValueAsString(dto));
+			response.getWriter().write(mapper.writeValueAsString(dto));
 		}catch(Exception e) {}
 	}
 }
