@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boarder.mapper.BoardMapper">
+
+<sql id="boardNum">
+select nvl(max(board_num),0) + 1 from board
+</sql>
+
+<insert id="boardInsert" parameterType="board">
+insert into board(BOARD_NUM , BOARD_WRITER,BOARD_SUBJECT, BOARD_CONTENT)
+values(  ( <include refid="boardNum"/> ) , #{boardWriter},#{boardSubject}, #{boardContent})
+</insert>
+<select id="boardSelectAll" resultType="board">
+select board_num as boardNum, board_writer as boardWriter
+	 , board_subject as boardSubject, board_content as boardContent
+from board
+</select>
+<select id="boardSelectOne" parameterType="long" resultType="board">
+select board_num as boardNum, board_writer as boardWriter
+	 , board_subject as boardSubject, board_content as boardContent
+from board
+where board_num = #{boardNum}
+</select>
+<update id="boardUpdate" parameterType="board">
+	update board 
+	set board_writer = #{boardWriter},
+	    board_subject = #{boardSubject},
+	    board_content = #{boardContent}
+	where board_num = #{boardNum}
+</update>
+<delete id="boardDelete" parameterType="long"> 
+	delete from board where board_num = #{boardNum}
+</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
