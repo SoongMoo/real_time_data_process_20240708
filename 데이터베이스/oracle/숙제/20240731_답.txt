@@ -70,7 +70,7 @@ select last_name, first_name, email
 from hr.employees e join hr.departments d
 on e.manager_id = d.manager_id;
 
---11. 직원이 없는 부서를 ansi join 방식으로 출력하시오.
+--11. 직원이 없는 부서도 모두 ansi join 방식으로 출력하시오.
 select e.department_id, d.department_id, department_name
 from hr.employees e , hr.departments d
 where e.department_id(+) = d.department_id
